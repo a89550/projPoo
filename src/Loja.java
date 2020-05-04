@@ -45,4 +45,8 @@ public class Loja {
         String s = "Loja:" + this.l + "," + this.nome;
         return s;
     }
+
+    public Loja clone(){
+        return new Loja(this);
+    }
 }

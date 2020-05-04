@@ -71,4 +71,8 @@ public class LinhaEncomenda {
         String s = this.p + "," + this.nome + "," + this.q + "," + this.u;
         return s;
     }
+
+    public LinhaEncomenda clone(){
+        return new LinhaEncomenda(this);
+    }
 }

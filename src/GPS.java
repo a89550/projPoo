@@ -45,4 +45,8 @@ public class GPS {
         String s = this.x + "," + this.y + ",";
         return s;
     }
+
+    public GPS clone(){
+        return new GPS(this);
+    }
 }

@@ -58,4 +58,8 @@ public class Utilizador {
         String s = "Utilizador:" + this.u + "," + this.nome + "," + this.g;
         return s;
     }
+
+    public Utilizador clone(){
+            return new Utilizador(this);
+    }
 }

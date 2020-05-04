@@ -98,4 +98,8 @@ public class Transportadora {
                 "," + this.r + "," + this.pkm;
         return s;
     }
+
+    public Transportadora clone(){
+        return new Transportadora(this);
+    }
 }

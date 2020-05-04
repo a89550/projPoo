@@ -71,4 +71,8 @@ public class Voluntario {
         String s = "Voluntario:" + this.v + "," + this.nome + "," + this.g + "," + this.r;
         return s;
     }
+
+    public Voluntario clone(){
+        return new Voluntario(this);
+    }
 }
