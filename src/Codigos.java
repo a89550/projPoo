@@ -6,7 +6,6 @@ public class Codigos {
     private String codE;
     private String codP;
 
-    //construtor por omissao
     public Codigos() {
         this.codU = "n/a";
         this.codV = "n/a";
@@ -16,7 +15,6 @@ public class Codigos {
         this.codP = "n/a";
     }
 
-    //construtor por parametro
     public Codigos(String codUt, String codV, String codT, String codL, String codE, String codP) {
         this.codU = codU;
         this.codV = codV;
@@ -26,7 +24,6 @@ public class Codigos {
         this.codP = codP;
     }
 
-    //construtor por copia
     public Codigos(Codigos cod) {
         this.codU = cod.getCodU();
         this.codV = cod.getCodV();
@@ -35,7 +32,6 @@ public class Codigos {
         this.codE = cod.getCodE();
         this.codP = cod.getCodP();
     }
-// metodos getters
 
     public String getCodU() {
         return this.codU;
@@ -61,7 +57,6 @@ public class Codigos {
         return this.codP;
     }
 
-    //metodos setters
 
     public void setCodU(String codU) {
         this.codU = codU;
@@ -87,7 +82,6 @@ public class Codigos {
         this.codP = codP;
     }
 
-    //metodo toString
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Codigo do Utilizador: ").append(this.codU)
@@ -99,7 +93,6 @@ public class Codigos {
         return sb.toString();
     }
 
-    //metodo equals
     public boolean equals(Codigos cod) {
         return ((this.codU).equals(cod.getCodU()) &&
                 (this.codV).equals(cod.getCodV()) &&
@@ -109,9 +102,7 @@ public class Codigos {
                 (this.codP).equals(cod.getCodP()));
     }
 
-    //metodo clone
     public Codigos clone() {
         return new Codigos(this);
     }
-
 }

@@ -68,8 +68,12 @@ public class Voluntario {
     }
 
     public String toString(){
-        String s = "Voluntario:" + this.v + "," + this.nome + "," + this.g + "," + this.r;
-        return s;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Código do Voluntário:").append(this.v)
+                .append("\nNome do Voluntário").append(this.nome)
+                .append("\nGPS").append(this.g)
+                .append("\nRaio:").append(this.r);
+        return sb.toString();
     }
 
     public Voluntario clone(){

@@ -68,8 +68,12 @@ public class LinhaEncomenda {
     }
 
     public String toString(){
-        String s = this.p + "," + this.nome + "," + this.q + "," + this.u;
-        return s;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Código do produto").append(this.p)
+                .append("\nDescrição").append(this.nome)
+                .append("\nQuantidade").append(this.q)
+                .append("\nValor Unitário").append(this.u);
+        return sb.toString();
     }
 
     public LinhaEncomenda clone(){

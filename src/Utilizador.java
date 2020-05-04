@@ -55,8 +55,11 @@ public class Utilizador {
     }
 
     public String toString(){
-        String s = "Utilizador:" + this.u + "," + this.nome + "," + this.g;
-        return s;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Código de utilizador:").append(this.u)
+                .append("\nNome do utlizador").append(this.nome)
+                .append("\nGPS").append(this.g);
+        return sb.toString();
     }
 
     public Utilizador clone(){

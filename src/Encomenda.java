@@ -87,8 +87,13 @@ public class Encomenda{
     }
 
     public String toString(){
-        String s = this.e + "," + this.u + "," + this.l + "," + this.p + "," + this.le;
-        return s;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Código da Encomenda").append(this.e)
+                .append("\nCódigo go Utilizador").append(this.u)
+                .append("\nCódigo da Loja").append(this.l)
+                .append("\nPeso").append(this.p)
+                .append("\nLinha de Encomenda").append(this.le);
+        return sb.toString();
     }
 
     public Encomenda clone(){

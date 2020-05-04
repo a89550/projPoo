@@ -42,8 +42,10 @@ public class GPS {
     }
 
     public String toString(){
-        String s = this.x + "," + this.y + ",";
-        return s;
+       StringBuilder sb = new StringBuilder();
+       sb.append("Latitude").append(this.x)
+               .append("Longitude").append(this.y);
+       return sb.toString();
     }
 
     public GPS clone(){
