@@ -1,3 +1,5 @@
+package TrazAqui;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,11 +90,11 @@ public class Encomenda{
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Código da Encomenda").append(this.e)
-                .append("\nCódigo go Utilizador").append(this.u)
-                .append("\nCódigo da Loja").append(this.l)
+        sb.append("Código da TrazAqui.Encomenda").append(this.e)
+                .append("\nCódigo go TrazAqui.Utilizador").append(this.u)
+                .append("\nCódigo da TrazAqui.Loja").append(this.l)
                 .append("\nPeso").append(this.p)
-                .append("\nLinha de Encomenda").append(this.le);
+                .append("\nLinha de TrazAqui.Encomenda").append(this.le);
         return sb.toString();
     }
 

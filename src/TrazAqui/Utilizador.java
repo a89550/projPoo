@@ -1,3 +1,5 @@
+package TrazAqui;
+
 public class Utilizador {
     private String u;
     private String nome;
@@ -58,7 +60,7 @@ public class Utilizador {
         StringBuilder sb = new StringBuilder();
         sb.append("Código de utilizador:").append(this.u)
                 .append("\nNome do utlizador").append(this.nome)
-                .append("\nGPS").append(this.g);
+                .append("\nTrazAqui.GPS").append(this.g);
         return sb.toString();
     }
 

@@ -1,3 +1,5 @@
+package TrazAqui;
+
 public class Loja {
     private String l;
     private String nome;
@@ -54,9 +56,9 @@ public class Loja {
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Código da Loja").append(this.l)
-                .append("Nome da Loja").append(this.nome)
-                .append("GPS").append(this.g);
+        sb.append("Código da TrazAqui.Loja").append(this.l)
+                .append("Nome da TrazAqui.Loja").append(this.nome)
+                .append("TrazAqui.GPS").append(this.g);
         return sb.toString();
     }
 

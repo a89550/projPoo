@@ -1,3 +1,5 @@
+package TrazAqui;
+
 public class LinhaEncomenda {
     private String p;
     private String nome;

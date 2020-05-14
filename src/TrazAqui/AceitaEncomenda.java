@@ -1,3 +1,5 @@
+package TrazAqui;
+
 public class AceitaEncomenda {
     private String e;
 
@@ -25,7 +27,7 @@ public class AceitaEncomenda {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Código da Encomenda:").append(this.e);
+        sb.append("Código da TrazAqui.Encomenda:").append(this.e);
         return sb.toString();
     }
 

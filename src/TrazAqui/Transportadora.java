@@ -1,3 +1,5 @@
+package TrazAqui;
+
 public class Transportadora {
     private String t;
     private String nome;
@@ -97,7 +99,7 @@ public class Transportadora {
         StringBuilder sb = new StringBuilder();
         sb.append("Código da Empresa").append(this.t)
                 .append("\nNome da Empresa").append(this.nome)
-                .append("\nGPS").append(this.g)
+                .append("\nTrazAqui.GPS").append(this.g)
                 .append("\nNIF:").append(this.nif)
                 .append("\nRaio").append(this.r)
                 .append("\nPreço por Km").append(this.pkm);

@@ -1,3 +1,5 @@
+package TrazAqui;
+
 public class GPS {
     private double x;
     private double y;
