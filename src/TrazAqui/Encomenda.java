@@ -77,6 +77,7 @@ public class Encomenda{
         this.le = le;
     }
 
+    @Override
     public boolean equals(Object obj){
         if(obj == this) return true;
         if(obj == null || obj.getClass() != this.getClass()) return false;
@@ -88,6 +89,7 @@ public class Encomenda{
                 le.getLE()==this.le;
     }
 
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Código da TrazAqui.Encomenda").append(this.e)
@@ -98,6 +100,7 @@ public class Encomenda{
         return sb.toString();
     }
 
+    @Override
     public Encomenda clone(){
         return new Encomenda(this);
     }

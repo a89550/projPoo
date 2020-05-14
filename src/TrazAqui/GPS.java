@@ -35,6 +35,7 @@ public class GPS {
         this.y = y;
     }
 
+    @Override
     public boolean equals(Object obj){
         if(obj == this) return true;
         if(obj == null || obj.getClass() != this.getClass()) return false;
@@ -43,6 +44,7 @@ public class GPS {
                 le.getY()==(this.y);
     }
 
+    @Override
     public String toString(){
        StringBuilder sb = new StringBuilder();
        sb.append("Latitude").append(this.x)
@@ -50,6 +52,7 @@ public class GPS {
        return sb.toString();
     }
 
+    @Override
     public GPS clone(){
         return new GPS(this);
     }

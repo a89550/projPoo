@@ -25,6 +25,7 @@ public class AceitaEncomenda {
         this.e = e;
     }
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Código da TrazAqui.Encomenda:").append(this.e);
@@ -38,6 +39,7 @@ public class AceitaEncomenda {
         return ae.getE().equals(this.e);
     }
 
+    @Override
     public AceitaEncomenda clone() {
         return new AceitaEncomenda(this);
     }

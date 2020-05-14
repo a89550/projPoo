@@ -145,6 +145,7 @@ public class Sistema {
         (acenc.entrySet()).forEach(e -> this.acenc.put(e.getKey(),e.getValue().clone()));
     }
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("GPS:").append(this.gps)
@@ -158,10 +159,12 @@ public class Sistema {
         return sb.toString();
     }
 
-    public boolean equals(Sistema sys) {
-        if (this == sys)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
             return true;
-        if (sys == null || this.getClass() != sys.getClass()) return false;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        Sistema sys = (Sistema) o;
         return this.gps.equals(sys.getGPS()) &&  this.util.equals(sys.getUtil()) &&
                 this.vol.equals(sys.getVol()) &&  this.loja.equals(sys.getLoja()) &&
                 this.trans.equals(sys.getTrans()) &&  this.lenc.equals(sys.getLenc()) &&
@@ -169,6 +172,7 @@ public class Sistema {
 
     }
 
+    @Override
     public Sistema clone() {
         return new Sistema(this);
     }
