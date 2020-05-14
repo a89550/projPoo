@@ -47,15 +47,17 @@ public class Utilizador {
         this.g = g;
     }
 
-    public boolean equals(Object obj){
-        if(obj == this) return true;
-        if(obj == null || obj.getClass() != this.getClass()) return false;
-        Utilizador le = (Utilizador) obj;
+    @Override
+    public boolean equals(Object o){
+        if(o == this) return true;
+        if(o == null || o.getClass() != this.getClass()) return false;
+        Utilizador le = (Utilizador) o;
         return le.getU().equals(this.u) &&
                 le.getNome().equals(this.nome) &&
                 le.getGps().equals(this.g);
     }
 
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Código de utilizador:").append(this.u)
@@ -64,6 +66,7 @@ public class Utilizador {
         return sb.toString();
     }
 
+    @Override
     public Utilizador clone(){
             return new Utilizador(this);
     }

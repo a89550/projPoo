@@ -78,10 +78,10 @@ public class Encomenda{
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj == this) return true;
-        if(obj == null || obj.getClass() != this.getClass()) return false;
-        Encomenda le = (Encomenda) obj;
+    public boolean equals(Object o){
+        if(o == this) return true;
+        if(o == null || o.getClass() != this.getClass()) return false;
+        Encomenda le = (Encomenda) o;
         return le.getE().equals(this.e) &&
                 le.getU().equals(this.u) &&
                 le.getL().equals(this.l) &&

@@ -83,10 +83,11 @@ public class Transportadora {
         this.pkm = pkm;
     }
 
-    public boolean equals(Object obj){
-        if(obj == this) return true;
-        if(obj == null || obj.getClass() != this.getClass()) return false;
-        Transportadora le = (Transportadora) obj;
+    @Override
+    public boolean equals(Object o){
+        if(o == this) return true;
+        if(o == null || o.getClass() != this.getClass()) return false;
+        Transportadora le = (Transportadora) o;
         return le.getT().equals(this.t) &&
                 le.getNome().equals(this.nome) &&
                 le.getGps().equals(this.g) &&
@@ -95,6 +96,7 @@ public class Transportadora {
                 le.getPkm()==(this.pkm);
     }
 
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Código da Empresa").append(this.t)
@@ -106,6 +108,7 @@ public class Transportadora {
         return sb.toString();
     }
 
+    @Override
     public Transportadora clone(){
         return new Transportadora(this);
     }

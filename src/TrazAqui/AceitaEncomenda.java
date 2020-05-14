@@ -32,10 +32,11 @@ public class AceitaEncomenda {
         return sb.toString();
     }
 
-    public boolean equals(AceitaEncomenda obj) {
-        if(obj == this) return true;
-        if(obj == null || obj.getClass() != this.getClass()) return false;
-        AceitaEncomenda ae = (AceitaEncomenda) obj;
+    @Override
+    public boolean equals(Object o) {
+        if(o == this) return true;
+        if(o == null || o.getClass() != this.getClass()) return false;
+        AceitaEncomenda ae = (AceitaEncomenda) o;
         return ae.getE().equals(this.e);
     }
 

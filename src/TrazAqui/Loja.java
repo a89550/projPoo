@@ -38,22 +38,26 @@ public class Loja {
     public void setNome(String n){
         this.nome = n;
     }
+
     public GPS getGPS(){
         return this.g;
     }
+
     public void setGPS(GPS g){
         this.g = g;
     }
 
-    public boolean equals(Object obj){
-        if(obj == this) return true;
-        if(obj == null || obj.getClass() != this.getClass()) return false;
-        Loja le = (Loja) obj;
+    @Override
+    public boolean equals(Object o){
+        if(o == this) return true;
+        if(o == null || o.getClass() != this.getClass()) return false;
+        Loja le = (Loja) o;
         return le.getL().equals(this.l) &&
                 le.getNome().equals(this.nome) &&
                 le.getGPS().equals(this.g);
     }
 
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Código da TrazAqui.Loja").append(this.l)
@@ -62,6 +66,7 @@ public class Loja {
         return sb.toString();
     }
 
+    @Override
     public Loja clone(){
         return new Loja(this);
     }

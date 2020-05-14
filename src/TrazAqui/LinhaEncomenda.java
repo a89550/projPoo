@@ -59,16 +59,18 @@ public class LinhaEncomenda {
         this.u = u;
     }
 
-    public boolean equals(Object obj){
-        if(obj == this) return true;
-        if(obj == null || obj.getClass() != this.getClass()) return false;
-        LinhaEncomenda le = (LinhaEncomenda) obj;
+    @Override
+    public boolean equals(Object o){
+        if(o == this) return true;
+        if(o == null || o.getClass() != this.getClass()) return false;
+        LinhaEncomenda le = (LinhaEncomenda) o;
         return le.getP().equals(this.p) &&
                 le.getNome().equals(this.nome) &&
                 le.getQ()==(this.q) &&
                 le.getU()==(this.u);
     }
 
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Código do produto").append(this.p)
@@ -78,6 +80,7 @@ public class LinhaEncomenda {
         return sb.toString();
     }
 
+    @Override
     public LinhaEncomenda clone(){
         return new LinhaEncomenda(this);
     }

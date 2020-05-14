@@ -59,16 +59,18 @@ public class Voluntario {
         this.r = r;
     }
 
-    public boolean equals(Object obj){
-        if(obj == this) return true;
-        if(obj == null || obj.getClass() != this.getClass()) return false;
-        Voluntario le = (Voluntario) obj;
+    @Override
+    public boolean equals(Object o){
+        if(o == this) return true;
+        if(o == null || o.getClass() != this.getClass()) return false;
+        Voluntario le = (Voluntario) o;
         return le.getV().equals(this.v) &&
                 le.getNome().equals(this.nome) &&
                 le.getGps().equals(this.g) &&
                 le.getR()==(this.r);
     }
 
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Código do Voluntário:").append(this.v)
@@ -78,6 +80,7 @@ public class Voluntario {
         return sb.toString();
     }
 
+    @Override
     public Voluntario clone(){
         return new Voluntario(this);
     }

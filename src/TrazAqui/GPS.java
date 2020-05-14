@@ -36,10 +36,10 @@ public class GPS {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj == this) return true;
-        if(obj == null || obj.getClass() != this.getClass()) return false;
-        GPS le = (GPS) obj;
+    public boolean equals(Object o){
+        if(o == this) return true;
+        if(o == null || o.getClass() != this.getClass()) return false;
+        GPS le = (GPS) o;
         return le.getX()==(this.x) &&
                 le.getY()==(this.y);
     }
