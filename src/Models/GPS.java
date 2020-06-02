@@ -1,4 +1,4 @@
-package TrazAqui;
+package Models;
 
 public class GPS {
     private double x;

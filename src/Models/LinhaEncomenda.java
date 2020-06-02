@@ -1,4 +1,4 @@
-package TrazAqui;
+package Models;
 
 public class LinhaEncomenda {
     private String p;

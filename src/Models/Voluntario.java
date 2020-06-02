@@ -1,4 +1,4 @@
-package TrazAqui;
+package Models;
 
 public class Voluntario {
     private String v;

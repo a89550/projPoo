@@ -1,4 +1,4 @@
-package TrazAqui;
+package Models;
 
 public class Loja {
     private String l;

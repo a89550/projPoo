@@ -1,4 +1,4 @@
-package TrazAqui;
+package Models;
 
 public class Utilizador {
     private String u;
