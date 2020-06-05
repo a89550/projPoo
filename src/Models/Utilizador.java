@@ -14,13 +14,13 @@ public class Utilizador {
     public Utilizador(String u, String n, GPS g){
         this.u = u;
         this.nome = n;
-        this.g = g;
+        this.g = new GPS(g);
     }
 
     public Utilizador(Utilizador u){
         this.u = u.getU();
         this.nome = u.getNome();
-        this.g = u.getGps();
+        this.g = new GPS(u.getGps());
     }
 
     public String getU(){
