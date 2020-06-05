@@ -8,6 +8,9 @@ public class Transportadora {
     private double r;
     private double pkm;
 
+    /**
+     * Construtor por omissão.
+     */
     public Transportadora(){
         this.t = "";
         this.nome = "";
@@ -17,7 +20,16 @@ public class Transportadora {
         this.pkm = -1;
     }
 
-    public Transportadora(String v, String n, GPS g, int nif, double r, double pkm){
+    /**
+     * Construtor parametrizado.
+     * @param t String que representa o código da empresa.
+     * @param n String representante do nome da empresa.
+     * @param g objeto da classe GPs que representa as coordenadas de uma Transportadora.
+     * @param nif Double representante do número de identificação fiscal.
+     * @param r Double que representa o raio de uma Transportadora.
+     * @param pkm Double represetante do preço por km de uma Transportadora.
+     */
+    public Transportadora(String t, String n, GPS g, int nif, double r, double pkm){
         this.t = t;
         this.nome = n;
         this.g = g;
@@ -26,6 +38,10 @@ public class Transportadora {
         this.pkm = pkm;
     }
 
+    /**
+     * Construtor por cópia.
+     * @param t Objeto da classe Transportadora.
+     */
     public Transportadora(Transportadora t){
         this.t = t.getT();
         this.nome = t.getNome();
@@ -35,54 +51,107 @@ public class Transportadora {
         this.pkm = t.getPkm();
     }
 
+    /**
+     * Método que dá o código de uma empresa.
+     * @return Devolve esse código.
+     */
     public String getT(){
         return this.t;
     }
 
+    /**
+     * Método que define o código de uma empresa.
+     * @param t String que representa esse código.
+     */
     public void setT(String t){
         this.t = t;
     }
 
+    /**
+     * Método que dá o nome de uma empresa.
+     * @return Devolve uma String com o nome.
+     */
     public String getNome(){
         return this.nome;
     }
 
+    /**
+     * Método que define o nome de uma empresa.
+     * @param n Recebe uma String que corresponde ao nome.
+     */
     public void setNome(String n){
         this.nome = n;
     }
 
+    /**
+     * Método que dá as coordenadas de uma Transportadora.
+     * @return Devolve as coordenadas.
+     */
     public GPS getGps(){
         return this.g;
     }
 
+    /**
+     * Método que define as coordenadas de uma Transportadora.
+     * @param g Recebe um objeto da classe GPS
+     */
     public void setGps(GPS g){
         this.g = g;
     }
 
+    /**
+     * Método que dá o número de identificação fiscal.
+     * @return Devolve o nif.
+     */
     public int getNif(){
         return this.nif;
     }
 
+    /**
+     * Método que define o número de identificação fiscal.
+     * @param nif Devolve o nif.
+     */
     public void setNif(int nif){
         this.nif = nif;
     }
 
+    /**
+     * Método que dá o raio de uma Transportadora.
+     * @return Devolve esse raio.
+     */
     public double getR(){
         return this.r;
     }
 
+    /**
+     * Método que define o raio de uma Transportadora.
+     * @param r Double representante do raio.
+     */
     public void setR(double r){
         this.r = r;
     }
 
+    /**
+     * Método que dá o preço por km de uma Transportadora.
+     * @return Devolve esse preço.
+     */
     public double getPkm(){
         return this.pkm;
     }
 
+    /**
+     * Método que define o preço por km de uma Transportadora.
+     * @param pkm Devolve esse preço.
+     */
     public void setPkm(double pkm){
         this.pkm = pkm;
     }
 
+    /**
+     * Função que verfica se o objeto recebido é idêntico ao da classse Transportadora.
+     * @param o Recebe um objeto.
+     * @return Devolve um boolean que corresponde a essa verificação.
+     */
     @Override
     public boolean equals(Object o){
         if(o == this) return true;
@@ -96,6 +165,10 @@ public class Transportadora {
                 le.getPkm()==(this.pkm);
     }
 
+    /**
+     * Função que traduz a classe Transportadora.
+     * @return Devolve uma String com a respetiva tradução.
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -108,6 +181,10 @@ public class Transportadora {
         return sb.toString();
     }
 
+    /**
+     * Função que faz um clone da classe Transportadora.
+     * @return Devolve esse clone.
+     */
     @Override
     public Transportadora clone(){
         return new Transportadora(this);
