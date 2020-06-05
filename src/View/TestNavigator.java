@@ -16,6 +16,6 @@ public class TestNavigator {
         //System.out.println(nav.NextPage());
         //System.out.println(nav.BackPage());
         //System.out.println(nav.ChoosePage(4));
-        System.out.println(nav.WhereIs("5"));
+        //System.out.println(nav.WhereIs("5"));
     }
 }
