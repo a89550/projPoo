@@ -32,7 +32,7 @@ public class Transportadora {
     public Transportadora(String t, String n, GPS g, int nif, double r, double pkm){
         this.t = t;
         this.nome = n;
-        this.g = g;
+        this.g = new GPS(g);
         this.nif = nif;
         this.r = r;
         this.pkm = pkm;
@@ -45,7 +45,7 @@ public class Transportadora {
     public Transportadora(Transportadora t){
         this.t = t.getT();
         this.nome = t.getNome();
-        this.g = t.getGps();
+        this.g = new GPS(t.getGps());
         this.nif = t.getNif();
         this.r = t.getR();
         this.pkm = t.getPkm();

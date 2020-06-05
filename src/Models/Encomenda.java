@@ -17,7 +17,7 @@ public class Encomenda{
         this.e = "";
         this.u = "";
         this.l = "";
-        this.p = -1;
+        this.p = 0;
         this.le = new ArrayList<>();
     }
 

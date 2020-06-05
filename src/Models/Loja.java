@@ -14,13 +14,13 @@ public class Loja {
     public Loja(String l, String n,GPS g){
         this.l = l;
         this.nome = n;
-        this.g = g;
+        this.g = new GPS(g);
     }
 
     public Loja(Loja l){
         this.l = l.getL();
         this.nome = l.getNome();
-        this.g = l.getGps();
+        this.g = new GPS(l.getGps());
     }
 
     public String getL(){

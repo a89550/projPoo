@@ -12,8 +12,8 @@ public class LinhaEncomenda {
     public LinhaEncomenda(){
         this.p = "";
         this.nome = "";
-        this.q = -1;
-        this.u = -1;
+        this.q = 0;
+        this.u = 0;
     }
 
     /**

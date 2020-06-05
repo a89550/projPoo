@@ -26,7 +26,7 @@ public class Voluntario {
     public Voluntario(String v, String n, GPS g, double r){
         this.v = v;
         this.nome = n;
-        this.g = g;
+        this.g = new GPS(g);
         this.r = r;
     }
 
@@ -37,7 +37,7 @@ public class Voluntario {
     public Voluntario(Voluntario v){
         this.v = v.getV();
         this.nome = v.getNome();
-        this.g = v.getGps();
+        this.g = new GPS(v.getGps());
         this.r = v.getR();
     }
 
