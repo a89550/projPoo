@@ -47,8 +47,8 @@ public class GPS {
     @Override
     public String toString(){
        StringBuilder sb = new StringBuilder();
-       sb.append("Latitude").append(this.x)
-               .append("Longitude").append(this.y);
+       sb.append("Latitude: ").append(this.x)
+               .append("\nLongitude: ").append(this.y);
        return sb.toString();
     }
 
