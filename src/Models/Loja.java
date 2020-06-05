@@ -20,7 +20,7 @@ public class Loja {
     public Loja(Loja l){
         this.l = l.getL();
         this.nome = l.getNome();
-        this.g = l.getGPS();
+        this.g = l.getGps();
     }
 
     public String getL(){
@@ -39,11 +39,11 @@ public class Loja {
         this.nome = n;
     }
 
-    public GPS getGPS(){
+    public GPS getGps(){
         return this.g;
     }
 
-    public void setGPS(GPS g){
+    public void setGps(GPS g){
         this.g = g;
     }
 
@@ -54,7 +54,7 @@ public class Loja {
         Loja le = (Loja) o;
         return le.getL().equals(this.l) &&
                 le.getNome().equals(this.nome) &&
-                le.getGPS().equals(this.g);
+                le.getGps().equals(this.g);
     }
 
     @Override
