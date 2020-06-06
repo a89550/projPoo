@@ -9,7 +9,7 @@ public class ViewGeral {
     public int n1;
     public ViewGeral(){
     }
-
+/*
     public void viewGeral(){
         System.out.println("    Bem Vindo ao TrazAqui!\n\n\nNome de utilizador(1)\nQueres aderir ao TrazAqui! ?(2)\nSair(0)");
         Scanner n2 = new Scanner(System.in);
@@ -29,7 +29,7 @@ public class ViewGeral {
                 break;
         }
     }
-
+*/
     public void login(){
         System.out.println("Código:");
         Scanner n2 = new Scanner(System.in);
@@ -54,7 +54,7 @@ public class ViewGeral {
                 break;
          }
     }
-
+/*
     public void signup(){
         System.out.println("Criar conta como:\n  Utilizador(1)\n  Voluntario(2)\n  Transportadora(3)\n  Loja(4)");
         Scanner n2 = new Scanner(System.in);
@@ -102,6 +102,7 @@ public class ViewGeral {
         u.setGps(g);
     }
 
+    /*
     public void registaVolun(){
         Voluntario v = new Voluntario();
         System.out.println("Nome de voluntario");
@@ -154,6 +155,7 @@ public class ViewGeral {
         t.setPkm(pkm);
     }
 
+     */
     public void registaLoja(){
         Loja l = new Loja();
         System.out.println("Nome de loja");

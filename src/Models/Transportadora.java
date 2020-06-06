@@ -1,4 +1,5 @@
 package Models;
+import java.util.*;
 
 public class Transportadora {
     private String t;
@@ -7,6 +8,7 @@ public class Transportadora {
     private int nif;
     private double r;
     private double pkm;
+    private List<Integer> classif;
 
     /**
      * Construtor por omissão.
@@ -15,9 +17,10 @@ public class Transportadora {
         this.t = "";
         this.nome = "";
         this.g = new GPS();
-        this.nif = -1;
+        this.nif = 0;
         this.r = 0;
-        this.pkm = -1;
+        this.pkm = 0;
+        this.classif = new ArrayList<>();
     }
 
     /**
@@ -28,14 +31,18 @@ public class Transportadora {
      * @param nif Double representante do número de identificação fiscal.
      * @param r Double que representa o raio de uma Transportadora.
      * @param pkm Double represetante do preço por km de uma Transportadora.
+     * @param classif Lista de Integer que representa a lista de classificações.
      */
-    public Transportadora(String t, String n, GPS g, int nif, double r, double pkm){
+    public Transportadora(String t, String n, GPS g, int nif, double r, double pkm, List<Integer> classif){
         this.t = t;
         this.nome = n;
         this.g = new GPS(g);
         this.nif = nif;
         this.r = r;
         this.pkm = pkm;
+        this.classif = new ArrayList<>();
+        for(Integer i : classif)
+            this.classif.add(i);
     }
 
     /**
@@ -49,6 +56,7 @@ public class Transportadora {
         this.nif = t.getNif();
         this.r = t.getR();
         this.pkm = t.getPkm();
+        this.classif = t.getClassif();
     }
 
     /**
@@ -148,6 +156,25 @@ public class Transportadora {
     }
 
     /**
+     * Método que dá a lista de classificações.
+     * @return Devolve uma lista de Integers que representa a lista de classificações.
+     */
+    public List<Integer> getClassif() {
+        List<Integer> ret = new ArrayList<>();
+        for(Integer i : ret)
+            ret.add(i);
+        return ret;
+    }
+
+    /**
+     * Método que define a lista de classificações.
+     * @param classif Recebe uma lista de Integers
+     */
+    public void setClassif(List<Integer> classif) {
+        this.classif = classif;
+    }
+
+    /**
      * Função que verfica se o objeto recebido é idêntico ao da classse Transportadora.
      * @param o Recebe um objeto.
      * @return Devolve um boolean que corresponde a essa verificação.
@@ -156,13 +183,14 @@ public class Transportadora {
     public boolean equals(Object o){
         if(o == this) return true;
         if(o == null || o.getClass() != this.getClass()) return false;
-        Transportadora le = (Transportadora) o;
-        return le.getT().equals(this.t) &&
-                le.getNome().equals(this.nome) &&
-                le.getGps().equals(this.g) &&
-                le.getNif()==(this.nif) &&
-                le.getR()==(this.r) &&
-                le.getPkm()==(this.pkm);
+        Transportadora v = (Transportadora) o;
+        return v.getT().equals(this.t) &&
+                v.getNome().equals(this.nome) &&
+                v.getGps().equals(this.g) &&
+                v.getNif()==(this.nif) &&
+                v.getR()==(this.r) &&
+                v.getPkm()==(this.pkm) &&
+                v.getClassif().equals(this.classif);
     }
 
     /**
@@ -177,7 +205,8 @@ public class Transportadora {
                 .append("\nGPS: ").append(this.g)
                 .append("\nNIF: ").append(this.nif)
                 .append("\nRaio: ").append(this.r)
-                .append("\nPreço por Km: ").append(this.pkm);
+                .append("\nPreço por Km: ").append(this.pkm)
+                .append("\nLista de Classificações:  ").append(this.classif);
         return sb.toString();
     }
 
@@ -189,4 +218,13 @@ public class Transportadora {
     public Transportadora clone(){
         return new Transportadora(this);
     }
+
+    /**
+     * Função que adiciona uma classificação à lista de classificações.
+     * @param classificacao Recebe um Inteiro representante do valor da classificação a adicionar.
+     */
+    public void addClassificacaoT(int classificacao) {
+        this.classif.add(classificacao);
+    }
+
 }
