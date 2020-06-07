@@ -3,37 +3,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Voluntario {
-    private String v;
+    private String id;
     private String nome;
-    private GPS g;
-    private double r;
+    private GPS gps;
+    private double raio;
+    private boolean livre;
     private List<Integer> classif;
 
     /**
      * Construtor por omissão.
      */
     public Voluntario() {
-        this.v = "";
+        this.id = "";
         this.nome = "";
-        this.g = new GPS();
-        this.r = 0;
+        this.gps = new GPS();
+        this.raio = 0;
+        this.livre = true;
         this.classif = new ArrayList<>();
     }
 
     /**
      * Construtor parametrizado.
      *
-     * @param v String que corresponde ao código de um Voluntário.
+     * @param id String que corresponde ao código de um Voluntário.
      * @param n String correspondente ao nome de um Voluntário.
-     * @param g Objeto da classe GPS que representa as coordenadas de um Voluntário.
-     * @param r Double representante do raio.
+     * @param gps Objeto da classe GPS que representa as coordenadas de um Voluntário.
+     * @param raio Double representante do raio.
      * @oaram c Lista de Integer representante da lista de classificações.
      */
-    public Voluntario(String v, String n, GPS g, double r, List<Integer> c) {
-        this.v = v;
+    public Voluntario(String id, String n, GPS gps, double raio, List<Integer> c) {
+        this.id = id;
         this.nome = n;
-        this.g = new GPS(g);
-        this.r = r;
+        this.gps = new GPS(gps);
+        this.raio = raio;
         this.classif = new ArrayList<>();
         for (Integer i : c)
             this.classif.add(i);
@@ -45,10 +47,10 @@ public class Voluntario {
      * @param v Recebe um objeto da classe Voluntário.
      */
     public Voluntario(Voluntario v) {
-        this.v = v.getV();
+        this.id = v.getId();
         this.nome = v.getNome();
-        this.g = new GPS(v.getGps());
-        this.r = v.getR();
+        this.gps = new GPS(v.getGps());
+        this.raio = v.getRaio();
         this.classif = v.getClassif();
     }
 
@@ -57,17 +59,17 @@ public class Voluntario {
      *
      * @return Devolve esse código.
      */
-    public String getV() {
-        return this.v;
+    public String getId() {
+        return this.id;
     }
 
     /**
      * Método que define o código de um Voluntário.
      *
-     * @param v String que representa o código.
+     * @param id String que representa o código.
      */
-    public void setV(String v) {
-        this.v = v;
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**
@@ -91,7 +93,7 @@ public class Voluntario {
      * @return Devolve essas coordenadas.
      */
     public GPS getGps() {
-        return this.g;
+        return this.gps;
     }
 
     /**
@@ -99,23 +101,23 @@ public class Voluntario {
      * @param g Devolve essas coordenadas.
      */
     public void setGps(GPS g) {
-        this.g = g;
+        this.gps = g;
     }
 
     /**
      * Método que dá o raio de um Voluntário.
      * @return Devolve um double que representa o valor do raio.
      */
-    public double getR() {
-        return this.r;
+    public double getRaio() {
+        return this.raio;
     }
 
     /**
      * Método que define o raio de um Voluntário.
-     * @param r Devolve o double com o valor do raio.
+     * @param raio Devolve o double com o valor do raio.
      */
-    public void setR(double r) {
-        this.r = r;
+    public void setRaio(double raio) {
+        this.raio = raio;
     }
 
     /**
@@ -147,10 +149,10 @@ public class Voluntario {
         if(o == this) return true;
         if(o == null || o.getClass() != this.getClass()) return false;
         Voluntario v = (Voluntario) o;
-        return v.getV().equals(this.v) &&
+        return v.getId().equals(this.id) &&
                 v.getNome().equals(this.nome) &&
-                v.getGps().equals(this.g) &&
-                v.getR()==(this.r) &&
+                v.getGps().equals(this.gps) &&
+                v.getRaio()==(this.raio) &&
                 v.getClassif().equals(this.classif);
     }
 
@@ -161,10 +163,10 @@ public class Voluntario {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Código do Voluntário:  ").append(this.v)
+        sb.append("Código do Voluntário:  ").append(this.id)
                 .append("\nNome do Voluntário:  ").append(this.nome)
-                .append("\nGPS:  ").append(this.g)
-                .append("\nRaio:  ").append(this.r)
+                .append("\nGPS:  ").append(this.gps)
+                .append("\nRaio:  ").append(this.raio)
                 .append("\nLista de Classificações:  ").append(this.classif);
         return sb.toString();
     }
