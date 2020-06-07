@@ -1,4 +1,9 @@
 package Models;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +13,12 @@ public class Voluntario {
     private GPS gps;
     private double raio;
     private boolean livre;
+    private boolean certiftMed;
+    private boolean livreMed;
     private List<Integer> classif;
+    private LocalDateTime recolha;
+    private LocalDateTime entrega;
+    private Encomenda encomenda;
 
     /**
      * Construtor por omissão.
@@ -19,6 +29,10 @@ public class Voluntario {
         this.gps = new GPS();
         this.raio = 0;
         this.livre = true;
+        this.certiftMed = false;
+        this.livreMed = false;
+        this.recolha = LocalDateTime.now();
+
         this.classif = new ArrayList<>();
     }
 
@@ -31,11 +45,15 @@ public class Voluntario {
      * @param raio Double representante do raio.
      * @oaram c Lista de Integer representante da lista de classificações.
      */
-    public Voluntario(String id, String n, GPS gps, double raio, List<Integer> c) {
+    public Voluntario(String id, String n, GPS gps, double raio, boolean livre, boolean certiftMed, boolean livreMed, List<Integer> c, Encomenda encomenda) {
         this.id = id;
         this.nome = n;
         this.gps = new GPS(gps);
         this.raio = raio;
+        this.livre = livre;
+        this.certiftMed = certiftMed;
+        this.livreMed = livreMed;
+        this.encomenda = encomenda.clone();
         this.classif = new ArrayList<>();
         for (Integer i : c)
             this.classif.add(i);
@@ -51,6 +69,10 @@ public class Voluntario {
         this.nome = v.getNome();
         this.gps = new GPS(v.getGps());
         this.raio = v.getRaio();
+        this.livre = v.isLivre();
+        this.certiftMed = v.getCertifMed();
+        this.livreMed = aceitoTransporteMedicamentos();
+        this.encomenda = v.getEncomenda();
         this.classif = v.getClassif();
     }
 
@@ -140,6 +162,38 @@ public class Voluntario {
     }
 
     /**
+     * Função que verifica se o voluntário está ou não livre para ir buscar uma encomenda.
+     * @return - True se estiver livre, false caso contrário
+     */
+    public boolean isLivre() {
+        return livre;
+    }
+
+    /**
+     * Função que verifica se o voluntário aceita encomendas de remédios no momento.
+     * @return - True se puder transportar remédios no momento, false caso contrário.
+     */
+    public boolean aceitoTransporteMedicamentos(){
+        return this.livreMed;
+    }
+
+    /**
+     * Função que altera o estado do voluntário no que diz respeito ao transporte de remédios.
+     * @param state - Novo estado do voluntário.
+     */
+    public void aceitaMedicamentos(boolean state){
+        this.certiftMed = state;
+    }
+
+    /**
+     * Função que retorna o boolean que diz se o voluntário possui certificado para transportar remédios ou não.
+     * @return - True se tiver certificado, false caso contrário.
+     */
+    public boolean getCertifMed(){
+        return this.certiftMed;
+    }
+
+    /**
      * Função que verifica se o objeto recebido é idêntico ao da classe Voluntário.
      * @param o Recebe um objeto.
      * @return Devolve um boolean que representa a verificação.
@@ -172,6 +226,14 @@ public class Voluntario {
     }
 
     /**
+     * Função que calcula o tempo demorado a fazer a entrega.
+     * @return - Tempo calculado.
+     */
+    public long tempoDeEntrega(){
+        return this.recolha.until(LocalDateTime.now(), ChronoUnit.MINUTES);
+    }
+
+    /**
      * Função que fornece um clone da classe Voluntário.
      * @return Devolve esse clone.
      */
@@ -188,4 +250,22 @@ public class Voluntario {
         this.classif.add(classificacao);
     }
 
+    /**
+     * Função que retorna a encomenda que o voluntário está a transportar.
+     * @return - Encomenda a transportar.
+     */
+    public Encomenda getEncomenda(){
+        return this.encomenda.clone();
+    }
+
+    public void setEncomenda(Encomenda enc){
+        this.encomenda = enc.clone();
+    }
+
+    public void aceitaEncomenda(Encomenda enc){
+        this.livre = false;
+        this.recolha = LocalDateTime.now();
+        this.livreMed = false;
+        setEncomenda(enc);
+    }
 }
