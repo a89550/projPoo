@@ -4,39 +4,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Encomenda{
-    private String e;
-    private String u;
-    private String l;
-    private double p;
-    private List<LinhaEncomenda> le;
+    private String id;
+    private String user;
+    private String loja;
+    private double peso;
+    private List<LinhaEncomenda> produtos;
 
     /**
      * Construtor por omissão.
      */
     public Encomenda(){
-        this.e = "";
-        this.u = "";
-        this.l = "";
-        this.p = 0;
-        this.le = new ArrayList<>();
+        this.id = "";
+        this.user = "";
+        this.loja = "";
+        this.peso = 0;
+        this.produtos = new ArrayList<>();
     }
 
     /**
      * Construtor parametrizado.
      * @param e String que representa o código de uma Encomenda.
-     * @param u String que representa o código de um Utilizador.
-     * @param l String que representa o código de uma Loja.
+     * @param user String que representa o código de um Utilizador.
+     * @param loja String que representa o código de uma Loja.
      * @param p Double que representa o peso.
-     * @param le Lista das linhas de encomenda.
+     * @param produtos Lista das linhas de encomenda.
      */
-    public Encomenda(String e, String u, String l, double p, List<LinhaEncomenda> le){
-        this.e = e;
-        this.u = u;
-        this.l = l;
-        this.p = p;
-        this.le = new ArrayList<>();
-        for(LinhaEncomenda lenc : le){
-            this.le.add(lenc.clone());
+    public Encomenda(String e, String user, String loja, double p, List<LinhaEncomenda> produtos){
+        this.id = e;
+        this.user = user;
+        this.loja = loja;
+        this.peso = p;
+        this.produtos = new ArrayList<>();
+        for(LinhaEncomenda lenc : produtos){
+            this.produtos.add(lenc.clone());
         }
     }
 
@@ -45,75 +45,75 @@ public class Encomenda{
      * @param e Recebe um objeto da classe Encomenda.
      */
     public Encomenda(Encomenda e){
-        this.e = e.getE();
-        this.u = e.getU();
-        this.l = e.getL();
-        this.p = e.getP();
-        this.le = e.getLE();
+        this.id = e.getId();
+        this.user = e.getUser();
+        this.loja = e.getLoja();
+        this.peso = e.getPeso();
+        this.produtos = e.getLE();
     }
 
     /**
      * Método que dá o código de uma Encomenda.
      * @return Devolve uma String do código.
      */
-    public String getE(){
-        return this.e;
+    public String getId(){
+        return this.id;
     }
 
     /**
      * Método que define o código de uma Encomenda.
-     * @param e Recebe uma String do código.
+     * @param id Recebe uma String do código.
      */
-    public void setE(String e){
-        this.e = e;
+    public void setId(String id){
+        this.id = id;
     }
 
     /**
      * Método que dá o código de uma Utilizador.
      * @return Devolve uma String do código.
      */
-    public String getU(){
-        return this.u;
+    public String getUser(){
+        return this.user;
     }
 
     /**
      * Método que define o código de um Utilizador.
-     * @param u Recebe uma String do código.
+     * @param user Recebe uma String do código.
      */
-    public void setU(String u){
-        this.u = u;
+    public void setUser(String user){
+        this.user = user;
     }
 
     /**
      * Método que dá o código de uma Loja.
      * @return Devolve uma String do código.
      */
-    public String getL(){
-        return this.l;
+    public String getLoja(){
+        return this.loja;
     }
 
     /**
      * Método que define o código de uma Loja.
-     * @param l Recebe uma String do código.
+     * @param loja Recebe uma String do código.
      */
-    public void setL(String l){
-        this.l = l;
+    public void setLoja(String loja){
+        this.loja = loja;
     }
 
     /**
      * Método que dá o valor do peso.
      * @return Devolve um double com o valor.
      */
-    public double getP(){
-        return this.p;
+    public double getPeso(){
+        return this.peso;
     }
 
     /**
      * Método que define o valor do peso.
-     * @param p Recebe um double do valor.
+     * @param peso Recebe um double do valor.
      */
-    public void setP(double p){
-        this.p = p;
+    public void setPeso(double peso){
+        this.peso = peso;
     }
 
     /**
@@ -121,7 +121,7 @@ public class Encomenda{
      * @return Devolve uma lista de linhas de encomenda.
      */
     public List<LinhaEncomenda> getLE(){
-        return this.le;
+        return this.produtos;
     }
 
     /**
@@ -129,7 +129,7 @@ public class Encomenda{
      * @param le  Recebe uma lista de linhas de encomenda.
      */
     public void setLE(List<LinhaEncomenda> le){
-        this.le = le;
+        this.produtos = le;
     }
 
     /**
@@ -142,11 +142,11 @@ public class Encomenda{
         if(o == this) return true;
         if(o == null || o.getClass() != this.getClass()) return false;
         Encomenda le = (Encomenda) o;
-        return le.getE().equals(this.e) &&
-                le.getU().equals(this.u) &&
-                le.getL().equals(this.l) &&
-                le.getP()==(this.p) &&
-                le.getLE()==this.le;
+        return le.getId().equals(this.id) &&
+                le.getUser().equals(this.user) &&
+                le.getLoja().equals(this.loja) &&
+                le.getPeso()==(this.peso) &&
+                le.getLE()==this.produtos;
     }
 
     /**
@@ -156,11 +156,11 @@ public class Encomenda{
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Código da TrazAqui.Encomenda").append(this.e)
-                .append("\nCódigo go TrazAqui.Utilizador").append(this.u)
-                .append("\nCódigo da TrazAqui.Loja").append(this.l)
-                .append("\nPeso").append(this.p)
-                .append("\nLinha de TrazAqui.Encomenda").append(this.le);
+        sb.append("Código da TrazAqui.Encomenda").append(this.id)
+                .append("\nCódigo go TrazAqui.Utilizador").append(this.user)
+                .append("\nCódigo da TrazAqui.Loja").append(this.loja)
+                .append("\nPeso").append(this.peso)
+                .append("\nLinha de TrazAqui.Encomenda").append(this.produtos);
         return sb.toString();
     }
 
