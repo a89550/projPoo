@@ -133,6 +133,14 @@ public class Encomenda{
     }
 
     /**
+     * Função que adiciona um produto à encomenda.
+     * @param produto - Produto a ser adicionado.
+     */
+    public void addProduto(LinhaEncomenda produto){
+        this.produtos.add(produto);
+    }
+
+    /**
      * Função que verifica se um objeto recebido é idêntico ao da classe Encomenda.
      * @param o Recebe um objeto.
      * @return Devolve um boolean com a respetiva verificação.

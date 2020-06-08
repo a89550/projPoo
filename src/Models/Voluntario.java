@@ -1,9 +1,6 @@
 package Models;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +12,6 @@ public class Voluntario {
     private boolean livre;
     private List<Integer> classif;
     private LocalDateTime recolha;
-    private LocalDateTime entrega;
     private Encomenda encomenda;
 
     /**
