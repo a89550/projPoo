@@ -1,6 +1,7 @@
 package Models;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Encomenda{
@@ -138,6 +139,24 @@ public class Encomenda{
      */
     public void addProduto(LinhaEncomenda produto){
         this.produtos.add(produto);
+    }
+
+    /**
+     * Função que remove um produto à encomenda.
+     * @param produto Recebe uma linha de encomenda.
+     */
+    public void removeProduto(LinhaEncomenda produto) {
+        this.produtos.remove(produto);
+    }
+
+    /**
+     * Função que calcula o número total de produtos.
+     * @return Devolve um Inteiro que representa o número de Produtos.
+     */
+    public int numeroTotalProdutos() {
+        int ret = 0;
+        for (int i = 0; i < this.produtos.size(); i++) ret += this.produtos.get(i).getQ();
+        return ret;
     }
 
     /**

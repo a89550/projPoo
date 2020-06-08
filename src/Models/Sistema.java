@@ -343,6 +343,10 @@ public class Sistema {
     public void classificarTransportadora(String cod, int classificacao){
         this.trans.get(cod).addClassificacaoT(classificacao);
     }
+
+    public void realizaPedido(Encomenda e, Loja l) {
+
+    }
 }
 
 

@@ -1,5 +1,6 @@
 package Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Utilizador {
@@ -7,6 +8,7 @@ public class Utilizador {
     private String u;
     private String nome;
     private GPS g;
+    private List<Encomenda> encomendas;
 
     /**
      * Construtor por cópia.
@@ -15,6 +17,7 @@ public class Utilizador {
         this.u = "";
         this.nome = "";
         this.g = new GPS();
+        this.encomendas = new ArrayList<>();
     }
 
     /**
@@ -23,11 +26,15 @@ public class Utilizador {
      * @param u String correspondente ao código de um Utilizador.
      * @param n String que corresponde ao nome de um Utilizador.
      * @param g objeto da classe GPS corresponde às coordenadas.
+     * @param encomendas lista de encomendas.
      */
-    public Utilizador(String u, String n, GPS g) {
+    public Utilizador(String u, String n, GPS g,List<Encomenda> encomendas) {
         this.u = u;
         this.nome = n;
         this.g = new GPS(g);
+        this.encomendas = new ArrayList<>();
+        for(Encomenda e : encomendas)
+            this.encomendas.add(e);
     }
 
     /**
@@ -39,6 +46,7 @@ public class Utilizador {
         this.u = u.getU();
         this.nome = u.getNome();
         this.g = new GPS(u.getGps());
+        this.encomendas = u.getEncomendas();
     }
 
     /**
@@ -96,6 +104,25 @@ public class Utilizador {
     }
 
     /**
+     * Método que dá a lista de Encomendas.
+     * @return Devolve a lista.
+     */
+    public List<Encomenda> getEncomendas() {
+        List<Encomenda> ret = new ArrayList<>();
+        for(Encomenda e : ret)
+            ret.add(e);
+        return ret;
+    }
+
+    /**
+     * Método que define a lista de Encomendas.
+     * @param encomendas Recebe a lista.
+     */
+    public void setEncomendas(List<Encomenda> encomendas) {
+        this.encomendas = encomendas;
+    }
+
+    /**
      * Função que verifica se o objeto recebido é idêntico ao da classe Utilizador.
      *
      * @param o Recebe o objeto.
@@ -108,7 +135,8 @@ public class Utilizador {
         Utilizador le = (Utilizador) o;
         return le.getU().equals(this.u) &&
                 le.getNome().equals(this.nome) &&
-                le.getGps().equals(this.g);
+                le.getGps().equals(this.g) &&
+                le.getEncomendas().equals(this.encomendas);
     }
 
     /**
@@ -119,9 +147,10 @@ public class Utilizador {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Código de utilizador:").append(this.u)
-                .append("\nNome do utlizador").append(this.nome)
-                .append("\nTrazAqui.GPS").append(this.g);
+        sb.append("Código de utilizador:  ").append(this.u)
+                .append("\nNome do utlizador:  ").append(this.nome)
+                .append("\nGPS:  ").append(this.g)
+                .append("\nLista de Encomendas:  ").append(this.encomendas);
         return sb.toString();
     }
 
@@ -135,4 +164,11 @@ public class Utilizador {
         return new Utilizador(this);
     }
 
+    /**
+     * Função que adiciona uma encomenda à lista de encomendas.
+     * @param e Recebe uma encomenda.
+     */
+    public void addEncomenda(Encomenda e) {
+        this.encomendas.add(e);
+    }
 }
