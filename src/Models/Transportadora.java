@@ -2,47 +2,63 @@ package Models;
 import java.util.*;
 
 public class Transportadora {
-    private String t;
+    private String id;
     private String nome;
-    private GPS g;
+    private String email;
+    private String password;
+    private GPS gps;
     private int nif;
-    private double r;
-    private double pkm;
+    private boolean livre;
+    private double raio;
+    private double taxaKm;
+    private int numeroEnc;
     private List<Integer> classif;
+    private List<Encomenda> encomendas;
+    private int kmPercorridos;
 
     /**
      * Construtor por omissão.
      */
     public Transportadora(){
-        this.t = "";
+        this.id = "";
         this.nome = "";
-        this.g = new GPS();
+        this.email = "";
+        this.password = "";
+        this.gps = new GPS();
         this.nif = 0;
-        this.r = 0;
-        this.pkm = 0;
+        this.livre = true;
+        this.raio = 0;
+        this.taxaKm = 0;
+        this.numeroEnc = 0;
         this.classif = new ArrayList<>();
+        this.encomendas = new ArrayList<>();
+        this.kmPercorridos = 0;
     }
 
     /**
      * Construtor parametrizado.
      * @param t String que representa o código da empresa.
      * @param n String representante do nome da empresa.
-     * @param g objeto da classe GPs que representa as coordenadas de uma Transportadora.
+     * @param gps objeto da classe GPs que representa as coordenadas de uma Transportadora.
      * @param nif Double representante do número de identificação fiscal.
-     * @param r Double que representa o raio de uma Transportadora.
-     * @param pkm Double represetante do preço por km de uma Transportadora.
-     * @param classif Lista de Integer que representa a lista de classificações.
+     * @param raio Double que representa o raio de uma Transportadora.
+     * @param taxaKm Double represetante do preço por km de uma Transportadora.
      */
-    public Transportadora(String t, String n, GPS g, int nif, double r, double pkm, List<Integer> classif){
-        this.t = t;
+    public Transportadora(String t, String n, String email, String password, GPS gps, int nif, double raio, boolean livre, double taxaKm, List<Integer> classif, List<Encomenda> encomendas, int km){
+        this.id = t;
         this.nome = n;
-        this.g = new GPS(g);
+        this.email = email;
+        this.password = password;
+        this.gps = new GPS(gps);
         this.nif = nif;
-        this.r = r;
-        this.pkm = pkm;
+        this.livre = livre;
+        this.raio = raio;
+        this.taxaKm = taxaKm;
         this.classif = new ArrayList<>();
-        for(Integer i : classif)
-            this.classif.add(i);
+        for(Integer i : classif) this.classif.add(i);
+        this.encomendas = new ArrayList<>();
+        for(Encomenda e : encomendas) this.encomendas.add(e.clone());
+        this.kmPercorridos = km;
     }
 
     /**
@@ -50,29 +66,83 @@ public class Transportadora {
      * @param t Objeto da classe Transportadora.
      */
     public Transportadora(Transportadora t){
-        this.t = t.getT();
+        this.id = t.getId();
         this.nome = t.getNome();
-        this.g = new GPS(t.getGps());
+        this.email = t.getEmail();
+        this.password = t.getPassword();
+        this.gps = new GPS(t.getGps());
         this.nif = t.getNif();
-        this.r = t.getR();
-        this.pkm = t.getPkm();
+        this.livre = t.getLivre();
+        this.raio = t.getRaio();
+        this.taxaKm = t.getTaxaKm();
         this.classif = t.getClassif();
+        this.numeroEnc = t.getNumeroEnc();
+        this.encomendas = t.getEncomendas();
+        this.kmPercorridos = t.getKmPercorridos();
+    }
+
+    /**
+     * Método que retorna o email da transportadora.
+     * @return Email da transportadora.
+     */
+    public String getEmail(){
+        return this.email;
+    }
+
+    /**
+     * Método que retorna o password da transportadora.
+     * @return Password da transportadora.
+     */
+    public String getPassword(){
+        return this.email;
     }
 
     /**
      * Método que dá o código de uma empresa.
      * @return Devolve esse código.
      */
-    public String getT(){
-        return this.t;
+    public String getId(){
+        return this.id;
     }
 
     /**
-     * Método que define o código de uma empresa.
-     * @param t String que representa esse código.
+     * Método que retorna o número de Kms percorridos pela transportadora.
+     * @return Número de Kms percorridos.
      */
-    public void setT(String t){
-        this.t = t;
+    public int getKmPercorridos() {
+        return kmPercorridos;
+    }
+
+    /**
+     * Método que dá a lista de encomendas que já distribuidas pela transportadora.
+     * @return Lista de en
+     */
+    public List<Encomenda> getEncomendas() {
+        List<Encomenda> ret = new ArrayList<>();
+        for(Encomenda e : this.encomendas) ret.add(e.clone());
+        return ret;
+    }
+
+    /**
+     * Método que retorna o número de encomendas que a transportadora pode transportar.
+     * @return Número de encomendas que pode trasportar.
+     */
+    public int getNumeroEnc(){
+        return this.numeroEnc;
+    }
+
+    /**
+     * Método que diz se a transportadora está livre ou não para ir buscar uma encomenda.
+     * @return Devolve true se estiver livre, false caso contrário.
+     */
+    public boolean getLivre(){return this.livre;}
+
+    /**
+     * Método que define o código de uma empresa.
+     * @param id String que representa esse código.
+     */
+    public void setId(String id){
+        this.id = id;
     }
 
     /**
@@ -96,7 +166,7 @@ public class Transportadora {
      * @return Devolve as coordenadas.
      */
     public GPS getGps(){
-        return this.g;
+        return this.gps;
     }
 
     /**
@@ -104,7 +174,7 @@ public class Transportadora {
      * @param g Recebe um objeto da classe GPS
      */
     public void setGps(GPS g){
-        this.g = g;
+        this.gps = g;
     }
 
     /**
@@ -127,32 +197,32 @@ public class Transportadora {
      * Método que dá o raio de uma Transportadora.
      * @return Devolve esse raio.
      */
-    public double getR(){
-        return this.r;
+    public double getRaio(){
+        return this.raio;
     }
 
     /**
      * Método que define o raio de uma Transportadora.
-     * @param r Double representante do raio.
+     * @param raio Double representante do raio.
      */
-    public void setR(double r){
-        this.r = r;
+    public void setRaio(double raio){
+        this.raio = raio;
     }
 
     /**
      * Método que dá o preço por km de uma Transportadora.
      * @return Devolve esse preço.
      */
-    public double getPkm(){
-        return this.pkm;
+    public double getTaxaKm(){
+        return this.taxaKm;
     }
 
     /**
      * Método que define o preço por km de uma Transportadora.
-     * @param pkm Devolve esse preço.
+     * @param taxaKm Devolve esse preço.
      */
-    public void setPkm(double pkm){
-        this.pkm = pkm;
+    public void setTaxaKm(double taxaKm){
+        this.taxaKm = taxaKm;
     }
 
     /**
@@ -184,12 +254,12 @@ public class Transportadora {
         if(o == this) return true;
         if(o == null || o.getClass() != this.getClass()) return false;
         Transportadora v = (Transportadora) o;
-        return v.getT().equals(this.t) &&
+        return v.getId().equals(this.id) &&
                 v.getNome().equals(this.nome) &&
-                v.getGps().equals(this.g) &&
+                v.getGps().equals(this.gps) &&
                 v.getNif()==(this.nif) &&
-                v.getR()==(this.r) &&
-                v.getPkm()==(this.pkm) &&
+                v.getRaio()==(this.raio) &&
+                v.getTaxaKm()==(this.taxaKm) &&
                 v.getClassif().equals(this.classif);
     }
 
@@ -200,12 +270,12 @@ public class Transportadora {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Código da Empresa: ").append(this.t)
+        sb.append("Código da Empresa: ").append(this.id)
                 .append("\nNome da Empresa: ").append(this.nome)
-                .append("\nGPS: ").append(this.g)
+                .append("\nGPS: ").append(this.gps)
                 .append("\nNIF: ").append(this.nif)
-                .append("\nRaio: ").append(this.r)
-                .append("\nPreço por Km: ").append(this.pkm)
+                .append("\nRaio: ").append(this.raio)
+                .append("\nPreço por Km: ").append(this.taxaKm)
                 .append("\nLista de Classificações:  ").append(this.classif);
         return sb.toString();
     }
@@ -226,5 +296,7 @@ public class Transportadora {
     public void addClassificacaoT(int classificacao) {
         this.classif.add(classificacao);
     }
+
+
 
 }
