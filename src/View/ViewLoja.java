@@ -1,12 +1,21 @@
 package View;
 
+import Controller.*;
+import java.util.Scanner;
+
 public class ViewLoja {
-    public String l;
-    public void ViewLoja(String l){
-        this.l = l;
+    public void ViewLoja(){
     }
 
-    public void viewLoja(String l){
-        System.out.println("Menu de Loja");
+    public void viewLoja(){
+        System.out.println("Menu de Utlizador");
+        System.out.println("Email:");
+        Scanner n2 = new Scanner(System.in);
+        String n1 = n2.nextLine();
+        System.out.println("Password:");
+        Scanner p = new Scanner(System.in);
+        String p1 = p.nextLine();
+
+
     }
 }

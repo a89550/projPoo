@@ -1,15 +1,13 @@
 package View;
 
-import Models.*;
-
+import Controller.*;
 import java.util.Scanner;
-
 
 public class ViewGeral {
     public int n1;
     public ViewGeral(){
     }
-/*
+
     public void viewGeral(){
         System.out.println("    Bem Vindo ao TrazAqui!\n\n\nNome de utilizador(1)\nQueres aderir ao TrazAqui! ?(2)\nSair(0)");
         Scanner n2 = new Scanner(System.in);
@@ -29,32 +27,32 @@ public class ViewGeral {
                 break;
         }
     }
-*/
-    public void login(){
-        System.out.println("Código:");
-        Scanner n2 = new Scanner(System.in);
-        String n3 = n2.nextLine();
 
-        switch(n3.substring(0, 1)){
-            case "u":
+    public void login(){
+        System.out.println("Iniciar conta como:\n  Utilizador(1)\n  Voluntario(2)\n  Transportadora(3)\n  Loja(4)");
+        Scanner n3 = new Scanner(System.in);
+        n1 = n3.nextInt();
+
+        switch(n1){
+            case 1:
                 ViewUtilizador u = new ViewUtilizador();
-                u.viewUtil(n3);
+                u.viewUtil();
                 break;
-            case "v":
+            case 2:
                 ViewVoluntario v = new ViewVoluntario();
-                v.viewVolun(n3);
+                v.viewVolun();
                 break;
-            case "t":
+            case 3:
                 ViewTransportadora t = new ViewTransportadora();
-                t.viewTransp(n3);
+                t.viewTransp();
                 break;
-            case "l":
+            case 4:
                 ViewLoja l = new ViewLoja();
-                l.viewLoja(n3);
+                l.viewLoja();
                 break;
-         }
+        }
     }
-/*
+
     public void signup(){
         System.out.println("Criar conta como:\n  Utilizador(1)\n  Voluntario(2)\n  Transportadora(3)\n  Loja(4)");
         Scanner n2 = new Scanner(System.in);
@@ -85,93 +83,83 @@ public class ViewGeral {
     }
 
     public void registaUtil(){
-        Utilizador u = new Utilizador();
         System.out.println("Nome de ultilizador");
         Scanner n2 = new Scanner(System.in);
-        String n3 = n2.nextLine();
-        u.setNome(n3);
+        String n = n2.nextLine();
+
         System.out.println("GPS\nCoordenada x:");
         Scanner n1 = new Scanner(System.in);
         double x = n1.nextDouble();
         System.out.println("GPS\nCoordenada y:");
         Scanner n4 = new Scanner(System.in);
         double y = n4.nextDouble();
-        GPS g = new GPS();
-        g.setX(x);
-        g.setY(y);
-        u.setGps(g);
+
+        registos u = new registos();
+        u.contrRegUtil(n,x,y);
     }
 
-    /*
     public void registaVolun(){
-        Voluntario v = new Voluntario();
         System.out.println("Nome de voluntario");
         Scanner n2 = new Scanner(System.in);
-        String n3 = n2.nextLine();
-        v.setNome(n3);
+        String v = n2.nextLine();
+
         System.out.println("GPS\nCoordenada x:");
         Scanner n1 = new Scanner(System.in);
         double x = n1.nextDouble();
         System.out.println("GPS\nCoordenada y:");
         Scanner n4 = new Scanner(System.in);
         double y = n4.nextDouble();
-        GPS g = new GPS();
-        g.setX(x);
-        g.setY(y);
-        v.setGps(g);
+
         System.out.println("Raio:");
         Scanner r1 = new Scanner(System.in);
         double r = r1.nextDouble();
-        v.setR(r);
+
+        registos u = new registos();
+        u.contrRegVol(v,x,y,r);
     }
 
     public void registaTransp(){
-        Transportadora t = new Transportadora();
         System.out.println("Nome de transportadora");
         Scanner n2 = new Scanner(System.in);
-        String n3 = n2.nextLine();
-        t.setNome(n3);
+        String t = n2.nextLine();
+
         System.out.println("GPS\nCoordenada x:");
         Scanner n1 = new Scanner(System.in);
         double x = n1.nextDouble();
         System.out.println("GPS\nCoordenada y:");
         Scanner n4 = new Scanner(System.in);
         double y = n4.nextDouble();
-        GPS g = new GPS();
-        g.setX(x);
-        g.setY(y);
-        t.setGps(g);
+
         System.out.println("Raio:");
         Scanner r1 = new Scanner(System.in);
         double r = r1.nextDouble();
-        t.setR(r);
+
         System.out.println("Nif:");
         Scanner nif1 = new Scanner(System.in);
         int nif = nif1.nextInt();
-        t.setNif(nif);
+
         System.out.println("Preço por kilometro:");
         Scanner pkm1 = new Scanner(System.in);
         double pkm = pkm1.nextDouble();
-        t.setPkm(pkm);
+
+        registos t1 = new registos();
+        t1.contrRegTrans(t,x,y,r,nif,pkm);
     }
 
 
-    public void registaLoja(){
-        Loja l = new Loja();
+    public void registaLoja() {
         System.out.println("Nome de loja");
         Scanner n2 = new Scanner(System.in);
-        String n3 = n2.nextLine();
-        l.setNome(n3);
+        String l = n2.nextLine();
+
         System.out.println("GPS\nCoordenada x:");
         Scanner n1 = new Scanner(System.in);
         double x = n1.nextDouble();
         System.out.println("GPS\nCoordenada y:");
         Scanner n4 = new Scanner(System.in);
         double y = n4.nextDouble();
-        GPS g = new GPS();
-        g.setX(x);
-        g.setY(y);
-        l.setGps(g);
+
+        registos t1 = new registos();
+        t1.contrRegLoj(l,x,y);
     }
-    */
 }

@@ -1,12 +1,21 @@
 package View;
 
+import Controller.*;
+import java.util.Scanner;
+
 public class ViewUtilizador {
-    public String u;
-    public void ViewUtilizador(String u){
-        this.u = u;
+    public void ViewUtilizador(){
     }
 
-    public void viewUtil(String u){
+    public void viewUtil(){
         System.out.println("Menu de Utlizador");
+        System.out.println("Email:");
+        Scanner n2 = new Scanner(System.in);
+        String m = n2.nextLine();
+        System.out.println("Password:");
+        Scanner p1 = new Scanner(System.in);
+        String p = p1.nextLine();
+
+
     }
 }

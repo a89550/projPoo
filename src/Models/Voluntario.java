@@ -240,4 +240,5 @@ public class Voluntario {
         this.recolha = LocalDateTime.now();
         setEncomenda(enc);
     }
+
 }
