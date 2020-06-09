@@ -332,7 +332,7 @@ public class Sistema {
      * @param classificacao Recebe um Inteiro representante da classificação.
      */
     public void classificarVoluntario(String cod, int classificacao){
-        this.vol.get(cod).addClassificacaoV(classificacao);
+        this.vol.get(cod).addClassificacao(classificacao);
     }
 
     /**
@@ -341,7 +341,7 @@ public class Sistema {
      * @param classificacao Recebe um Inteiro representante da classificação.
      */
     public void classificarTransportadora(String cod, int classificacao){
-        this.trans.get(cod).addClassificacaoT(classificacao);
+        this.trans.get(cod).addClassificacao(classificacao);
     }
 }
 

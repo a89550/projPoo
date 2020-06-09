@@ -4,7 +4,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Voluntario {
+public class Voluntario implements ITransportadora {
     private String id;
     private String nome;
     private GPS gps;
@@ -12,7 +12,7 @@ public class Voluntario {
     private boolean livre;
     private List<Integer> classif;
     private LocalDateTime recolha;
-    private Encomenda encomenda;
+    private List<Encomenda> encomenda;
 
     /**
      * Construtor por omissão.
@@ -37,13 +37,14 @@ public class Voluntario {
      * @param raio Double representante do raio.
      * @oaram c Lista de Integer representante da lista de classificações.
      */
-    public Voluntario(String id, String n, GPS gps, double raio, boolean livre, List<Integer> c, Encomenda encomenda) {
+    public Voluntario(String id, String n, GPS gps, double raio, boolean livre, List<Integer> c, List<Encomenda> encomenda) {
         this.id = id;
         this.nome = n;
         this.gps = new GPS(gps);
         this.raio = raio;
         this.livre = livre;
-        this.encomenda = encomenda.clone();
+        this.encomenda = new ArrayList<>();
+        for(Encomenda e : encomenda) this.encomenda.add(e.clone());
         this.classif = new ArrayList<>();
         for (Integer i : c)
             this.classif.add(i);
@@ -211,7 +212,7 @@ public class Voluntario {
      * Função que adiciona uma classificação à lista de classificações.
      * @param classificacao Recebe um Inteiro que representa o valor da classificação.
      */
-    public void addClassificacaoV(int classificacao) {
+    public void addClassificacao(int classificacao) {
         this.classif.add(classificacao);
     }
 
@@ -219,16 +220,19 @@ public class Voluntario {
      * Função que retorna a encomenda que o voluntário está a transportar.
      * @return - Encomenda a transportar.
      */
-    public Encomenda getEncomenda(){
-        return this.encomenda.clone();
+    public List<Encomenda> getEncomenda(){
+        List<Encomenda> ret = new ArrayList<>();
+        for(Encomenda e : this.encomenda) ret.add(e.clone());
+        return ret;
     }
 
     /**
      * Função que define a encomenda da classe, simboliza a encomenda que o voluntário está a transportar.
      * @param enc - Encomenda a transportar.
      */
-    public void setEncomenda(Encomenda enc){
-        this.encomenda = enc.clone();
+    public void setEncomenda(List<Encomenda> enc){
+        this.encomenda = new ArrayList<>();
+        for(Encomenda e : enc) this.encomenda.add(e.clone());
     }
 
     /**
@@ -238,6 +242,52 @@ public class Voluntario {
     public void aceitaEncomenda(Encomenda enc){
         this.livre = false;
         this.recolha = LocalDateTime.now();
-        setEncomenda(enc);
+        this.encomenda.add(enc);
+    }
+
+    @Override
+    /**
+     * Função que calcula a distância percorrida da transportadora à loja e da loja à casa do utilizador.
+     * @param loja - Loja onde a encomenda está.
+     * @param utilizador - Casa do utilizador que fez a encomenda.
+     * @return - Distância percorrida.
+     */
+    public double distEntrega(GPS loja, GPS utilizador) {
+        double dist1 = auxDist(this.gps,loja);
+        double dist2 = auxDist(loja,utilizador);
+        return dist1 + dist2;
+    }
+
+    /**
+     * Função auxiliar que calcula a distância entre duas coordenadas GPS.
+     * @param gps1 - Primeira coordenada.
+     * @param gps2 - Segunda coordenada.
+     * @return - Distância entre os dois pontos.
+     */
+    public double auxDist(GPS gps1, GPS gps2){
+        double firstLatToRad = Math.toRadians(gps1.getX());
+        double secondLatToRad = Math.toRadians(gps2.getX());
+        double deltaLongitudeInRad = Math.toRadians(gps2.getY() - gps1.getY());
+        return Math.acos(Math.cos(firstLatToRad) * Math.cos(secondLatToRad) * Math.cos(deltaLongitudeInRad) + Math.sin(firstLatToRad)
+                * Math.sin(secondLatToRad)) * 6371.01;
+    }
+
+    /**
+     * Função que calula o preço do transporte da encomenda.
+     * @param loja - Coordenadas GPS da loja.
+     * @param utilizador - Coordenadas GPS do utilizador.
+     * @return - Preço do transporte.
+     */
+    @Override
+    public double precoEntrega(GPS loja, GPS utilizador) {
+        return 0;
+    }
+
+    /**
+     * Função que sinaliza que as encomendas foram entregues.
+     * @return - Lista da encomendas entregues.
+     */
+    public List<Encomenda> entregaEncomenda(){
+        return new ArrayList<>();
     }
 }
