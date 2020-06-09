@@ -15,6 +15,7 @@ public class Voluntario implements ITransportadora {
     private List<Encomenda> encomenda;
     private String email;
     private String password;
+    private double velocidadeMedia;
 
     /**
      * Construtor por omissão.
@@ -30,6 +31,7 @@ public class Voluntario implements ITransportadora {
         this.encomenda = new ArrayList<>();
         this.email = "";
         this.password = "";
+        this.velocidadeMedia = 0;
     }
 
     /**
@@ -45,9 +47,10 @@ public class Voluntario implements ITransportadora {
      * @param encomenda Lista de Encomendas.
      * @param email     String que representa o email de um Voluntário.
      * @param password  String que corresponde à password de um Voluntário.
+     * @param velocidadeMedia String correspondente à velocidade média do utilizador.
      */
-    public Voluntario(String id, String n, GPS gps, double raio, boolean livre,
-                      List<Integer> classif, LocalDateTime recolha, List<Encomenda> encomenda, String email, String password) {
+    public Voluntario(String id, String n, GPS gps, double raio, boolean livre,List<Integer> classif,
+                      LocalDateTime recolha, List<Encomenda> encomenda, String email, String password, double velocidadeMedia) {
         this.id = id;
         this.nome = n;
         this.gps = new GPS(gps);
@@ -60,6 +63,7 @@ public class Voluntario implements ITransportadora {
         for (Integer i : classif) this.classif.add(i);
         this.email = email;
         this.password = password;
+        this.velocidadeMedia = velocidadeMedia;
     }
 
     /**
@@ -195,7 +199,11 @@ public class Voluntario implements ITransportadora {
                 v.getNome().equals(this.nome) &&
                 v.getGps().equals(this.gps) &&
                 v.getRaio() == (this.raio) &&
-                v.getClassif().equals(this.classif);
+                v.getClassif().equals(this.classif) &&
+                v.getEmail().equals(this.email) &&
+                v.getPassword().equals(this.password) &&
+                v.getEncomenda().equals(this.encomenda) &&
+                v.velocidadeMedia == (this.velocidadeMedia);
     }
 
     /**
@@ -215,7 +223,8 @@ public class Voluntario implements ITransportadora {
                 .append("\nLista de Classificações:  ").append(this.classif)
                 .append("\nLista de Encomendas:  ").append(this.encomenda)
                 .append("\nEmail do Voluntário:  ").append(this.email)
-                .append("\nPassword do Voluntário:  ").append(this.password);
+                .append("\nPassword do Voluntário:  ").append(this.password)
+                .append("\nVelocidade média do Voluntário:  ").append(this.velocidadeMedia);
         return sb.toString();
     }
 
@@ -315,6 +324,22 @@ public class Voluntario implements ITransportadora {
         this.encomenda.add(enc);
     }
 
+    /**
+     * Método que dá a velocidade média de um Voluntário.
+     * @return Devolve a velocidade média.
+     */
+    public double getVelocidadeMedia() {
+        return velocidadeMedia;
+    }
+
+    /**
+     * Método que define a velocidade média de um utilizador.
+     * @param velocidadeMedia Recebe um double que representa a velocidade média.
+     */
+    public void setVelocidadeMedia(double velocidadeMedia) {
+        this.velocidadeMedia = velocidadeMedia;
+    }
+
     @Override
     /**
      * Função que calcula a distância percorrida da transportadora à loja e da loja à casa do utilizador.
@@ -363,6 +388,8 @@ public class Voluntario implements ITransportadora {
     public List<Encomenda> entregaEncomenda() {
         return new ArrayList<>();
     }
+
+
 }
 
 
