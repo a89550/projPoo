@@ -5,36 +5,44 @@ import java.util.List;
 
 public class Utilizador {
 
-    private String u;
+    private String id;
     private String nome;
     private GPS g;
     private List<Encomenda> encomendas;
+    private String email;
+    private String password;
 
     /**
-     * Construtor por cópia.
+     * Construtor por omissão.
      */
     public Utilizador() {
-        this.u = "";
+        this.id = "";
         this.nome = "";
         this.g = new GPS();
         this.encomendas = new ArrayList<>();
+        this.email = "";
+        this.password = "";
     }
 
     /**
      * Construtor parametrizado.
      *
-     * @param u String correspondente ao código de um Utilizador.
+     * @param id String correspondente ao código de um Utilizador.
      * @param n String que corresponde ao nome de um Utilizador.
      * @param g objeto da classe GPS corresponde às coordenadas.
      * @param encomendas lista de encomendas.
+     * @param email String representa um email.
+     * @param password String representa uma password.
      */
-    public Utilizador(String u, String n, GPS g,List<Encomenda> encomendas) {
-        this.u = u;
+    public Utilizador(String id, String n, GPS g,List<Encomenda> encomendas,String email, String password) {
+        this.id = id;
         this.nome = n;
         this.g = new GPS(g);
         this.encomendas = new ArrayList<>();
         for(Encomenda e : encomendas)
             this.encomendas.add(e);
+        this.email = email;
+        this.password = password;
     }
 
     /**
@@ -43,10 +51,12 @@ public class Utilizador {
      * @param u Recebe um objeto da classe Utilizador.
      */
     public Utilizador(Utilizador u) {
-        this.u = u.getU();
+        this.id = u.getId();
         this.nome = u.getNome();
         this.g = new GPS(u.getGps());
         this.encomendas = u.getEncomendas();
+        this.email =  u.getEmail();
+        this.password = u.getPassword();
     }
 
     /**
@@ -54,17 +64,17 @@ public class Utilizador {
      *
      * @return String que representa o código.
      */
-    public String getU() {
-        return this.u;
+    public String getId() {
+        return this.id;
     }
 
     /**
      * Método que define o código de um Utilizador.
      *
-     * @param u String representante do código de um Utilizador.
+     * @param id String representante do código de um Utilizador.
      */
-    public void setU(String u) {
-        this.u = u;
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**
@@ -115,6 +125,38 @@ public class Utilizador {
     }
 
     /**
+     * Método que dá o email.
+     * @return Devolve o email.
+     */
+    public String getEmail() {
+        return this.email;
+    }
+
+    /**
+     * Método que dá a password.
+     * @return Devolve a password.
+     */
+    public String getPassword() {
+        return this.password;
+    }
+
+    /**
+     * Método que define o email.
+     * @param email Recebe um email.
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * Método que define uma password.
+     * @param password Recebe uma password.
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
      * Método que define a lista de Encomendas.
      * @param encomendas Recebe a lista.
      */
@@ -132,11 +174,13 @@ public class Utilizador {
     public boolean equals(Object o) {
         if (o == this) return true;
         if (o == null || o.getClass() != this.getClass()) return false;
-        Utilizador le = (Utilizador) o;
-        return le.getU().equals(this.u) &&
-                le.getNome().equals(this.nome) &&
-                le.getGps().equals(this.g) &&
-                le.getEncomendas().equals(this.encomendas);
+        Utilizador u = (Utilizador) o;
+        return u.getId().equals(this.id) &&
+                u.getNome().equals(this.nome) &&
+                u.getGps().equals(this.g) &&
+                u.getEncomendas().equals(this.encomendas) &&
+                u.getEmail().equals(this.email) &&
+                u.getPassword().equals(this.password);
     }
 
     /**
@@ -147,7 +191,7 @@ public class Utilizador {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Código de utilizador:  ").append(this.u)
+        sb.append("Código de utilizador:  ").append(this.id)
                 .append("\nNome do utlizador:  ").append(this.nome)
                 .append("\nGPS:  ").append(this.g)
                 .append("\nLista de Encomendas:  ").append(this.encomendas);

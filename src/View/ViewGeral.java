@@ -155,7 +155,7 @@ public class ViewGeral {
         t.setPkm(pkm);
     }
 
-     */
+
     public void registaLoja(){
         Loja l = new Loja();
         System.out.println("Nome de loja");
@@ -173,4 +173,5 @@ public class ViewGeral {
         g.setY(y);
         l.setGps(g);
     }
+    */
 }
