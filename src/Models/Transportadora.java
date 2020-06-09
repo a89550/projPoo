@@ -318,7 +318,7 @@ public class Transportadora implements ITransportadora {
      * @return Devolve esse clone.
      */
     @Override
-    public Transportadora clone(){
+    public ITransportadora clone(){
         return new Transportadora(this);
     }
 

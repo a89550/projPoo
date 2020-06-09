@@ -204,7 +204,7 @@ public class Voluntario implements ITransportadora {
      * @return Devolve esse clone.
      */
     @Override
-    public Voluntario clone(){
+    public ITransportadora clone(){
         return new Voluntario(this);
     }
 

@@ -12,5 +12,7 @@ public interface ITransportadora {
 
     public List<Encomenda> entregaEncomenda();
 
+    public ITransportadora clone();
 
+    public String getId();
 }
