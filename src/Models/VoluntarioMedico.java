@@ -10,7 +10,7 @@ public class VoluntarioMedico extends Voluntario {
         this.livreMed = true;
     }
 
-    public VoluntarioMedico(String id, String n, GPS gps, double raio, boolean livre, boolean livreMed, List<Integer> c, Encomenda encomenda){
+    public VoluntarioMedico(String id, String n, GPS gps, double raio, boolean livre, boolean livreMed, List<Integer> c, List<Encomenda> encomenda){
         super(id,n,gps,raio,livre,c,encomenda);
         this.livreMed = livreMed;
 
