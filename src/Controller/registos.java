@@ -18,6 +18,9 @@ public class registos {
         g.setY(y);
         u.setGps(g);
     }
+
+    /*
+
     // Função que regista um voluntario
     public void contrRegVol(String nome, double x, double y, double r){
         Voluntario v = new Voluntario();
@@ -28,6 +31,8 @@ public class registos {
         v.setGps(g);
         v.setRaio(r);
     }
+    */
+
     // Função que regista uma transportadora
     public void contrRegTrans(String nome, double x, double y, double r, int nif, double pkm){
         Transportadora t = new Transportadora();
@@ -36,9 +41,9 @@ public class registos {
         g.setX(x);
         g.setY(y);
         t.setGps(g);
-        t.setR(r);
+        t.setRaio(r);
         t.setNif(nif);
-        t.setPkm(pkm);
+        t.setTaxaKm(pkm);
     }
     // Função que regista uma loja
     public void contrRegLoj(String nome, double x, double y){
@@ -50,16 +55,14 @@ public class registos {
         l.setGps(g);
     }
 
-    public Utilizador loginUtil(String email,String pass) throws IOException {
-
-        /*if (utilizadores.containsKey(email)) {
+   /* public Utilizador loginUtil(String email,String pass)
+        if (getUtilizadores().containsKey(email)) {
             Utilizador u = this.utilizadores.get(email);
             if (password.equals(u.getPassword()))
                 this.utilizador = u;
         }
-        */
     }
-
+*/
     //Sistema s = new Sistema();
     //s.iniciaSessaoVol(n1,p1);
     //System.out.println("Menu de Voluntario");
