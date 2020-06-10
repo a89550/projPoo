@@ -7,7 +7,7 @@ public class ViewLoja {
     public void ViewLoja(){
     }
 
-    public void viewLoja(){
+    public void viewLoja(String l){
         System.out.println("Menu de Utlizador");
         System.out.println("Email:");
         Scanner n2 = new Scanner(System.in);

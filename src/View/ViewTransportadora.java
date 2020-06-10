@@ -7,7 +7,7 @@ public class ViewTransportadora {
     public void ViewTransportadora(){
     }
 
-    public void viewTransp(){
+    public void viewTransp(String t){
         System.out.println("Menu de Utlizador");
         System.out.println("Email:");
         Scanner n2 = new Scanner(System.in);

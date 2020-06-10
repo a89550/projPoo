@@ -36,9 +36,9 @@ public class registos {
         g.setX(x);
         g.setY(y);
         t.setGps(g);
-        t.setR(r);
+        t.setRaio(r);
         t.setNif(nif);
-        t.setPkm(pkm);
+        t.setTaxaKm(pkm);
     }
     // Função que regista uma loja
     public void contrRegLoj(String nome, double x, double y){

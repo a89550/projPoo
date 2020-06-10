@@ -7,7 +7,7 @@ public class ViewUtilizador {
     public void ViewUtilizador(){
     }
 
-    public void viewUtil(){
+    public void viewUtil(String u){
         System.out.println("Menu de Utlizador");
         System.out.println("Email:");
         Scanner n2 = new Scanner(System.in);
