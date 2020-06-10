@@ -1,347 +1,163 @@
 package Models;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 public class Sistema {
-    private Map<String, GPS> gps;
-    private Map<String, Utilizador> utilizadores; //aqui estarão os utilizadores do sistema
-    private Map<String, Voluntario> vol;
-    private Map<String, Loja> lojas;
-    private Map<String, Transportadora> trans;
-    private Map<String, LinhaEncomenda> lenc;
-    private Map<String, Encomenda> enc;
-    private Map<String, AceitaEncomenda> acenc;
-    private Utilizador utilizador;
-    private Loja loja;
+
+    private List<Utilizador> utilizadores;
+    private List<ITransportadora> transportes;
+    private List<Loja> lojas;
+    private List<Encomenda> historicoEncomendas;
+    private List<Encomenda> encomendasPorEnviar;
+    private List<AceitaEncomenda> encomendasAceites;
 
 
     /**
      * Construtor por omissão.
      */
     public Sistema() {
-        this.gps = new HashMap<>();
-        this.utilizadores = new HashMap<>();
-        this.vol = new HashMap<>();
-        this.lojas = new HashMap<>();
-        this.trans = new HashMap<>();
-        this.lenc = new HashMap<>();
-        this.enc = new HashMap<>();
-        this.acenc = new HashMap<>();
+        this.utilizadores = new ArrayList<>();
+        this.transportes = new ArrayList<>();
+        this.lojas = new ArrayList<>();
+        this.historicoEncomendas = new ArrayList<>();
+        this.encomendasPorEnviar = new ArrayList<>();
+        this.encomendasAceites = new ArrayList<>();
 
     }
 
     /**
      * Construtor parametrizado.
-     *
-     * @param gps          Map em que a chave correponde a uma String e o valor à classe GPS.
-     * @param utilizadores Map em que a chave corresponde a uma String e o valor à classe Utilizador.
-     * @param lojas         Map em que a chave corresponde a uma String e o valor à classe Loja.
-     * @param enc          Map em que a chave corresponde a uma String e o valor à classe Encomenda.
-     * @param trans        Map em que a chave corresponde a uma String e o valor à classe Transportadora.
-     * @param lenc         Map em que a chave corresponde a uma String e o valor à classe LinhaEncomenda.
      */
-    public Sistema(Map<String, GPS> gps, Map<String, Utilizador> utilizadores, Map<String, Loja> lojas,
-                   Map<String, Encomenda> enc, Map<String, Transportadora> trans, Map<String, LinhaEncomenda> lenc) {
+    public Sistema(List<Utilizador> utilizadores, List<ITransportadora> transportes, List<Loja> loja,
+                   List<Encomenda> historicoEncomendas, List<Encomenda> encomendasPorEnviar, List<AceitaEncomenda> encomendasAceites) {
 
-        this.gps = new TreeMap<>();
-        for (Map.Entry<String, GPS> e : (gps.entrySet())) {
-            this.gps.put(e.getKey(), e.getValue().clone());
-        }
+        this.utilizadores = new ArrayList<>();
+        for(Utilizador u : utilizadores) this.utilizadores.add(u.clone());
+        this.transportes = new ArrayList<>();
+        for(ITransportadora t : transportes) this.transportes.add(t.clone());
+        this.lojas = new ArrayList<>();
+        for(Loja l : loja) this.lojas.add(l.clone());
+        this.historicoEncomendas = new ArrayList<>();
+        for(Encomenda e : historicoEncomendas) this.historicoEncomendas.add(e.clone());
+        this.encomendasPorEnviar = new ArrayList<>();
+        for(Encomenda en : encomendasPorEnviar) this.encomendasPorEnviar.add(en.clone());
+        this.encomendasAceites = new ArrayList<>();
+        for(AceitaEncomenda enc : encomendasAceites) this.encomendasAceites.add(enc.clone());
 
-        this.utilizadores = new TreeMap<>();
-        for (Map.Entry<String, Utilizador> e : (utilizadores.entrySet())) {
-            this.utilizadores.put(e.getKey(), e.getValue().clone());
-        }
-
-        this.vol = new TreeMap<>();
-        for (Map.Entry<String, Voluntario> e : (vol.entrySet())) {
-            this.vol.put(e.getKey(), e.getValue().clone());
-        }
-
-        this.lojas = new TreeMap<>();
-        lojas.forEach((key, value) -> this.lojas.put(key, value.clone()));
-
-        this.trans = new TreeMap<>();
-        for (Map.Entry<String, Transportadora> e : (trans.entrySet())) {
-            this.trans.put(e.getKey(), e.getValue().clone());
-        }
-
-        this.lenc = new TreeMap<>();
-        for (Map.Entry<String, LinhaEncomenda> e : (lenc.entrySet())) {
-            this.lenc.put(e.getKey(), e.getValue().clone());
-        }
-
-        this.enc = new TreeMap<>();
-        for (Map.Entry<String, Encomenda> e : (enc.entrySet())) {
-            this.enc.put(e.getKey(), e.getValue().clone());
-        }
-
-        this.acenc = new TreeMap<>();
-        for (Map.Entry<String, AceitaEncomenda> e : (acenc.entrySet())) {
-            this.acenc.put(e.getKey(), e.getValue().clone());
-        }
     }
 
     /**
      * Construtor por cópia.
-     *
-     * @param sys
+     * @param - Sistema a copiar.
      */
-    public Sistema(Sistema sys) {
-        this.gps = sys.getGPS();
-        this.utilizadores = sys.getUtilizadores();
-        this.vol = sys.getVol();
-        this.lojas = sys.getLojas();
-        this.trans = sys.getTrans();
-        this.lenc = sys.getLenc();
-        this.enc = sys.getEnc();
-        this.acenc = sys.getAcenc();
+    public Sistema(Sistema s) {
+        this.utilizadores = s.getUtilizadores();
+        this.transportes = s.getTransportes();
+        this.lojas = s.getLojas();
+        this.historicoEncomendas = s.getHistorico();
+        this.encomendasPorEnviar = s.getPorEnviar();
+        this.encomendasAceites = s.getAceites();
     }
 
     /**
-     * Método de que dá um GPS.
-     *
-     * @return Devolve um GPS.
+     * Método que dá a lista do utilizadores.
+     * @return - Lista de utilizadores do sistema.
      */
-    public Map<String, GPS> getGPS() {
-        Map<String, GPS> ret = new TreeMap<>();
-        for (Map.Entry<String, GPS> e : (this.gps.entrySet())) {
-            ret.put(e.getKey(), e.getValue().clone());
-        }
+    public List<Utilizador> getUtilizadores(){
+        List<Utilizador> ret = new ArrayList<>();
+        for (Utilizador u : this.utilizadores) ret.add(u.clone());
         return ret;
     }
 
     /**
-     * Método que dá um Utilizador.
-     *
-     * @return Devolve um Utilizador.
+     * Método que dá a lista de transportadoras do sistema (voluntários e empresas).
+     * @return - Lista de transportadoras do sistema.
      */
-    public Map<String, Utilizador> getUtilizadores() {
-        Map<String, Utilizador> ret = new TreeMap<>();
-        for (Map.Entry<String, Utilizador> e : (this.utilizadores.entrySet())) {
-            ret.put(e.getKey(), e.getValue().clone());
-        }
+    public List<ITransportadora> getTransportes(){
+        List<ITransportadora> ret = new ArrayList<>();
+        for(ITransportadora t : this.transportes) ret.add(t.clone());
         return ret;
     }
 
     /**
-     * Método que dá um Voluntário.
-     *
-     * @return Devolve um Voluntário.
+     * Método que dá a lista de lojas do sistema.
+     * @return - Lojas do sistema.
      */
-    public Map<String, Voluntario> getVol() {
-        Map<String, Voluntario> ret = new TreeMap<>();
-        for (Map.Entry<String, Voluntario> e : (this.vol.entrySet())) {
-            ret.put(e.getKey(), e.getValue().clone());
-        }
+    public List<Loja> getLojas() {
+        List<Loja> ret = new ArrayList<>();
+        for (Loja l : this.lojas) ret.add(l.clone());
         return ret;
     }
 
     /**
-     * Método que dá uma Loja.
-     *
-     * @return Devolve uma Loja.
+     * Método que dá a lista do histórico de encomendas.
+     * @return - Lista do histórico de encomendas.
      */
-    public Map<String, Loja> getLojas() {
-        Map<String, Loja> ret = new TreeMap<>();
-        for (Map.Entry<String, Loja> e : (this.lojas.entrySet())) {
-            ret.put(e.getKey(), e.getValue().clone());
-        }
+    public List<Encomenda> getHistorico() {
+        List<Encomenda> ret = new ArrayList<>();
+        for( Encomenda e : this.historicoEncomendas) ret.add(e.clone());
         return ret;
     }
 
     /**
-     * Método que dá uma Transportadora.
-     *
-     * @return Devolve uma Transportadora.
+     * Método que dá a lista de encomendas por enviar.
+     * @return - Lista de encomendas por enviar.
      */
-    public Map<String, Transportadora> getTrans() {
-        Map<String, Transportadora> ret = new TreeMap<>();
-        for (Map.Entry<String, Transportadora> e : (this.trans.entrySet())) {
-            ret.put(e.getKey(), e.getValue().clone());
-        }
+    public List<Encomenda> getPorEnviar() {
+        List<Encomenda> ret = new ArrayList<>();
+        for( Encomenda e : this.encomendasPorEnviar) ret.add(e.clone());
         return ret;
     }
 
     /**
-     * Método que dá uma LinhaEncomenda.
-     *
-     * @return Devolve uma LinhaEncomenda.
+     * Método que dá a lista de encomendas aceites, ou seja, a serem processadas.
+     * @return - Lista de encomendas aceites.
      */
-    public Map<String, LinhaEncomenda> getLenc() {
-        Map<String, LinhaEncomenda> ret = new TreeMap<>();
-        for (Map.Entry<String, LinhaEncomenda> e : (this.lenc.entrySet())) {
-            ret.put(e.getKey(), e.getValue().clone());
-        }
+    public List<AceitaEncomenda> getAceites() {
+        List<AceitaEncomenda> ret = new ArrayList<>();
+        for( AceitaEncomenda a : this.encomendasAceites) ret.add(a.clone());
         return ret;
     }
 
-    /**
-     * Método que dá uma Encomenda.
-     *
-     * @return Devolve uma Encomenda.
-     */
-    public Map<String, Encomenda> getEnc() {
-        Map<String, Encomenda> ret = new TreeMap<>();
-        for (Map.Entry<String, Encomenda> e : (this.enc.entrySet())) {
-            ret.put(e.getKey(), e.getValue().clone());
-        }
-        return ret;
-    }
-
-    /**
-     * Método que dá uma AceitaEncomenda.
-     *
-     * @return Devolve uma AceitaEncomenda.
-     */
-    public Map<String, AceitaEncomenda> getAcenc() {
-        Map<String, AceitaEncomenda> ret = new TreeMap<>();
-        for (Map.Entry<String, AceitaEncomenda> e : (this.acenc.entrySet())) {
-            ret.put(e.getKey(), e.getValue().clone());
-        }
-        return ret;
-    }
-
-    /**
-     * Método que define um GPS.
-     *
-     * @param gps Recebe um GPS.
-     */
-    public void setGps(Map<String, GPS> gps) {
-        this.gps = new TreeMap<>();
-        for (Map.Entry<String, GPS> e : (gps.entrySet())) {
-            this.gps.put(e.getKey(), e.getValue().clone());
-        }
-    }
-
-    /**
-     * Método que define um Utilizador.
-     *
-     * @param utilizadores Recebe um Utilizador.
-     */
-    public void setUtilizadores(Map<String, Utilizador> utilizadores) {
-        this.utilizadores = new TreeMap<>();
-        for (Map.Entry<String, Utilizador> e : (utilizadores.entrySet())) {
-            this.utilizadores.put(e.getKey(), e.getValue().clone());
-        }
-    }
-
-    /**
-     * Método que define um Voluntário.
-     *
-     * @param vol Recebe um Voluntário.
-     */
-    public void setVol(Map<String, Voluntario> vol) {
-        this.vol = new TreeMap<>();
-        for (Map.Entry<String, Voluntario> e : (vol.entrySet())) {
-            this.vol.put(e.getKey(), e.getValue().clone());
-        }
-    }
-
-    /**
-     * Método que define uma Loja.
-     *
-     * @param lojas Recebe uma loja.
-     */
-    public void setLojas(Map<String, Loja> lojas) {
-        this.lojas = new TreeMap<>();
-        for (Map.Entry<String, Loja> e : (lojas.entrySet())) {
-            this.lojas.put(e.getKey(), e.getValue().clone());
-        }
-    }
-
-    /**
-     * Método que define uma Transportadora.
-     *
-     * @param trans Recebe uma Transportadora.
-     */
-    public void setTrans(Map<String, Transportadora> trans) {
-        this.trans = new TreeMap<>();
-        for (Map.Entry<String, Transportadora> e : (trans.entrySet())) {
-            this.trans.put(e.getKey(), e.getValue().clone());
-        }
-    }
-
-    /**
-     * Método que define uma LinhaEncomenda.
-     *
-     * @param lenc Recebe uma LinhaEncomenda.
-     */
-    public void setLenc(Map<String, LinhaEncomenda> lenc) {
-        this.lenc = new TreeMap<>();
-        for (Map.Entry<String, LinhaEncomenda> e : (lenc.entrySet())) {
-            this.lenc.put(e.getKey(), e.getValue().clone());
-        }
-    }
-
-    /**
-     * Método que define uma Encomenda.
-     *
-     * @param enc Recebe uma Encomenda.
-     */
-    public void setEnc(Map<String, Encomenda> enc) {
-        this.enc = new TreeMap<>();
-        for (Map.Entry<String, Encomenda> e : (enc.entrySet())) {
-            this.enc.put(e.getKey(), e.getValue().clone());
-        }
-    }
-
-    /**
-     * Método que define um AceitaEncomenda.
-     *
-     * @param acenc Recebe um AceitaEncomenda.
-     */
-    public void setAcenc(Map<String, AceitaEncomenda> acenc) {
-        this.acenc = new TreeMap<>();
-        for (Map.Entry<String, AceitaEncomenda> e : (acenc.entrySet())) {
-            this.acenc.put(e.getKey(), e.getValue().clone());
-        }
-    }
 
     /**
      * Função que traduz a classe Sistema.
-     *
      * @return Devolve uma String com a respetiva tradução.
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("GPS:").append(this.gps)
-                .append("\nUtilizador:").append(this.utilizadores)
-                .append("\nVoluntario:").append(this.vol)
-                .append("\nLoja:").append(this.lojas)
-                .append("\nTransportadora:").append(this.trans)
-                .append("\nLinha de Encomenda:").append(this.lenc)
-                .append("\nEncomenda:").append(this.enc)
-                .append("\nAceita Encomenda:").append(this.acenc);
-        return sb.toString();
+        return "Sistema{" +
+                "utilizadores=" + utilizadores +
+                ", transportes=" + transportes +
+                ", lojas=" + lojas +
+                ", historicoEncomendas=" + historicoEncomendas +
+                ", encomendasPorEnviar=" + encomendasPorEnviar +
+                ", encomendasAceites=" + encomendasAceites +
+                '}';
     }
 
     /**
      * Função que verifica se um objeto recebido é idêntico ao da classe Sistema.
-     *
      * @param o Recebe um objeto.
      * @return Devolve um boolean com a respetiva verificação.
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        Sistema sys = (Sistema) o;
-        return this.gps.equals(sys.getGPS()) && this.utilizadores.equals(sys.getUtilizadores()) &&
-                this.vol.equals(sys.getVol()) && this.lojas.equals(sys.getLojas()) &&
-                this.trans.equals(sys.getTrans()) && this.lenc.equals(sys.getLenc()) &&
-                this.enc.equals(sys.enc) && this.acenc.equals(sys.acenc);
-
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Sistema sistema = (Sistema) o;
+        return Objects.equals(utilizadores, sistema.utilizadores) &&
+                Objects.equals(transportes, sistema.transportes) &&
+                Objects.equals(lojas, sistema.lojas) &&
+                Objects.equals(historicoEncomendas, sistema.historicoEncomendas) &&
+                Objects.equals(encomendasPorEnviar, sistema.encomendasPorEnviar) &&
+                Objects.equals(encomendasAceites, sistema.encomendasAceites);
     }
 
     /**
      * Função que faz um clone da classe Sistema.
-     *
      * @return Devolve esse clone.
      */
     @Override
@@ -351,71 +167,172 @@ public class Sistema {
 
     /**
      * Função que classifica um Voluntário.
-     *
-     * @param cod           Recebe uma String que representa o código de um Voluntário.
+     * @param cod Recebe uma String que representa o código de um Voluntário.
      * @param classificacao Recebe um Inteiro representante da classificação.
      */
-    public void classificarVoluntario(String cod, int classificacao) {
-        this.vol.get(cod).addClassificacao(classificacao);
-    }
-
-    /**
-     * Função que classifica uma Transportadora.
-     *
-     * @param cod           Recebe uma String que representa o código de uma Transportadora.
-     * @param classificacao Recebe um Inteiro representante da classificação.
-     */
-    public void classificarTransportadora(String cod, int classificacao) {
-        this.trans.get(cod).addClassificacao(classificacao);
-    }
-
-    /**
-     * Função que aceita um pedido.
-     *
-     * @param cod       Recebe uma String que representa o código de um utilizador.
-     * @param encomenda Recebe uma encomenda.
-     */
-    public void aceitaPedido(String cod, Encomenda encomenda) {
-        this.utilizadores.get(cod).addEncomenda(encomenda);
-    }
-
-    /**
-     * Função de início de sessão da aplicação de um utilizador.
-     * @param email    Recebe um email de um Utilizador.
-     * @param password Recebe uma password de um Utilizador.
-     */
-    public void iniciaSessaoUtil(String email, String password) {
-        if (this.utilizador == null) {  //se o utilizador não existir.
-            if (utilizadores.containsKey(email)) {
-                Utilizador u = this.utilizadores.get(email);
-                if (password.equals(u.getPassword()))
-                    this.utilizador = u;
-            }
+    public void classificarTransportadora(String cod, int classificacao){
+        for(ITransportadora t : this.transportes){
+            if(t.getId() == cod) t.addClassificacao(classificacao);
         }
     }
 
     /**
-     * Função de início de sessão da aplicação de uma loja.
-     * @param email Recebe um email de uma Loja.
-     * @param password Recebe uma password de uma Loja.
+     * Função que regista um utilizador no sistema.
+     * @param id - Username do utilizador.
+     * @param nome - Nome do utilizador.
+     * @param email - Email do utilizador.
+     * @param password - Password do utilizador.
+     * @param x - Latitude do utilizador.
+     * @param y - Longitude do utilizador.
      */
-    public void iniciaSessaoLoja(String email, String password) {
-        if (this.loja == null) {
-            if (lojas.containsKey(email)) {
-                Loja l = this.lojas.get(email);
-                if (password.equals(l.getPassword()))
-                    this.loja = l;
+    public void registaUtilizador(String id, String nome, String email, String password, double x, double y){
+        List<Encomenda> vazia = new ArrayList<>();
+        GPS gps = new GPS(x,y);
+        Utilizador user = new Utilizador(id,nome,gps,vazia,email,password);
+        this.utilizadores.add(user);
+    }
+
+    /**
+     * Função que regista uma loja no sistema com informação sobre a fila de espera.
+     * @param id - Username da loja.
+     * @param nome - Nome da loja.
+     * @param x - Latitude da loja.
+     * @param y - Longitude da loja.
+     * @param email - Email da loja.
+     * @param password - Password da loja.
+     * @param atendimento - Tempo de atendimento da loja.
+     * @param fila - Número de pessoas na fila da loja.
+     */
+    public void registaLoja(String id, String nome, double x, double y, String email, String password, int atendimento, int fila){
+        GPS gps = new GPS(x,y);
+        Loja l = new Loja(id,nome,gps,email,password,atendimento,fila);
+        this.lojas.add(l);
+    }
+
+    /**
+     * Função que regista uma loja no sistema sem informação sobre a fila de espera.
+     * @param id - Username da loja.
+     * @param nome - Nome da loja.
+     * @param x - Latitude da loja.
+     * @param y - Longitude da loja.
+     * @param email - Email da loja.
+     * @param password - Password da loja.
+     * @param atendimento - Tempo de atendimento da loja.
+     */
+    public void registaLoja(String id, String nome, double x, double y, String email, String password, int atendimento){
+        GPS gps = new GPS(x,y);
+        Loja l = new Loja(id,nome,gps,email,password,atendimento,0);
+        this.lojas.add(l);
+    }
+
+    /**
+     * Função que regista uma empresa transportadora sem certificado médico no sistema.
+     * @param id - Username da empresa.
+     * @param nome - Nome da empresa.
+     * @param email - Email da empresa.
+     * @param password - Password da empresa.
+     * @param x - Latitude da empresa.
+     * @param y - Longitude da empresa.
+     * @param nif - Nif da empresa.
+     * @param raio - Raio de ação da empresa.
+     * @param taxa - Taxa de cobrança por km da empresa.
+     * @param numEnc - Número de encomendas que a empresa transporta de uma só vez.
+     * @param velMedia - Velocidade média a que a empresa circula.
+     */
+    public void registaTransportadora(String id, String nome, String email, String password, double x, double y, int nif, double raio, double taxa, int numEnc, double velMedia){
+        GPS gps = new GPS(x,y);
+        List<Integer> classif = new ArrayList<>();
+        List<Encomenda> hist = new ArrayList<>();
+        List<Encomenda> transp = new ArrayList<>();
+        ITransportadora t = new Transportadora(id,nome,email,password,gps,nif,raio,true,taxa,numEnc,classif,hist,0,velMedia, LocalDateTime.now(),transp);
+        this.transportes.add(t);
+
+    }
+
+    /**
+     * Função que regista uma empresa transportadora com certificado médico no sistema.
+     * @param id - Username da empresa.
+     * @param nome - Nome da empresa.
+     * @param email - Email da empresa.
+     * @param password - Password da empresa.
+     * @param x - Latitude da empresa.
+     * @param y - Longitude da empresa.
+     * @param nif - Nif da empresa.
+     * @param raio - Raio de ação da empresa.
+     * @param taxa - Taxa de cobrança por km da empresa.
+     * @param numEnc - Número de encomendas que a empresa transporta de uma só vez.
+     * @param velMedia - Velocidade média a que a empresa circula.
+     */
+    public void registaTransportadoraMedica(String id, String nome, String email, String password, double x, double y, int nif, double raio, double taxa, int numEnc, double velMedia){
+        GPS gps = new GPS(x,y);
+        List<Integer> classif = new ArrayList<>();
+        List<Encomenda> hist = new ArrayList<>();
+        List<Encomenda> transp = new ArrayList<>();
+        ITransportadora t = new TransportadoraMedica(id,nome,email,password,gps,nif,raio,true,taxa,numEnc,classif,hist,0,velMedia, LocalDateTime.now(),transp,true);
+        this.transportes.add(t);
+
+    }
+
+    /**
+     * Função que dá uma lista de voluntários livres do sistema.
+     * @return - Lista de voluntários livres.
+     */
+    public List<ITransportadora> getVoluntariosLivres(){
+        List<ITransportadora> ret = new ArrayList<>();
+        for(ITransportadora t : this.transportes){
+            if(t instanceof Voluntario && t.isLivre()) ret.add(t.clone());
+        }
+        return ret;
+    }
+
+    /**
+     * Função que dá a loja do sistema através do seu id (username).
+     * @param id - Id da loja.
+     * @return - Loja do sistema.
+     */
+    public Loja getLoja(String id){
+        Loja ret = null;
+        for(Loja l : this.lojas){
+            if(l.getId() == id) ret = new Loja(l.clone());
+        }
+        return ret;
+    }
+
+
+    public Utilizador getUtilizador(String id){
+        Utilizador ret = null;
+        for(Utilizador u : this.utilizadores){
+            if(u.getId() == id) ret = new Utilizador(u.clone());
+        }
+        return ret;
+    }
+
+    /**
+     * Função que atribui encomendas a voluntários.
+     */
+    public void aceitaEncomendas(){
+        int i = 0;
+        List<ITransportadora> livres = getVoluntariosLivres();
+        for(ITransportadora t : livres){
+            for(Encomenda e : this.encomendasPorEnviar){
+                if (t.dentroDoRaio(getLoja(e.getLoja()).getGps(),getUtilizador(e.getUser()).getGps())){
+                    AceitaEncomenda a = new AceitaEncomenda(e.getId());
+                    t.aceitaEncomenda(e.clone());
+                    this.encomendasAceites.add(a);
+                }
             }
+
         }
     }
 
     /**
-     * Função que permite fechar/terminar a sessão.
+     * Função que adiciona uma encomenda à lista de encomendas por enviar.
+     * @param e - Encomenda a enviar.
      */
-    public void terminaSessao() {
-       this.utilizador = null;
-       this.loja = null;
+    public void realizaPedido(Encomenda e){
+        this.encomendasPorEnviar.add(e.clone());
     }
-
 
 }
+
+

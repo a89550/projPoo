@@ -13,9 +13,6 @@ public class Voluntario implements ITransportadora {
     private List<Integer> classif;
     private LocalDateTime recolha;
     private List<Encomenda> encomenda;
-    private String email;
-    private String password;
-    private double velocidadeMedia;
 
     /**
      * Construtor por omissão.
@@ -27,43 +24,30 @@ public class Voluntario implements ITransportadora {
         this.raio = 0;
         this.livre = true;
         this.recolha = LocalDateTime.now();
+
         this.classif = new ArrayList<>();
-        this.encomenda = new ArrayList<>();
-        this.email = "";
-        this.password = "";
-        this.velocidadeMedia = 0;
     }
 
     /**
      * Construtor parametrizado.
      *
-     * @param id        String que corresponde ao código de um Voluntário.
-     * @param n         String correspondente ao nome de um Voluntário.
-     * @param gps       Objeto da classe GPS que representa as coordenadas de um Voluntário.
-     * @param raio      Double representante do raio.
-     * @param livre     Boolean que verfica se um Voluntaŕio está livre.
-     * @param classif   Lista de Integer representante da lista de classificações.
-     * @param recolha   LocalDateTime representante do tempo de recolha de um Voluntário.
-     * @param encomenda Lista de Encomendas.
-     * @param email     String que representa o email de um Voluntário.
-     * @param password  String que corresponde à password de um Voluntário.
-     * @param velocidadeMedia String correspondente à velocidade média do utilizador.
+     * @param id String que corresponde ao código de um Voluntário.
+     * @param n String correspondente ao nome de um Voluntário.
+     * @param gps Objeto da classe GPS que representa as coordenadas de um Voluntário.
+     * @param raio Double representante do raio.
+     * @oaram c Lista de Integer representante da lista de classificações.
      */
-    public Voluntario(String id, String n, GPS gps, double raio, boolean livre,List<Integer> classif,
-                      LocalDateTime recolha, List<Encomenda> encomenda, String email, String password, double velocidadeMedia) {
+    public Voluntario(String id, String n, GPS gps, double raio, boolean livre, List<Integer> c, List<Encomenda> encomenda) {
         this.id = id;
         this.nome = n;
         this.gps = new GPS(gps);
         this.raio = raio;
         this.livre = livre;
-        this.recolha = recolha;
         this.encomenda = new ArrayList<>();
-        for (Encomenda e : encomenda) this.encomenda.add(e.clone());
+        for(Encomenda e : encomenda) this.encomenda.add(e.clone());
         this.classif = new ArrayList<>();
-        for (Integer i : classif) this.classif.add(i);
-        this.email = email;
-        this.password = password;
-        this.velocidadeMedia = velocidadeMedia;
+        for (Integer i : c)
+            this.classif.add(i);
     }
 
     /**
@@ -101,7 +85,6 @@ public class Voluntario implements ITransportadora {
 
     /**
      * Método que dá o nome de um Voluntário.
-     *
      * @return String que representa o nome.
      */
     public String getNome() {
@@ -110,7 +93,6 @@ public class Voluntario implements ITransportadora {
 
     /**
      * Método que define o nome de um Voluntário.
-     *
      * @param n String que representa o nome.
      */
     public void setNome(String n) {
@@ -119,7 +101,6 @@ public class Voluntario implements ITransportadora {
 
     /**
      * Método que dá a as coordenadas de um Voluntário.
-     *
      * @return Devolve essas coordenadas.
      */
     public GPS getGps() {
@@ -128,7 +109,6 @@ public class Voluntario implements ITransportadora {
 
     /**
      * Método que define as coordenadas de um Voluntário.
-     *
      * @param g Devolve essas coordenadas.
      */
     public void setGps(GPS g) {
@@ -137,7 +117,6 @@ public class Voluntario implements ITransportadora {
 
     /**
      * Método que dá o raio de um Voluntário.
-     *
      * @return Devolve um double que representa o valor do raio.
      */
     public double getRaio() {
@@ -146,7 +125,6 @@ public class Voluntario implements ITransportadora {
 
     /**
      * Método que define o raio de um Voluntário.
-     *
      * @param raio Devolve o double com o valor do raio.
      */
     public void setRaio(double raio) {
@@ -155,7 +133,6 @@ public class Voluntario implements ITransportadora {
 
     /**
      * Método que dá a lista das classificações.
-     *
      * @return Devolve uma lista de Integer representante da lista de classificações.
      */
     public List<Integer> getClassif() {
@@ -167,7 +144,6 @@ public class Voluntario implements ITransportadora {
 
     /**
      * Método aue define uma lista de classificações.
-     *
      * @param classif Recebe uma lista de Integer representante da lista de classificações.
      */
     public void setClassif(List<Integer> classif) {
@@ -176,7 +152,6 @@ public class Voluntario implements ITransportadora {
 
     /**
      * Função que verifica se o voluntário está ou não livre para ir buscar uma encomenda.
-     *
      * @return - True se estiver livre, false caso contrário
      */
     public boolean isLivre() {
@@ -186,70 +161,55 @@ public class Voluntario implements ITransportadora {
 
     /**
      * Função que verifica se o objeto recebido é idêntico ao da classe Voluntário.
-     *
      * @param o Recebe um objeto.
      * @return Devolve um boolean que representa a verificação.
      */
     @Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (o == null || o.getClass() != this.getClass()) return false;
+    public boolean equals(Object o){
+        if(o == this) return true;
+        if(o == null || o.getClass() != this.getClass()) return false;
         Voluntario v = (Voluntario) o;
         return v.getId().equals(this.id) &&
                 v.getNome().equals(this.nome) &&
                 v.getGps().equals(this.gps) &&
-                v.getRaio() == (this.raio) &&
-                v.getClassif().equals(this.classif) &&
-                v.getEmail().equals(this.email) &&
-                v.getPassword().equals(this.password) &&
-                v.getEncomenda().equals(this.encomenda) &&
-                v.velocidadeMedia == (this.velocidadeMedia);
+                v.getRaio()==(this.raio) &&
+                v.getClassif().equals(this.classif);
     }
 
     /**
      * Função que traduz a classe Voluntário.
-     *
      * @return Devolve uma String que corresponde à tradução.
      */
     @Override
-    public String toString() {
+    public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Código do Voluntário:  ").append(this.id)
                 .append("\nNome do Voluntário:  ").append(this.nome)
                 .append("\nGPS:  ").append(this.gps)
                 .append("\nRaio:  ").append(this.raio)
-                .append("\nVoluntário disponível:  ").append(this.livre)
-                .append("\nTempo de recolha:  ").append(this.recolha)
-                .append("\nLista de Classificações:  ").append(this.classif)
-                .append("\nLista de Encomendas:  ").append(this.encomenda)
-                .append("\nEmail do Voluntário:  ").append(this.email)
-                .append("\nPassword do Voluntário:  ").append(this.password)
-                .append("\nVelocidade média do Voluntário:  ").append(this.velocidadeMedia);
+                .append("\nLista de Classificações:  ").append(this.classif);
         return sb.toString();
     }
 
     /**
      * Função que calcula o tempo demorado a fazer a entrega.
-     *
      * @return - Tempo calculado.
      */
-    public long tempoDeEntrega() {
+    public long tempoDeEntrega(){
         return this.recolha.until(LocalDateTime.now(), ChronoUnit.MINUTES);
     }
 
     /**
      * Função que fornece um clone da classe Voluntário.
-     *
      * @return Devolve esse clone.
      */
     @Override
-    public Voluntario clone() {
+    public ITransportadora clone(){
         return new Voluntario(this);
     }
 
     /**
      * Função que adiciona uma classificação à lista de classificações.
-     *
      * @param classificacao Recebe um Inteiro que representa o valor da classificação.
      */
     public void addClassificacao(int classificacao) {
@@ -258,86 +218,31 @@ public class Voluntario implements ITransportadora {
 
     /**
      * Função que retorna a encomenda que o voluntário está a transportar.
-     *
      * @return - Encomenda a transportar.
      */
-    public List<Encomenda> getEncomenda() {
+    public List<Encomenda> getEncomenda(){
         List<Encomenda> ret = new ArrayList<>();
-        for (Encomenda e : this.encomenda) ret.add(e.clone());
+        for(Encomenda e : this.encomenda) ret.add(e.clone());
         return ret;
     }
 
     /**
      * Função que define a encomenda da classe, simboliza a encomenda que o voluntário está a transportar.
-     *
      * @param enc - Encomenda a transportar.
      */
-    public void setEncomenda(List<Encomenda> enc) {
+    public void setEncomenda(List<Encomenda> enc){
         this.encomenda = new ArrayList<>();
-        for (Encomenda e : enc) this.encomenda.add(e.clone());
-    }
-
-    /**
-     * Método que dá um email.
-     *
-     * @return Devolve o email.
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Método que define o email.
-     *
-     * @param email Recebe um email.
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * Método que dá uma password.
-     *
-     * @return Devolve a password.
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * Método que define uma password.
-     *
-     * @param password Recebe uma password.
-     */
-    public void setPassword(String password) {
-        this.password = password;
+        for(Encomenda e : enc) this.encomenda.add(e.clone());
     }
 
     /**
      * Função que aceita uma encomenda.
-     *
      * @param enc - Encomenda a aceitar.
      */
-    public void aceitaEncomenda(Encomenda enc) {
+    public void aceitaEncomenda(Encomenda enc){
         this.livre = false;
         this.recolha = LocalDateTime.now();
         this.encomenda.add(enc);
-    }
-
-    /**
-     * Método que dá a velocidade média de um Voluntário.
-     * @return Devolve a velocidade média.
-     */
-    public double getVelocidadeMedia() {
-        return velocidadeMedia;
-    }
-
-    /**
-     * Método que define a velocidade média de um utilizador.
-     * @param velocidadeMedia Recebe um double que representa a velocidade média.
-     */
-    public void setVelocidadeMedia(double velocidadeMedia) {
-        this.velocidadeMedia = velocidadeMedia;
     }
 
     @Override
@@ -348,19 +253,18 @@ public class Voluntario implements ITransportadora {
      * @return - Distância percorrida.
      */
     public double distEntrega(GPS loja, GPS utilizador) {
-        double dist1 = auxDist(this.gps, loja);
-        double dist2 = auxDist(loja, utilizador);
+        double dist1 = auxDist(this.gps,loja);
+        double dist2 = auxDist(loja,utilizador);
         return dist1 + dist2;
     }
 
     /**
      * Função auxiliar que calcula a distância entre duas coordenadas GPS.
-     *
      * @param gps1 - Primeira coordenada.
      * @param gps2 - Segunda coordenada.
      * @return - Distância entre os dois pontos.
      */
-    public double auxDist(GPS gps1, GPS gps2) {
+    public double auxDist(GPS gps1, GPS gps2){
         double firstLatToRad = Math.toRadians(gps1.getX());
         double secondLatToRad = Math.toRadians(gps2.getX());
         double deltaLongitudeInRad = Math.toRadians(gps2.getY() - gps1.getY());
@@ -370,8 +274,7 @@ public class Voluntario implements ITransportadora {
 
     /**
      * Função que calula o preço do transporte da encomenda.
-     *
-     * @param loja       - Coordenadas GPS da loja.
+     * @param loja - Coordenadas GPS da loja.
      * @param utilizador - Coordenadas GPS do utilizador.
      * @return - Preço do transporte.
      */
@@ -382,14 +285,10 @@ public class Voluntario implements ITransportadora {
 
     /**
      * Função que sinaliza que as encomendas foram entregues.
-     *
      * @return - Lista da encomendas entregues.
      */
-    public List<Encomenda> entregaEncomenda() {
+    public List<Encomenda> entregaEncomenda(){
         return new ArrayList<>();
     }
 
-
 }
-
-

@@ -86,7 +86,7 @@ public class Transportadora implements ITransportadora {
         this.password = t.getPassword();
         this.gps = new GPS(t.getGps());
         this.nif = t.getNif();
-        this.livre = t.getLivre();
+        this.livre = t.isLivre();
         this.raio = t.getRaio();
         this.taxaKm = t.getTaxaKm();
         this.classif = t.getClassif();
@@ -168,7 +168,7 @@ public class Transportadora implements ITransportadora {
      * Método que diz se a transportadora está livre ou não para ir buscar uma encomenda.
      * @return Devolve true se estiver livre, false caso contrário.
      */
-    public boolean getLivre(){return this.livre;}
+    public boolean isLivre(){return this.livre;}
 
     /**
      * Método que define o código de uma empresa.
@@ -318,7 +318,7 @@ public class Transportadora implements ITransportadora {
      * @return Devolve esse clone.
      */
     @Override
-    public Transportadora clone(){
+    public ITransportadora clone(){
         return new Transportadora(this);
     }
 
@@ -377,4 +377,39 @@ public class Transportadora implements ITransportadora {
         return ret;
     }
 
+    /**
+     * Função que calcula o tempo que se demora a ir do local da transportadora até à loja.
+     * @param loja - Coordenadas gps da loja.
+     * @return - Tempo calculado.
+     */
+    public int tempoDeIda(GPS loja){
+        double d = auxDist(this.gps,loja);
+        double t = d/this.velocidadeMedia;
+        return (int)t;
+    }
+
+    /**
+     * Função que calcula o tempo que se demora a ir da loja até á casa do utilizador.
+     * @param loja - Coordenadas gps da loja.
+     * @param util - Coordenadas gps do utilizador.
+     * @return - Tempo calculado.
+     */
+    public int tempoDeVolta(GPS loja, GPS util){
+        double d = auxDist(loja,util);
+        double t = d/this.velocidadeMedia;
+        return (int)t;
+    }
+
+    @Override
+    public void aceitaEncomenda(Encomenda e) {
+        this.recolha = LocalDateTime.now();
+        this.encomendasATransportar.add(e.clone());
+        if(this.encomendasATransportar.size() >= this.numeroEnc) this.livre = false;
+    }
+
+    public boolean dentroDoRaio(GPS loja, GPS util){
+        boolean ret = false;
+        if(auxDist(this.gps,loja) <= this.raio && auxDist(this.gps,util) <= this.raio) ret = true;
+        return ret;
+    }
 }
