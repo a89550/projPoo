@@ -7,31 +7,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class registos {
+    private Sistema s = new Sistema();
     public registos(){
     }
+
     // Função que regista um utilizador
-    public void contrRegUtil(String nome, double x, double y){
-        Utilizador u = new Utilizador();
-        GPS g = new GPS();
-        u.setNome(nome);
-        g.setX(x);
-        g.setY(y);
-        u.setGps(g);
+    public void contrRegUtil(String mail, String pass, String nome, double x, double y){
+
+        String id = s.getNewId("u");
+
+        s.registaUtilizador(id,nome,mail,pass,x,y);
     }
-
-
-
     // Função que regista um voluntario
-    public void contrRegVol(String nome, double x, double y, double r){
-        Voluntario v = new Voluntario();
-        GPS g = new GPS();
-        v.setNome(nome);
-        g.setX(x);
-        g.setY(y);
-        v.setGps(g);
-        v.setRaio(r);
-    }
+    public void contrRegVol(String mail, String pass, String nome, double x, double y, double r){
 
+        String id = s.getNewId("v");
+
+        s.registaUtilizador(id,nome,mail,pass,x,y);
+    }
     // Função que regista uma transportadora
     public void contrRegTrans(String nome, double x, double y, double r, int nif, double pkm){
         Transportadora t = new Transportadora();
@@ -54,15 +47,8 @@ public class registos {
         l.setGps(g);
     }
 
-   /* public Utilizador loginUtil(String email,String pass)
-        if (getUtilizadores().containsKey(email)) {
-            Utilizador u = this.utilizadores.get(email);
-            if (password.equals(u.getPassword()))
-                this.utilizador = u;
-        }
-    }
-*/
-    //Sistema s = new Sistema();
-    //s.iniciaSessaoVol(n1,p1);
-    //System.out.println("Menu de Voluntario");
+   //public Utilizador loginUtil(String email,String pass){
+
+
+
 }

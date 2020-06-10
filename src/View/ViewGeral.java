@@ -83,9 +83,17 @@ public class ViewGeral {
     }
 
     public void registaUtil(){
-        System.out.println("Nome de ultilizador");
+        System.out.println("Email:");
         Scanner n2 = new Scanner(System.in);
-        String n = n2.nextLine();
+        String m = n2.nextLine();
+
+        System.out.println("Password:");
+        Scanner p1 = new Scanner(System.in);
+        String p = p1.nextLine();
+
+        System.out.println("Nome de ultilizador");
+        Scanner n6 = new Scanner(System.in);
+        String n = n6.nextLine();
 
         System.out.println("GPS\nCoordenada x:");
         Scanner n1 = new Scanner(System.in);
@@ -95,10 +103,18 @@ public class ViewGeral {
         double y = n4.nextDouble();
 
         registos u = new registos();
-        u.contrRegUtil(n,x,y);
+        u.contrRegUtil(m,p,n,x,y);
     }
 
     public void registaVolun(){
+        System.out.println("Email:");
+        Scanner n5 = new Scanner(System.in);
+        String m = n5.nextLine();
+
+        System.out.println("Password:");
+        Scanner p1 = new Scanner(System.in);
+        String p = p1.nextLine();
+
         System.out.println("Nome de voluntario");
         Scanner n2 = new Scanner(System.in);
         String v = n2.nextLine();
@@ -115,7 +131,7 @@ public class ViewGeral {
         double r = r1.nextDouble();
 
         registos u = new registos();
-        u.contrRegVol(v,x,y,r);
+        u.contrRegVol(m,p,v,x,y,r);
     }
 
     public void registaTransp(){
