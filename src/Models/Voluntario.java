@@ -291,4 +291,33 @@ public class Voluntario implements ITransportadora {
         return new ArrayList<>();
     }
 
+    public boolean dentroDoRaio(GPS loja, GPS util){
+        boolean ret = false;
+        if(auxDist(this.gps,loja) <= this.raio && auxDist(this.gps,util) <= this.raio) ret = true;
+        return ret;
+    }
+
+    /**
+     * Função que calcula o tempo que se demora a ir da loja até á casa do utilizador.
+     * @param loja - Coordenadas gps da loja.
+     * @param util - Coordenadas gps do utilizador.
+     * @return - Tempo calculado.
+     */
+    public int tempoDeVolta(GPS loja, GPS util){
+        double d = auxDist(loja,util);
+        double t = d/this.velocidadeMedia;
+        return (int)t;
+    }
+
+    /**
+     * Função que calcula o tempo que se demora a ir do local da transportadora até à loja.
+     * @param loja - Coordenadas gps da loja.
+     * @return - Tempo calculado.
+     */
+    public int tempoDeIda(GPS loja){
+        double d = auxDist(this.gps,loja);
+        double t = d/this.velocidadeMedia;
+        return (int)t;
+    }
+
 }
