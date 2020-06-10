@@ -400,6 +400,10 @@ public class Transportadora implements ITransportadora {
         return (int)t;
     }
 
+    /**
+     * Função que aceita uma encomenda.
+     * @param e - Encomenda a aceitar.
+     */
     @Override
     public void aceitaEncomenda(Encomenda e) {
         this.recolha = LocalDateTime.now();
@@ -407,6 +411,12 @@ public class Transportadora implements ITransportadora {
         if(this.encomendasATransportar.size() >= this.numeroEnc) this.livre = false;
     }
 
+    /**
+     * Função que verifica se uma loja e um utilizador estão dentro do raio de ação da empresa.
+     * @param loja - Coordenadas gps da loja.
+     * @param util - Coordenadas gps util.
+     * @return - True se estiver dentro, false caso contrário.
+     */
     public boolean dentroDoRaio(GPS loja, GPS util){
         boolean ret = false;
         if(auxDist(this.gps,loja) <= this.raio && auxDist(this.gps,util) <= this.raio) ret = true;

@@ -7,12 +7,15 @@ import java.util.List;
 public class Voluntario implements ITransportadora {
     private String id;
     private String nome;
+    private String email;
+    private String password;
     private GPS gps;
     private double raio;
     private boolean livre;
     private List<Integer> classif;
     private LocalDateTime recolha;
     private List<Encomenda> encomenda;
+    private double velocidadeMedia;
 
     /**
      * Construtor por omissão.
@@ -242,7 +245,7 @@ public class Voluntario implements ITransportadora {
     public void aceitaEncomenda(Encomenda enc){
         this.livre = false;
         this.recolha = LocalDateTime.now();
-        this.encomenda.add(enc);
+        this.encomenda.add(enc.clone());
     }
 
     @Override
@@ -320,4 +323,18 @@ public class Voluntario implements ITransportadora {
         return (int)t;
     }
 
+    @Override
+    public double getVelocidadeMedia() {
+        return velocidadeMedia;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
 }

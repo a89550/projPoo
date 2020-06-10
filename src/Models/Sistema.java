@@ -177,6 +177,46 @@ public class Sistema {
     }
 
     /**
+     * Função que calcula o número de empresas transportadoras do sistema.
+     * @return - O número de empresas transportadoras.
+     */
+    public int getNumEmpT(){
+        int ret = 0;
+        for(ITransportadora t : this.transportes){
+            if(t instanceof  Transportadora) ret++;
+        }
+        return ret;
+    }
+
+    /**
+     * Função que calcula o número de voluntários do sistema.
+     * @return - O número de voluntários do sistema
+     */
+    public int getNumVol(){
+        int ret = 0;
+        for(ITransportadora t : this.transportes){
+            if(t instanceof  Voluntario) ret++;
+        }
+        return ret;
+    }
+
+
+    /**
+     * Função que dá o username (id) da entidade a ser criada.
+     * @param s - String identificadora.
+     * @return - Id (username) da entidade.
+     */
+    public String getNewId(String s){
+        String ret = new String();
+        if(s.equals("u")) ret.concat(s).concat(Integer.toString(this.utilizadores.size()));
+        if(s.equals("l")) ret.concat(s).concat(Integer.toString(this.lojas.size()));
+        if(s.equals("e")) ret.concat(s).concat(Integer.toString(this.historicoEncomendas.size() + this.encomendasPorEnviar.size()+ this.encomendasAceites.size()));
+        if(s.equals("t")) ret.concat(s).concat(Integer.toString(getNumEmpT()));
+        if(s.equals("v")) ret.concat(s).concat(Integer.toString(getNumVol()));
+        return ret;
+    }
+
+    /**
      * Função que regista um utilizador no sistema.
      * @param id - Username do utilizador.
      * @param nome - Nome do utilizador.
@@ -319,6 +359,7 @@ public class Sistema {
                     AceitaEncomenda a = new AceitaEncomenda(e.getId());
                     t.aceitaEncomenda(e.clone());
                     this.encomendasAceites.add(a);
+                    this.encomendasPorEnviar.remove(e);
                 }
             }
 
