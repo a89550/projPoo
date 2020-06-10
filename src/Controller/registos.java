@@ -19,7 +19,7 @@ public class registos {
         u.setGps(g);
     }
 
-    /*
+
 
     // Função que regista um voluntario
     public void contrRegVol(String nome, double x, double y, double r){
@@ -31,7 +31,6 @@ public class registos {
         v.setGps(g);
         v.setRaio(r);
     }
-    */
 
     // Função que regista uma transportadora
     public void contrRegTrans(String nome, double x, double y, double r, int nif, double pkm){

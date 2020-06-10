@@ -53,7 +53,7 @@ public class LinhaEncomenda {
      * Método que define o código de um produto.
      * @param p Devolve a String do código.
      */
-    public void setV(String p){
+    public void setP(String p){
         this.p = p;
     }
 
