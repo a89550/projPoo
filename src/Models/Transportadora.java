@@ -1,8 +1,9 @@
 package Models;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-public class Transportadora implements ITransportadora {
+public class Transportadora{
     private String id;
     private String nome;
     private String email;
@@ -19,6 +20,8 @@ public class Transportadora implements ITransportadora {
     private double velocidadeMedia;
     private LocalDateTime recolha;
     private List<Encomenda> encomendasATransportar;
+    private boolean medica;
+    private boolean livreMed;
 
     /**
      * Construtor por omissão.
@@ -53,7 +56,7 @@ public class Transportadora implements ITransportadora {
      */
     public Transportadora(String t, String n, String email, String password, GPS gps, int nif, double raio,
                           boolean livre, double taxaKm, int numeroEnc, List<Integer> classif, List<Encomenda> encomendasFeitas, double km,
-                          double vel, LocalDateTime recolha, List<Encomenda> encomendasATransportar){
+                          double vel, LocalDateTime recolha, List<Encomenda> encomendasATransportar, boolean medica, boolean livreMed){
         this.id = t;
         this.nome = n;
         this.email = email;
@@ -73,6 +76,8 @@ public class Transportadora implements ITransportadora {
         this.recolha = recolha;
         this.encomendasATransportar = new ArrayList<>();
         for(Encomenda e : encomendasATransportar) this.encomendasATransportar.add(e.clone());
+        this.medica = medica;
+        this.livreMed = livreMed;
     }
 
     /**
@@ -96,6 +101,12 @@ public class Transportadora implements ITransportadora {
         this.velocidadeMedia = t.getVelocidadeMedia();
         this.recolha = t.getRecolha();
         this.encomendasATransportar = t.entregaEncomenda();
+        this.medica = t.aceitoTransporteMedicamentos();
+        this.livreMed = t.getLivreMed();
+    }
+
+    public boolean getLivreMed() {
+        return livreMed;
     }
 
     /**
@@ -318,7 +329,7 @@ public class Transportadora implements ITransportadora {
      * @return Devolve esse clone.
      */
     @Override
-    public ITransportadora clone(){
+    public Transportadora clone(){
         return new Transportadora(this);
     }
 
@@ -372,7 +383,10 @@ public class Transportadora implements ITransportadora {
      */
     public List<Encomenda> entregaEncomenda(){
         List<Encomenda> ret = new ArrayList<>();
-        for(Encomenda e : this.encomendasATransportar) ret.add(e.clone());
+        for(Encomenda e : this.encomendasATransportar) {
+            this.encomendasFeitas.add(e.clone());
+            ret.add(e.clone());
+        }
         this.encomendasATransportar = new ArrayList<>();
         return ret;
     }
@@ -404,7 +418,6 @@ public class Transportadora implements ITransportadora {
      * Função que aceita uma encomenda.
      * @param e - Encomenda a aceitar.
      */
-    @Override
     public void aceitaEncomenda(Encomenda e) {
         this.recolha = LocalDateTime.now();
         this.encomendasATransportar.add(e.clone());
@@ -422,4 +435,22 @@ public class Transportadora implements ITransportadora {
         if(auxDist(this.gps,loja) <= this.raio && auxDist(this.gps,util) <= this.raio) ret = true;
         return ret;
     }
+
+    /**
+     * Função que verifica se o voluntário aceita encomendas de remédios no momento.
+     * @return - True se puder transportar remédios no momento, false caso contrário.
+     */
+    public boolean aceitoTransporteMedicamentos(){
+        return this.medica;
+    }
+
+    /**
+     * Função que altera o estado do voluntário no que diz respeito ao transporte de remédios.
+     * @param state - Novo estado do voluntário.
+     */
+    public void aceitaMedicamentos(boolean state){
+        this.livreMed = state;
+    }
+
+
 }
