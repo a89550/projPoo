@@ -4,7 +4,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Voluntario implements ITransportadora {
+public class Voluntario{
     private String id;
     private String nome;
     private String email;
@@ -14,8 +14,11 @@ public class Voluntario implements ITransportadora {
     private boolean livre;
     private List<Integer> classif;
     private LocalDateTime recolha;
-    private List<Encomenda> encomenda;
+    private List<Encomenda> historico;
+    private Encomenda encomendaTransportar;
     private double velocidadeMedia;
+    private boolean medica;
+    private boolean livreMed;
 
     /**
      * Construtor por omissão.
@@ -40,17 +43,21 @@ public class Voluntario implements ITransportadora {
      * @param raio Double representante do raio.
      * @oaram c Lista de Integer representante da lista de classificações.
      */
-    public Voluntario(String id, String n, GPS gps, double raio, boolean livre, List<Integer> c, List<Encomenda> encomenda) {
+    public Voluntario(String id, String n, GPS gps, double raio, boolean livre, List<Integer> c, List<Encomenda> historico, Encomenda enc, double vel, boolean med, boolean livreMed) {
         this.id = id;
         this.nome = n;
         this.gps = new GPS(gps);
         this.raio = raio;
         this.livre = livre;
-        this.encomenda = new ArrayList<>();
-        for(Encomenda e : encomenda) this.encomenda.add(e.clone());
+        this.historico = new ArrayList<>();
+        for(Encomenda e : historico) this.historico.add(e.clone());
         this.classif = new ArrayList<>();
         for (Integer i : c)
             this.classif.add(i);
+        this.encomendaTransportar = new Encomenda(enc.clone());
+        this.velocidadeMedia = vel;
+        this.medica = med;
+        this.livreMed = livreMed;
     }
 
     /**
@@ -64,8 +71,30 @@ public class Voluntario implements ITransportadora {
         this.gps = new GPS(v.getGps());
         this.raio = v.getRaio();
         this.livre = v.isLivre();
-        this.encomenda = v.getEncomenda();
-        this.classif = v.getClassif();
+        this.historico = new ArrayList<>();
+        for(Encomenda e : v.getHistorico()) this.historico.add(e.clone());
+        this.classif = new ArrayList<>();
+        for(Integer i : v.getClassif()) this.classif.add(i);
+        this.encomendaTransportar = new Encomenda(v.getEncomendaTransportar());
+        this.velocidadeMedia = v.getVelocidadeMedia();
+        this.medica = v.aceitoTransporteMedicamentos();
+        this.livreMed = v.getLivreMed();
+    }
+
+    /**
+     * Função que dá a encomenda a transportar do voluntário.
+     * @return - Encomenda a transportar.
+     */
+    public Encomenda getEncomendaTransportar(){
+        return this.encomendaTransportar.clone();
+    }
+
+    /**
+     * Função que verifica se o voluntário está livre para transportar encomendas médicas.
+     * @return - True se estiver livre para transportar medicamentos, false caso contrário.
+     */
+    public boolean getLivreMed(){
+        return this.livreMed;
     }
 
     /**
@@ -207,7 +236,7 @@ public class Voluntario implements ITransportadora {
      * @return Devolve esse clone.
      */
     @Override
-    public ITransportadora clone(){
+    public Voluntario clone(){
         return new Voluntario(this);
     }
 
@@ -223,9 +252,9 @@ public class Voluntario implements ITransportadora {
      * Função que retorna a encomenda que o voluntário está a transportar.
      * @return - Encomenda a transportar.
      */
-    public List<Encomenda> getEncomenda(){
+    public List<Encomenda> getHistorico(){
         List<Encomenda> ret = new ArrayList<>();
-        for(Encomenda e : this.encomenda) ret.add(e.clone());
+        for(Encomenda e : this.historico) ret.add(e.clone());
         return ret;
     }
 
@@ -233,9 +262,17 @@ public class Voluntario implements ITransportadora {
      * Função que define a encomenda da classe, simboliza a encomenda que o voluntário está a transportar.
      * @param enc - Encomenda a transportar.
      */
-    public void setEncomenda(List<Encomenda> enc){
-        this.encomenda = new ArrayList<>();
-        for(Encomenda e : enc) this.encomenda.add(e.clone());
+    public void setHistorico(List<Encomenda> enc){
+        this.historico = new ArrayList<>();
+        for(Encomenda e : enc) this.historico.add(e.clone());
+    }
+
+    /**
+     * Função que define a encomenda a ser transportada pelo voluntário.
+     * @param e - Encomenda a transportar.
+     */
+    public void setEncomendaTransportar(Encomenda e){
+        this.encomendaTransportar = e.clone();
     }
 
     /**
@@ -245,10 +282,12 @@ public class Voluntario implements ITransportadora {
     public void aceitaEncomenda(Encomenda enc){
         this.livre = false;
         this.recolha = LocalDateTime.now();
-        this.encomenda.add(enc.clone());
+        setEncomendaTransportar(enc);
     }
 
-    @Override
+
+
+
     /**
      * Função que calcula a distância percorrida da transportadora à loja e da loja à casa do utilizador.
      * @param loja - Loja onde a encomenda está.
@@ -281,7 +320,6 @@ public class Voluntario implements ITransportadora {
      * @param utilizador - Coordenadas GPS do utilizador.
      * @return - Preço do transporte.
      */
-    @Override
     public double precoEntrega(GPS loja, GPS utilizador) {
         return 0;
     }
@@ -323,18 +361,34 @@ public class Voluntario implements ITransportadora {
         return (int)t;
     }
 
-    @Override
+
     public double getVelocidadeMedia() {
-        return velocidadeMedia;
+        return this.velocidadeMedia;
     }
 
-    @Override
+
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
-    @Override
+
     public String getEmail() {
-        return email;
+        return this.email;
+    }
+
+    /**
+     * Função que verifica se o voluntário aceita encomendas de remédios no momento.
+     * @return - True se puder transportar remédios no momento, false caso contrário.
+     */
+    public boolean aceitoTransporteMedicamentos(){
+        return this.medica;
+    }
+
+    /**
+     * Função que altera o estado do voluntário no que diz respeito ao transporte de remédios.
+     * @param state - Novo estado do voluntário.
+     */
+    public void aceitaMedicamentos(boolean state){
+        this.livreMed = state;
     }
 }

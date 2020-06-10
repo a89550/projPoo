@@ -1,5 +1,6 @@
 package Models;
 
+import java.awt.event.ItemEvent;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,7 +12,8 @@ public class Encomenda{
     private String loja;
     private double peso;
     private List<LinhaEncomenda> produtos;
-    private LocalDateTime qPedidoAceite;
+    private int tempoDeEntrega;
+    private double precoEntrega;
     private LocalDateTime qPedidoEntregue;
     private boolean encomendaMedica;
 
@@ -23,8 +25,9 @@ public class Encomenda{
         this.user = "";
         this.loja = "";
         this.peso = 0;
+        this.tempoDeEntrega = 0;
         this.produtos = new ArrayList<>();
-        this.qPedidoAceite = LocalDateTime.now();
+        this.precoEntrega = 0;
         this.qPedidoEntregue = LocalDateTime.now();
         this.encomendaMedica = false;
     }
@@ -37,11 +40,10 @@ public class Encomenda{
      * @param p Double que representa o peso.
      * @param produtos Lista das linhas de encomenda.
      * @param qPedidoAceite LocalDateTime que representa o momento de quando o pedido foi aceite.
-     * @param qPedidoEntregue LocalDateTime representante o momento de quando o pedido foi entregue.
      * @param encomendaMedica Boolean que verifica se uma encomenda é médica ou não.
      */
     public Encomenda(String e, String user, String loja, double p, List<LinhaEncomenda> produtos,
-                     LocalDateTime qPedidoAceite, LocalDateTime qPedidoEntregue, boolean encomendaMedica){
+                     LocalDateTime qPedidoAceite, int tempoDeEntrega, double precoEntrega,  boolean encomendaMedica){
         this.id = e;
         this.user = user;
         this.loja = loja;
@@ -50,8 +52,8 @@ public class Encomenda{
         for(LinhaEncomenda lenc : produtos){
             this.produtos.add(lenc.clone());
         }
-        this.qPedidoAceite = qPedidoAceite;
-        this.qPedidoEntregue = qPedidoEntregue;
+        this.tempoDeEntrega = tempoDeEntrega;
+        this.precoEntrega = precoEntrega;
         this.encomendaMedica = encomendaMedica;
     }
 
@@ -65,9 +67,25 @@ public class Encomenda{
         this.loja = e.getLoja();
         this.peso = e.getPeso();
         this.produtos = e.getLE();
-        this.qPedidoAceite = e.getQPedidoAceite();
-        this.qPedidoEntregue = e.getQPedidoEntregue();
+        this.precoEntrega = e.getPrecoEntrega();
+        this.tempoDeEntrega = e.getTempoEntrega();
         this.encomendaMedica = e.getEncomendaMedica();
+    }
+
+    public void setPrecoEntrega(double precoEntrega) {
+        this.precoEntrega = precoEntrega;
+    }
+
+    public void setTempoDeEntrega(int t){
+        this.tempoDeEntrega = t;
+    }
+
+    public double getPrecoEntrega() {
+        return precoEntrega;
+    }
+
+    public int getTempoEntrega() {
+        return tempoDeEntrega;
     }
 
     /**
@@ -150,21 +168,6 @@ public class Encomenda{
         this.produtos = le;
     }
 
-    /**
-     * Método que dá o tempo em que um pedido foi aceite.
-     * @return Devolve o tempo.
-     */
-    public LocalDateTime getQPedidoAceite() {
-        return this.qPedidoAceite;
-    }
-
-    /**
-     * Método que define o tempo em que um pedido foi aceite.
-     * @param qPedidoAceite Recebe um LocalDateTime correspondente ao tempo.
-     */
-    public void setQPedidoAceite(LocalDateTime qPedidoAceite) {
-        this.qPedidoAceite = qPedidoAceite;
-    }
 
     /**
      * Método que dá o tempo que um pedido demora a ser entregue.
@@ -198,15 +201,6 @@ public class Encomenda{
         this.encomendaMedica = encomendaMedica;
     }
 
-    /*
-    /**
-     * Função que adiciona um produto à encomenda.
-     * @param produto - Produto a ser adicionado.
-
-    public void addProduto(LinhaEncomenda produto){
-        this.produtos.add(produto);
-    }
-    */
 
     /**
      * Função que adiciona uma linha de encomenda à lista de linhas de encomenda.
@@ -243,36 +237,13 @@ public class Encomenda{
      * @param o Recebe um objeto.
      * @return Devolve um boolean com a respetiva verificação.
      */
-    @Override
-    public boolean equals(Object o){
-        if(o == this) return true;
-        if(o == null || o.getClass() != this.getClass()) return false;
-        Encomenda e = (Encomenda) o;
-        return e.getId().equals(this.id) &&
-                e.getUser().equals(this.user) &&
-                e.getLoja().equals(this.loja) &&
-                e.getPeso()==(this.peso) &&
-                e.getLE()==this.produtos &&
-                e.getQPedidoAceite().equals(this.qPedidoAceite) &&
-                e.getEncomendaMedica() == this.encomendaMedica;
-    }
+
 
     /**
      * Função que traduz a classe Encomenda.
      * @return Devolve uma String com a respetiva tradução.
      */
-    @Override
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("Código da TrazAqui.Encomenda:  ").append(this.id)
-                .append("\nCódigo do Utilizador:  ").append(this.user)
-                .append("\nCódigo da Loja:  ").append(this.loja)
-                .append("\nPeso:  ").append(this.peso)
-                .append("\nLinha de Encomenda:  ").append(this.produtos)
-                .append("\nMomento em que um pedido foi aceite:  ").append(this.qPedidoAceite)
-                .append("\nA encomenda é médica?:  ").append(this.encomendaMedica);
-        return sb.toString();
-    }
+
 
     /**
      * Função que faz clone da classe Encomenda.

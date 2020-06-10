@@ -7,7 +7,8 @@ import java.util.*;
 public class Sistema {
 
     private List<Utilizador> utilizadores;
-    private List<ITransportadora> transportes;
+    private List<Transportadora> empresas;
+    private List<Voluntario> voluntarios;
     private List<Loja> lojas;
     private List<Encomenda> historicoEncomendas;
     private List<Encomenda> encomendasPorEnviar;
@@ -19,7 +20,8 @@ public class Sistema {
      */
     public Sistema() {
         this.utilizadores = new ArrayList<>();
-        this.transportes = new ArrayList<>();
+        this.empresas = new ArrayList<>();
+        this.voluntarios = new ArrayList<>();
         this.lojas = new ArrayList<>();
         this.historicoEncomendas = new ArrayList<>();
         this.encomendasPorEnviar = new ArrayList<>();
@@ -30,13 +32,15 @@ public class Sistema {
     /**
      * Construtor parametrizado.
      */
-    public Sistema(List<Utilizador> utilizadores, List<ITransportadora> transportes, List<Loja> loja,
+    public Sistema(List<Utilizador> utilizadores, List<Transportadora> empresas, List<Voluntario> voluntarios, List<Loja> loja,
                    List<Encomenda> historicoEncomendas, List<Encomenda> encomendasPorEnviar, List<AceitaEncomenda> encomendasAceites) {
 
         this.utilizadores = new ArrayList<>();
         for(Utilizador u : utilizadores) this.utilizadores.add(u.clone());
-        this.transportes = new ArrayList<>();
-        for(ITransportadora t : transportes) this.transportes.add(t.clone());
+        this.empresas = new ArrayList<>();
+        for(Transportadora t : empresas) this.empresas.add(t.clone());
+        this.voluntarios = new ArrayList<>();
+        for(Voluntario v : voluntarios) this.voluntarios.add(v.clone());
         this.lojas = new ArrayList<>();
         for(Loja l : loja) this.lojas.add(l.clone());
         this.historicoEncomendas = new ArrayList<>();
@@ -54,7 +58,8 @@ public class Sistema {
      */
     public Sistema(Sistema s) {
         this.utilizadores = s.getUtilizadores();
-        this.transportes = s.getTransportes();
+        this.empresas = s.getEmpresas();
+        this.voluntarios = s.getVoluntarios();
         this.lojas = s.getLojas();
         this.historicoEncomendas = s.getHistorico();
         this.encomendasPorEnviar = s.getPorEnviar();
@@ -72,12 +77,22 @@ public class Sistema {
     }
 
     /**
-     * Método que dá a lista de transportadoras do sistema (voluntários e empresas).
-     * @return - Lista de transportadoras do sistema.
+     * Método que dá a lista de empresas transportadoras do sistema.
+     * @return - Lista de empresas transportadoras do sistema.
      */
-    public List<ITransportadora> getTransportes(){
-        List<ITransportadora> ret = new ArrayList<>();
-        for(ITransportadora t : this.transportes) ret.add(t.clone());
+    public List<Transportadora> getEmpresas(){
+        List<Transportadora> ret = new ArrayList<>();
+        for(Transportadora t : this.empresas) ret.add(t.clone());
+        return ret;
+    }
+
+    /**
+     * Método que dá a lista de voluntários do sistema.
+     * @return - Lista de voluntários do sistema.
+     */
+    public List<Voluntario> getVoluntarios(){
+        List<Voluntario> ret = new ArrayList<>();
+        for(Voluntario t : this.voluntarios) ret.add(t.clone());
         return ret;
     }
 
@@ -121,40 +136,19 @@ public class Sistema {
         return ret;
     }
 
-
     /**
      * Função que traduz a classe Sistema.
      * @return Devolve uma String com a respetiva tradução.
      */
-    @Override
-    public String toString() {
-        return "Sistema{" +
-                "utilizadores=" + utilizadores +
-                ", transportes=" + transportes +
-                ", lojas=" + lojas +
-                ", historicoEncomendas=" + historicoEncomendas +
-                ", encomendasPorEnviar=" + encomendasPorEnviar +
-                ", encomendasAceites=" + encomendasAceites +
-                '}';
-    }
+
 
     /**
      * Função que verifica se um objeto recebido é idêntico ao da classe Sistema.
      * @param o Recebe um objeto.
      * @return Devolve um boolean com a respetiva verificação.
      */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Sistema sistema = (Sistema) o;
-        return Objects.equals(utilizadores, sistema.utilizadores) &&
-                Objects.equals(transportes, sistema.transportes) &&
-                Objects.equals(lojas, sistema.lojas) &&
-                Objects.equals(historicoEncomendas, sistema.historicoEncomendas) &&
-                Objects.equals(encomendasPorEnviar, sistema.encomendasPorEnviar) &&
-                Objects.equals(encomendasAceites, sistema.encomendasAceites);
-    }
+
+
 
     /**
      * Função que faz um clone da classe Sistema.
@@ -171,34 +165,19 @@ public class Sistema {
      * @param classificacao Recebe um Inteiro representante da classificação.
      */
     public void classificarTransportadora(String cod, int classificacao){
-        for(ITransportadora t : this.transportes){
-            if(t.getId() == cod) t.addClassificacao(classificacao);
+        if(cod.charAt(0) == 'v') {
+            for(Voluntario v : this.voluntarios){
+                if(v.getId() == cod) v.addClassificacao(classificacao);
+            }
         }
+        if(cod.charAt(0) == 't'){
+            for(Transportadora t : this.empresas){
+                if(t.getId() == cod) t.addClassificacao(classificacao);
+            }
+        }
+
     }
 
-    /**
-     * Função que calcula o número de empresas transportadoras do sistema.
-     * @return - O número de empresas transportadoras.
-     */
-    public int getNumEmpT(){
-        int ret = 0;
-        for(ITransportadora t : this.transportes){
-            if(t instanceof  Transportadora) ret++;
-        }
-        return ret;
-    }
-
-    /**
-     * Função que calcula o número de voluntários do sistema.
-     * @return - O número de voluntários do sistema
-     */
-    public int getNumVol(){
-        int ret = 0;
-        for(ITransportadora t : this.transportes){
-            if(t instanceof  Voluntario) ret++;
-        }
-        return ret;
-    }
 
 
     /**
@@ -211,8 +190,8 @@ public class Sistema {
         if(s.equals("u")) ret.concat(s).concat(Integer.toString(this.utilizadores.size()));
         if(s.equals("l")) ret.concat(s).concat(Integer.toString(this.lojas.size()));
         if(s.equals("e")) ret.concat(s).concat(Integer.toString(this.historicoEncomendas.size() + this.encomendasPorEnviar.size()+ this.encomendasAceites.size()));
-        if(s.equals("t")) ret.concat(s).concat(Integer.toString(getNumEmpT()));
-        if(s.equals("v")) ret.concat(s).concat(Integer.toString(getNumVol()));
+        if(s.equals("t")) ret.concat(s).concat(Integer.toString(this.empresas.size()));
+        if(s.equals("v")) ret.concat(s).concat(Integer.toString(this.voluntarios.size()));
         return ret;
     }
 
@@ -225,11 +204,12 @@ public class Sistema {
      * @param x - Latitude do utilizador.
      * @param y - Longitude do utilizador.
      */
-    public void registaUtilizador(String id, String nome, String email, String password, double x, double y){
+    public Utilizador registaUtilizador(String id, String nome, String email, String password, double x, double y){
         List<Encomenda> vazia = new ArrayList<>();
         GPS gps = new GPS(x,y);
         Utilizador user = new Utilizador(id,nome,gps,vazia,email,password);
         this.utilizadores.add(user);
+        return user;
     }
 
     /**
@@ -243,10 +223,11 @@ public class Sistema {
      * @param atendimento - Tempo de atendimento da loja.
      * @param fila - Número de pessoas na fila da loja.
      */
-    public void registaLoja(String id, String nome, double x, double y, String email, String password, int atendimento, int fila){
+    public Loja registaLoja(String id, String nome, String email, String password, double x, double y, int atendimento, int fila){
         GPS gps = new GPS(x,y);
         Loja l = new Loja(id,nome,gps,email,password,atendimento,fila);
         this.lojas.add(l);
+        return l;
     }
 
     /**
@@ -259,14 +240,15 @@ public class Sistema {
      * @param password - Password da loja.
      * @param atendimento - Tempo de atendimento da loja.
      */
-    public void registaLoja(String id, String nome, double x, double y, String email, String password, int atendimento){
+    public Loja registaLoja(String id, String nome, String email, String password, double x, double y, int atendimento){
         GPS gps = new GPS(x,y);
         Loja l = new Loja(id,nome,gps,email,password,atendimento,0);
         this.lojas.add(l);
+        return l.clone();
     }
 
     /**
-     * Função que regista uma empresa transportadora sem certificado médico no sistema.
+     * Função que regista uma empresa transportadora no sistema.
      * @param id - Username da empresa.
      * @param nome - Nome da empresa.
      * @param email - Email da empresa.
@@ -279,37 +261,32 @@ public class Sistema {
      * @param numEnc - Número de encomendas que a empresa transporta de uma só vez.
      * @param velMedia - Velocidade média a que a empresa circula.
      */
-    public void registaTransportadora(String id, String nome, String email, String password, double x, double y, int nif, double raio, double taxa, int numEnc, double velMedia){
+    public Transportadora registaTransportadora(String id, String nome, String email, String password, double x,
+                                                double y, int nif, double raio, double taxa, int numEnc, double velMedia,
+                                                boolean med){
         GPS gps = new GPS(x,y);
         List<Integer> classif = new ArrayList<>();
         List<Encomenda> hist = new ArrayList<>();
         List<Encomenda> transp = new ArrayList<>();
-        ITransportadora t = new Transportadora(id,nome,email,password,gps,nif,raio,true,taxa,numEnc,classif,hist,0,velMedia, LocalDateTime.now(),transp);
-        this.transportes.add(t);
+        boolean bol = false;
+        if(med){ bol = true;}
+        Transportadora t = new Transportadora(id,nome,email,password,gps,nif,raio,true,taxa,numEnc,classif,hist,0,velMedia, LocalDateTime.now(),transp,med,bol);
+        this.empresas.add(t);
+        return t.clone();
 
     }
 
-    /**
-     * Função que regista uma empresa transportadora com certificado médico no sistema.
-     * @param id - Username da empresa.
-     * @param nome - Nome da empresa.
-     * @param email - Email da empresa.
-     * @param password - Password da empresa.
-     * @param x - Latitude da empresa.
-     * @param y - Longitude da empresa.
-     * @param nif - Nif da empresa.
-     * @param raio - Raio de ação da empresa.
-     * @param taxa - Taxa de cobrança por km da empresa.
-     * @param numEnc - Número de encomendas que a empresa transporta de uma só vez.
-     * @param velMedia - Velocidade média a que a empresa circula.
-     */
-    public void registaTransportadoraMedica(String id, String nome, String email, String password, double x, double y, int nif, double raio, double taxa, int numEnc, double velMedia){
+    public Voluntario registaVoluntario(String id, String nome, String email, String password, double x,
+                                        double y, double raio, double velocidadeMedia, boolean medica){
+        boolean bol = false;
+        if(medica) bol = true;
         GPS gps = new GPS(x,y);
         List<Integer> classif = new ArrayList<>();
         List<Encomenda> hist = new ArrayList<>();
-        List<Encomenda> transp = new ArrayList<>();
-        ITransportadora t = new TransportadoraMedica(id,nome,email,password,gps,nif,raio,true,taxa,numEnc,classif,hist,0,velMedia, LocalDateTime.now(),transp,true);
-        this.transportes.add(t);
+        Encomenda enc = new Encomenda();
+        Voluntario v = new Voluntario(id,nome,gps,raio,true,classif,hist,enc,velocidadeMedia,medica,bol);
+        this.voluntarios.add(v);
+        return v;
 
     }
 
@@ -317,16 +294,16 @@ public class Sistema {
      * Função que dá uma lista de voluntários livres do sistema.
      * @return - Lista de voluntários livres.
      */
-    public List<ITransportadora> getVoluntariosLivres(){
-        List<ITransportadora> ret = new ArrayList<>();
-        for(ITransportadora t : this.transportes){
-            if(t instanceof Voluntario && t.isLivre()) ret.add(t.clone());
+    public List<Voluntario> getVoluntariosLivres(){
+        List<Voluntario> ret = new ArrayList<>();
+        for(Voluntario v : this.voluntarios){
+            if(v.isLivre()) ret.add(v.clone());
         }
         return ret;
     }
 
     /**
-     * Função que dá a loja do sistema através do seu id (username).
+     * Função que dá uma loja do sistema através do seu id (username).
      * @param id - Id da loja.
      * @return - Loja do sistema.
      */
@@ -339,6 +316,11 @@ public class Sistema {
     }
 
 
+    /**
+     * Função que dá um utilizador do sistema através do seu id (username).
+     * @param id - Id do utilizador.
+     * @return - Utilizador do sistema.
+     */
     public Utilizador getUtilizador(String id){
         Utilizador ret = null;
         for(Utilizador u : this.utilizadores){
@@ -352,12 +334,12 @@ public class Sistema {
      */
     public void aceitaEncomendas(){
         int i = 0;
-        List<ITransportadora> livres = getVoluntariosLivres();
-        for(ITransportadora t : livres){
+        List<Voluntario> livres = getVoluntariosLivres();
+        for(Voluntario v : livres){
             for(Encomenda e : this.encomendasPorEnviar){
-                if (t.dentroDoRaio(getLoja(e.getLoja()).getGps(),getUtilizador(e.getUser()).getGps())){
+                if (v.dentroDoRaio(getLoja(e.getLoja()).getGps(),getUtilizador(e.getUser()).getGps())){
                     AceitaEncomenda a = new AceitaEncomenda(e.getId());
-                    t.aceitaEncomenda(e.clone());
+                    v.aceitaEncomenda(e.clone());
                     this.encomendasAceites.add(a);
                     this.encomendasPorEnviar.remove(e);
                 }
@@ -373,6 +355,71 @@ public class Sistema {
     public void realizaPedido(Encomenda e){
         this.encomendasPorEnviar.add(e.clone());
     }
+
+    /**
+     * Função que faz login de um utilizador.
+     * @param email - Email do utilizador.
+     * @param password - Password do utilizador.
+     * @return - O utilizador que corresponde a essas credencias.
+     */
+    public Utilizador loginU(String email, String password){
+        Utilizador ut = null;
+        for(Utilizador u : this.utilizadores){
+            if(u.getEmail().equals(email) && u.getPassword().equals(password)) {
+                ut = new Utilizador(u.clone());
+                break;
+            }
+        }
+        return ut;
+    }
+
+    /**
+     * Função que faz login de uma loja.
+     * @param email - Email da loja.
+     * @param password - Password da loja.
+     * @return - A loja que corresponde a essas credencias.
+     */
+    public Loja loginL(String email, String password){
+        Loja lj = null;
+        for(Loja l : this.lojas){
+            if(l.getEmail().equals(email) && l.getPassword().equals(password)){
+                lj = new Loja(l.clone());
+                break;
+            }
+        }
+        return lj;
+    }
+
+    /**
+     * Função que faz login de uma empresa transportadora.
+     * @param email - Email da empresa.
+     * @param password - Password da empresa.
+     * @return - A empresa que corresponde a essas credencias.
+     */
+    public Transportadora loginE(String email, String password){
+        Transportadora tp = null;
+        for(Transportadora t : this.empresas){
+            if(t.getEmail().equals(email) && t.getPassword().equals(password)) tp = new Transportadora(t.clone());
+        }
+        return tp;
+    }
+
+    /**
+     * Função que faz login de um voluntário.
+     * @param email - Email do voluntário.
+     * @param password - Password do voluntário.
+     * @return - O voluntário que corresponde a essas credencias.
+     */
+    public Voluntario loginV(String email, String password){
+            Voluntario vl = null;
+            for (Voluntario v : this.voluntarios) {
+                if (v.getEmail().equals(email) && v.getPassword().equals(password)) {
+                    vl = new Voluntario(v.clone());
+                }
+
+            }
+            return vl;
+        }
 
 }
 
