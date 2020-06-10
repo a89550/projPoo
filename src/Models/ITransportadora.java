@@ -15,4 +15,14 @@ public interface ITransportadora {
     public ITransportadora clone();
 
     public String getId();
+
+    public String getEmail();
+
+    public String getPassword();
+
+    public double getVelocidadeMedia();
+
+    public int tempoDeIda(GPS loja);
+
+    public int tempoDeVolta(GPS loja, GPS util);
 }

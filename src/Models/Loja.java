@@ -1,11 +1,15 @@
 package Models;
 
+import java.util.Random;
+
 public class Loja {
     private String id;
     private String nome;
     private GPS g;
     private String email;
     private String password;
+    private int tempoAtendimento;
+    private int filaDeEspera;
 
     /**
      * Construtor por omissão.
@@ -16,6 +20,9 @@ public class Loja {
         this.g = new GPS();
         this.email = "";
         this.password = "";
+        Random r = new Random();
+        this.tempoAtendimento = r.nextInt(10);
+        this.filaDeEspera = 0;
     }
 
     /**
@@ -26,12 +33,14 @@ public class Loja {
      * @param email String que representa o email.
      * @param password String que representa a password.
      */
-    public Loja(String id, String nome,GPS g, String email, String password){
+    public Loja(String id, String nome,GPS g, String email, String password, int tempoAtendimento, int filaDeEspera){
         this.id = id;
         this.nome = nome;
         this.g = new GPS(g);
         this.email = email;
         this.password = password;
+        this.filaDeEspera = filaDeEspera;
+        this.tempoAtendimento = tempoAtendimento;
     }
 
     /**
@@ -44,6 +53,24 @@ public class Loja {
         this.g = new GPS(l.getGps());
         this.email = l.getEmail();
         this.password = l.getPassword();
+        this.tempoAtendimento = l.getTempoAtendimento();
+        this.filaDeEspera = l.getFilaDeEspera();
+    }
+
+    /**
+     * Função que retorna uma estimativa do tempo de atendimento de uma encomenda/pedido.
+     * @return - Tempo de atendimento.
+     */
+    public int getTempoAtendimento(){
+        return this.tempoAtendimento;
+    }
+
+    /**
+     * Função que retorna o número de pessoas na fila de espera da loja.
+     * @return - Número de pessoas na fila de espera.
+     */
+    public int getFilaDeEspera(){
+        return this.filaDeEspera;
     }
 
     /**
@@ -167,5 +194,15 @@ public class Loja {
         return new Loja(this);
     }
 
+    /**
+     * Função que calcula o tempo que a loja demorar a ter uma encomenda pronta.
+     * @return - Tempo que a encomenda demora a ficar pronta.
+     */
+    public int tempoDoPedido(){
+        int ret = 0;
+        if(this.filaDeEspera == 0) ret = this.tempoAtendimento;
+        else ret = this.filaDeEspera * this.tempoAtendimento;
+        return ret;
+    }
 
 }

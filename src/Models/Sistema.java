@@ -1,5 +1,6 @@
 package Models;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -175,14 +176,112 @@ public class Sistema {
         }
     }
 
-    public void criaUtilizador(String id, String nome, String email, String password, double x, double y){
+    /**
+     * Função que regista um utilizador no sistema.
+     * @param id - Username do utilizador.
+     * @param nome - Nome do utilizador.
+     * @param email - Email do utilizador.
+     * @param password - Password do utilizador.
+     * @param x - Latitude do utilizador.
+     * @param y - Longitude do utilizador.
+     */
+    public void registaUtilizador(String id, String nome, String email, String password, double x, double y){
         List<Encomenda> vazia = new ArrayList<>();
         GPS gps = new GPS(x,y);
         Utilizador user = new Utilizador(id,nome,gps,vazia,email,password);
-        this.utilizadores.add(user.clone());
+        this.utilizadores.add(user);
+    }
+
+    /**
+     * Função que regista uma loja no sistema com informação sobre a fila de espera.
+     * @param id - Username da loja.
+     * @param nome - Nome da loja.
+     * @param x - Latitude da loja.
+     * @param y - Longitude da loja.
+     * @param email - Email da loja.
+     * @param password - Password da loja.
+     * @param atendimento - Tempo de atendimento da loja.
+     * @param fila - Número de pessoas na fila da loja.
+     */
+    public void registaLoja(String id, String nome, double x, double y, String email, String password, int atendimento, int fila){
+        GPS gps = new GPS(x,y);
+        Loja l = new Loja(id,nome,gps,email,password,atendimento,fila);
+        this.lojas.add(l);
+    }
+
+    /**
+     * Função que regista uma loja no sistema sem informação sobre a fila de espera.
+     * @param id - Username da loja.
+     * @param nome - Nome da loja.
+     * @param x - Latitude da loja.
+     * @param y - Longitude da loja.
+     * @param email - Email da loja.
+     * @param password - Password da loja.
+     * @param atendimento - Tempo de atendimento da loja.
+     */
+    public void registaLoja(String id, String nome, double x, double y, String email, String password, int atendimento){
+        GPS gps = new GPS(x,y);
+        Loja l = new Loja(id,nome,gps,email,password,atendimento,0);
+        this.lojas.add(l);
+    }
+
+    /**
+     * Função que regista uma empresa transportadora sem certificado médico no sistema.
+     * @param id - Username da empresa.
+     * @param nome - Nome da empresa.
+     * @param email - Email da empresa.
+     * @param password - Password da empresa.
+     * @param x - Latitude da empresa.
+     * @param y - Longitude da empresa.
+     * @param nif - Nif da empresa.
+     * @param raio - Raio de ação da empresa.
+     * @param taxa - Taxa de cobrança por km da empresa.
+     * @param numEnc - Número de encomendas que a empresa transporta de uma só vez.
+     * @param velMedia - Velocidade média a que a empresa circula.
+     */
+    public void registaTransportadora(String id, String nome, String email, String password, double x, double y, int nif, double raio, double taxa, int numEnc, double velMedia){
+        GPS gps = new GPS(x,y);
+        List<Integer> classif = new ArrayList<>();
+        List<Encomenda> hist = new ArrayList<>();
+        List<Encomenda> transp = new ArrayList<>();
+        ITransportadora t = new Transportadora(id,nome,email,password,gps,nif,raio,true,taxa,numEnc,classif,hist,0,velMedia, LocalDateTime.now(),transp);
+        this.transportes.add(t);
+
+    }
+
+    /**
+     * Função que regista uma empresa transportadora com certificado médico no sistema.
+     * @param id - Username da empresa.
+     * @param nome - Nome da empresa.
+     * @param email - Email da empresa.
+     * @param password - Password da empresa.
+     * @param x - Latitude da empresa.
+     * @param y - Longitude da empresa.
+     * @param nif - Nif da empresa.
+     * @param raio - Raio de ação da empresa.
+     * @param taxa - Taxa de cobrança por km da empresa.
+     * @param numEnc - Número de encomendas que a empresa transporta de uma só vez.
+     * @param velMedia - Velocidade média a que a empresa circula.
+     */
+    public void registaTransportadoraMedica(String id, String nome, String email, String password, double x, double y, int nif, double raio, double taxa, int numEnc, double velMedia){
+        GPS gps = new GPS(x,y);
+        List<Integer> classif = new ArrayList<>();
+        List<Encomenda> hist = new ArrayList<>();
+        List<Encomenda> transp = new ArrayList<>();
+        ITransportadora t = new TransportadoraMedica(id,nome,email,password,gps,nif,raio,true,taxa,numEnc,classif,hist,0,velMedia, LocalDateTime.now(),transp,true);
+        this.transportes.add(t);
+
     }
 
 
+
+    /**
+     * Função que adiciona uma encomenda à lista de encomendas por enviar.
+     * @param e - Encomenda a enviar.
+     */
+    public void realizaPedido(Encomenda e){
+        this.encomendasPorEnviar.add(e.clone());
+    }
 
 }
 
