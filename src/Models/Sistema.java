@@ -186,13 +186,13 @@ public class Sistema {
      * @return - Id (username) da entidade.
      */
     public String getNewId(String s){
-        String ret = new String();
-        if(s.equals("u")) ret.concat(s).concat(Integer.toString(this.utilizadores.size()));
-        if(s.equals("l")) ret.concat(s).concat(Integer.toString(this.lojas.size()));
-        if(s.equals("e")) ret.concat(s).concat(Integer.toString(this.historicoEncomendas.size() + this.encomendasPorEnviar.size()+ this.encomendasAceites.size()));
-        if(s.equals("t")) ret.concat(s).concat(Integer.toString(this.empresas.size()));
-        if(s.equals("v")) ret.concat(s).concat(Integer.toString(this.voluntarios.size()));
-        return ret;
+        StringBuilder sb = new StringBuilder();
+        if(s.equals("u")) sb.append(s).append(this.utilizadores.size());
+        else if (s.equals("l")) sb.append(s).append(this.lojas.size());
+        else if (s.equals("e")) sb.append(s).append(this.historicoEncomendas.size() + this.encomendasPorEnviar.size()+ this.encomendasAceites.size());
+        else if (s.equals("t")) sb.append(s).append(this.empresas.size());
+        else if(s.equals("v")) sb.append(s).append(this.voluntarios.size());
+        return sb.toString();
     }
 
     /**
@@ -260,6 +260,7 @@ public class Sistema {
      * @param taxa - Taxa de cobrança por km da empresa.
      * @param numEnc - Número de encomendas que a empresa transporta de uma só vez.
      * @param velMedia - Velocidade média a que a empresa circula.
+     * @param med - Boolean que indica se tem certificado médico ou não.
      */
     public Transportadora registaTransportadora(String id, String nome, String email, String password, double x,
                                                 double y, int nif, double raio, double taxa, int numEnc, double velMedia,
@@ -276,6 +277,19 @@ public class Sistema {
 
     }
 
+    /**
+     * Função que regista um voluntário no sistema.
+     * @param id - Id do voluntario.
+     * @param nome - Nome da voluntario.
+     * @param email - Email da voluntario.
+     * @param password - Password da voluntario.
+     * @param x - Latitude da voluntario.
+     * @param y - Longitude da voluntario.
+     * @param raio - Raio de ação da voluntario.
+     * @param velocidadeMedia - Velocidade média a que a voluntario circula.
+     * @param medica - Boolean que indica se tem certificado médico ou não.
+     * @return
+     */
     public Voluntario registaVoluntario(String id, String nome, String email, String password, double x,
                                         double y, double raio, double velocidadeMedia, boolean medica){
         boolean bol = false;
@@ -284,7 +298,7 @@ public class Sistema {
         List<Integer> classif = new ArrayList<>();
         List<Encomenda> hist = new ArrayList<>();
         Encomenda enc = new Encomenda();
-        Voluntario v = new Voluntario(id,nome,gps,raio,true,classif,hist,enc,velocidadeMedia,medica,bol);
+        Voluntario v = new Voluntario(id,nome,email,password,gps,raio,true,classif,hist,enc,velocidadeMedia,medica,bol);
         this.voluntarios.add(v);
         return v;
 
@@ -419,7 +433,45 @@ public class Sistema {
 
             }
             return vl;
+    }
+
+    /**
+     * Função que determina o top 10 de utilizadores com mais encomendas.
+     * @return - Lista com os nomes dos 10 utilizadores.
+     */
+    public List<String> top10Utilizador(){
+        List<String> ret = new ArrayList<>();
+        this.utilizadores.sort(new Comparator<Utilizador>() {
+            @Override
+            public int compare(Utilizador utilizador, Utilizador t1) {
+                return t1.getEncomendas().size() - utilizador.getEncomendas().size();
+            }
+        });
+        for(int i = 0; i < 10; i++){
+            ret.add(this.utilizadores.get(i).getNome());
         }
+        return ret;
+
+    }
+
+    /**
+     * Função que determina o top 10 de empresas transportadoras com mais quilómetros percorridos.
+     * @return - Lista com os nomes das 10 empresas.
+     */
+    public List<String> top10Empresas(){
+        List<String> ret = new ArrayList<>();
+        this.empresas.sort(new Comparator<Transportadora>() {
+            @Override
+            public int compare(Transportadora transportadora, Transportadora t1) {
+                return (int) (t1.getKmPercorridos() - transportadora.getKmPercorridos());
+            }
+        });
+        for(int i = 0; i < 10; i++){
+            ret.add(this.empresas.get(i).getNome());
+        }
+        return ret;
+    }
+
 
 }
 

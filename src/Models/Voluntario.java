@@ -26,12 +26,18 @@ public class Voluntario{
     public Voluntario() {
         this.id = "";
         this.nome = "";
+        this.email = "";
+        this.password = "";
         this.gps = new GPS();
         this.raio = 0;
         this.livre = true;
         this.recolha = LocalDateTime.now();
-
         this.classif = new ArrayList<>();
+        this.historico = new ArrayList<>();
+        this.encomendaTransportar = new Encomenda();
+        this.velocidadeMedia = 0;
+        this.medica = false;
+        this.livreMed = false;
     }
 
     /**
@@ -43,9 +49,12 @@ public class Voluntario{
      * @param raio Double representante do raio.
      * @oaram c Lista de Integer representante da lista de classificações.
      */
-    public Voluntario(String id, String n, GPS gps, double raio, boolean livre, List<Integer> c, List<Encomenda> historico, Encomenda enc, double vel, boolean med, boolean livreMed) {
+    public Voluntario(String id, String n, String email, String password, GPS gps, double raio, boolean livre,
+                      List<Integer> c, List<Encomenda> historico, Encomenda enc, double vel, boolean med, boolean livreMed) {
         this.id = id;
         this.nome = n;
+        this.email = email;
+        this.password = password;
         this.gps = new GPS(gps);
         this.raio = raio;
         this.livre = livre;
@@ -361,17 +370,27 @@ public class Voluntario{
         return (int)t;
     }
 
-
+    /**
+     * Função que retorna a velocidade média do voluntário.
+     * @return - Velocidade média do voluntário.
+     */
     public double getVelocidadeMedia() {
         return this.velocidadeMedia;
     }
 
-
+    /**
+     * Função que retorna a password do voluntário.
+     * @return - Password do voluntário.
+     */
     public String getPassword() {
         return this.password;
     }
 
 
+    /**
+     * Função que retorna o email do voluntário.
+     * @return - Email do voluntário.
+     */
     public String getEmail() {
         return this.email;
     }

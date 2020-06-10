@@ -43,6 +43,8 @@ public class Transportadora{
         this.velocidadeMedia = 0;
         this.recolha = LocalDateTime.now();
         this.encomendasATransportar = new ArrayList<>();
+        this.medica = false;
+        this.livreMed = false;
     }
 
     /**
