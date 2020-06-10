@@ -36,19 +36,19 @@ public class ViewGeral {
         switch(n1){
             case 1:
                 ViewUtilizador u = new ViewUtilizador();
-                u.viewUtil();
+                u.viewUtil("u");
                 break;
             case 2:
                 ViewVoluntario v = new ViewVoluntario();
-                v.viewVolun();
+                v.viewVolun("v");
                 break;
             case 3:
                 ViewTransportadora t = new ViewTransportadora();
-                t.viewTransp();
+                t.viewTransp("t");
                 break;
             case 4:
                 ViewLoja l = new ViewLoja();
-                l.viewLoja();
+                l.viewLoja("l");
                 break;
         }
     }

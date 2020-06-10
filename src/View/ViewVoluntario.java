@@ -7,7 +7,7 @@ public class ViewVoluntario {
     public void ViewVoluntario(){
     }
 
-    public void viewVolun(){
+    public void viewVolun(String v){
         System.out.println("Menu de Utlizador");
         System.out.println("Email:");
         Scanner n2 = new Scanner(System.in);
