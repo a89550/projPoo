@@ -25,4 +25,15 @@ public interface ITransportadora {
     public int tempoDeIda(GPS loja);
 
     public int tempoDeVolta(GPS loja, GPS util);
+
+    public boolean isLivre();
+
+    public double getRaio();
+
+    public double auxDist(GPS gps1, GPS gps2);
+
+    public boolean dentroDoRaio(GPS loja, GPS util);
+
+
+    public void aceitaEncomenda(Encomenda e);
 }

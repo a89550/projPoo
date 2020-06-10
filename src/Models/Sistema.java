@@ -273,7 +273,57 @@ public class Sistema {
 
     }
 
+    /**
+     * Função que dá uma lista de voluntários livres do sistema.
+     * @return - Lista de voluntários livres.
+     */
+    public List<ITransportadora> getVoluntariosLivres(){
+        List<ITransportadora> ret = new ArrayList<>();
+        for(ITransportadora t : this.transportes){
+            if(t instanceof Voluntario && t.isLivre()) ret.add(t.clone());
+        }
+        return ret;
+    }
 
+    /**
+     * Função que dá a loja do sistema através do seu id (username).
+     * @param id - Id da loja.
+     * @return - Loja do sistema.
+     */
+    public Loja getLoja(String id){
+        Loja ret = null;
+        for(Loja l : this.lojas){
+            if(l.getId() == id) ret = new Loja(l.clone());
+        }
+        return ret;
+    }
+
+
+    public Utilizador getUtilizador(String id){
+        Utilizador ret = null;
+        for(Utilizador u : this.utilizadores){
+            if(u.getId() == id) ret = new Utilizador(u.clone());
+        }
+        return ret;
+    }
+
+    /**
+     * Função que atribui encomendas a voluntários.
+     */
+    public void aceitaEncomendas(){
+        int i = 0;
+        List<ITransportadora> livres = getVoluntariosLivres();
+        for(ITransportadora t : livres){
+            for(Encomenda e : this.encomendasPorEnviar){
+                if (t.dentroDoRaio(getLoja(e.getLoja()).getGps(),getUtilizador(e.getUser()).getGps())){
+                    AceitaEncomenda a = new AceitaEncomenda(e.getId());
+                    t.aceitaEncomenda(e.clone());
+                    this.encomendasAceites.add(a);
+                }
+            }
+
+        }
+    }
 
     /**
      * Função que adiciona uma encomenda à lista de encomendas por enviar.

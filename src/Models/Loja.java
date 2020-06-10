@@ -58,6 +58,14 @@ public class Loja {
     }
 
     /**
+     * Função que retorna o id (username) da loja.
+     * @return - Id da loja.
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
      * Função que retorna uma estimativa do tempo de atendimento de uma encomenda/pedido.
      * @return - Tempo de atendimento.
      */
