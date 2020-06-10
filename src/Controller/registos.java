@@ -7,20 +7,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class registos {
-    private Sistema s = new Sistema();
     public registos(){
     }
 
     // Função que regista um utilizador
     public void contrRegUtil(String mail, String pass, String nome, double x, double y){
-
+        Sistema s = new Sistema();
         String id = s.getNewId("u");
 
         s.registaUtilizador(id,nome,mail,pass,x,y);
     }
     // Função que regista um voluntario
     public void contrRegVol(String mail, String pass, String nome, double x, double y, double r){
-
+        Sistema s = new Sistema();
         String id = s.getNewId("v");
 
         s.registaUtilizador(id,nome,mail,pass,x,y);
