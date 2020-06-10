@@ -293,7 +293,7 @@ public class Sistema {
     public Loja getLoja(String id){
         Loja ret = null;
         for(Loja l : this.lojas){
-            if(l.getId() == id) ret = new Loja(l.clone());
+            if(l.getId().equals(id)) ret = new Loja(l.clone());
         }
         return ret;
     }
@@ -302,7 +302,7 @@ public class Sistema {
     public Utilizador getUtilizador(String id){
         Utilizador ret = null;
         for(Utilizador u : this.utilizadores){
-            if(u.getId() == id) ret = new Utilizador(u.clone());
+            if(u.getId().equals(id)) ret = new Utilizador(u.clone());
         }
         return ret;
     }
