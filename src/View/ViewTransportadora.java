@@ -28,7 +28,7 @@ public class ViewTransportadora {
 
     public int menuT(){
         for (int i = 0; i < 50; ++i) System.out.println();
-        System.out.println("Menu de Tranportadora:\n\nTotal faturado(1)\nVer o historico de encomendas(2)\nLista das 10 empresas que mais usam o sistema(2)\nVer o historico de encomendas(3)\nSair(0)");
+        System.out.println("Menu de Tranportadora:\n\nTotal faturado(1)\nLista das 10 empresas que mais usam o sistema(2)\nVer o historico de encomendas(3)\nSair(0)");
         Scanner p1 = new Scanner(System.in);
         int p = p1.nextInt();
         return p;

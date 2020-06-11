@@ -1,10 +1,11 @@
 package Models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Encomenda{
+public class Encomenda implements Serializable {
     private String id;
     private String user;
     private String loja;

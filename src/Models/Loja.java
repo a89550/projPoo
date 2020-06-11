@@ -1,8 +1,9 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Loja {
+public class Loja implements Serializable {
     private String id;
     private String nome;
     private GPS g;

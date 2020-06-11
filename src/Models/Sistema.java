@@ -1,11 +1,12 @@
 package Models;
 
 import javax.swing.tree.TreeNode;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
 
-public class Sistema {
+public class Sistema implements Serializable {
 
     private List<Utilizador> utilizadores;
     private List<Transportadora> empresas;
@@ -525,6 +526,25 @@ public class Sistema {
     }
 
     /**
+     * Função que cria uma encomenda para mais tarde ser adiciona ao sistema.
+     * @param id - Id de encomenda.
+     * @param util - Utilizador que quer fazer encomenda.
+     * @param loja - Loja da encomenda.
+     * @param peso - Peso da encomenda.
+     * @param med - Boolean que diz se é uma encomenda médica ou não.
+     * @return - Encomenda criada.
+     */
+    public Encomenda fazerEncomenda2(String id,String util, String loja,double peso, boolean med){
+        Encomenda ret = new Encomenda();
+        ret.setId(id);
+        ret.setUser(util);
+        ret.setLoja(loja);
+        ret.setPeso(peso);
+        ret.setEncomendaMedica(med);
+        return ret.clone();
+    }
+
+    /**
      * Função que adiciona uma encomenda ao sistema, torando a numa encomenda por enviar.
      * @param e - Encomenda a adicionar.
      */
@@ -760,9 +780,41 @@ public class Sistema {
         }
         return ret;
     }
-    public int zero(){
-        return 0;
+
+    /**
+     * Grava o estado da aplicação num determinado ficheiro.
+     *
+     * @param nomeficheiro Recebe o nome do ficheiro.
+     * @throws IOException           Exception.
+     * @throws FileNotFoundException Exception.
+     */
+    public void grava(String nomeficheiro) throws IOException {
+        FileOutputStream o = new FileOutputStream(nomeficheiro);
+        ObjectOutputStream r = new ObjectOutputStream(o);
+        r.writeObject(this);
+        r.flush();
+        r.close();
     }
+
+    /**
+     * Iniciar a aplicação com o estado guardado num determinado ficheiro.
+     *
+     * @param nomeficheiro Recebe o nome do ficheiro.
+     * @return Devolve a aplicação inciada.
+     * @throws IOException            Exception.
+     * @throws ClassNotFoundException Exception.
+     * @throws FileNotFoundException  Exception.
+     */
+    public static Sistema carrega(String nomeficheiro) throws IOException, ClassNotFoundException {
+        FileInputStream r = new FileInputStream(nomeficheiro);
+        ObjectInputStream o = new ObjectInputStream(r);
+        Sistema g = (Sistema) o.readObject();
+        o.close();
+        return g;
+    }
+
+
+
 }
 
 

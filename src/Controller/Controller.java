@@ -44,19 +44,22 @@ public class Controller {
                 break;
             case 3:
                 lerS(this.s,lerLogs());
+                System.out.println(s);
                 controllerStart();
+                break;
             case 4:
-                this.s = leObjeto("logs.txt");
+                this.s = Sistema.carrega("teste");
                 v.limpa();
+                controllerStart();
                 break;
             case 0:
                 v.finish();
-                gravaObjeto("teste",this.s);
+                s.grava("teste");
                 break;
         }
     }
 
-    public void controllerLog() {
+    public void controllerLog() throws IOException, ClassNotFoundException {
         int n1 = v.login();
         List<String> ret = new ArrayList<>();
         switch (n1) {
@@ -110,12 +113,13 @@ public class Controller {
                 break;
             case 0:
                 v.finish();
+                s.grava("teste");
                 break;
         }
     }
 
-    public void controllerSign() {
-        List<String> ret = new ArrayList<>();
+    public void controllerSign() throws IOException, ClassNotFoundException {
+        List<String> ret;
         int n1 = v.signup();
         switch(n1) {
             case 1:
@@ -191,10 +195,11 @@ public class Controller {
         }
     }
 
-    public void menuUtil(int t, Utilizador u){
+    public void menuUtil(int t, Utilizador u) throws IOException, ClassNotFoundException {
         switch (t) {
             case 0:
                 v.finish();
+                s.grava("teste");
                 break;
             case 1:
                 List<String> ret = new ArrayList<>();
@@ -226,10 +231,11 @@ public class Controller {
         }
     }
 
-    public void menuVol(int t, Voluntario vol){
+    public void menuVol(int t, Voluntario vol) throws IOException, ClassNotFoundException {
         switch (t) {
             case 0:
                 v.finish();
+                s.grava("teste");
                 break;
             case 1:
                 for(Encomenda e : vol.getHistorico()){
@@ -239,10 +245,11 @@ public class Controller {
         }
     }
 
-    public void menuLoja(int t, Loja l){
+    public void menuLoja(int t, Loja l) throws IOException, ClassNotFoundException {
         switch (t) {
             case 0:
                 v.finish();
+                s.grava("teste");
                 break;
             case 1:
                 int f = v.atualizafila();
@@ -254,10 +261,11 @@ public class Controller {
         }
     }
 
-    public void menuTrans(int a, Transportadora t){
+    public void menuTrans(int a, Transportadora t) throws IOException, ClassNotFoundException {
         switch (a) {
             case 0:
                 v.finish();
+                s.grava("teste");
                 break;
             case 1:
                 v.showS(s.totalFaturadoEmpresa(t.getId()));

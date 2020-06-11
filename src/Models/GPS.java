@@ -1,6 +1,8 @@
 package Models;
 
-public class GPS {
+import java.io.Serializable;
+
+public class GPS implements Serializable {
     private double x;
     private double y;
 

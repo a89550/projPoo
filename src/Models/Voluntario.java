@@ -1,10 +1,11 @@
 package Models;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Voluntario{
+public class Voluntario implements Serializable {
     private String id;
     private String nome;
     private String email;
@@ -281,7 +282,7 @@ public class Voluntario{
      * @param e - Encomenda a transportar.
      */
     public void setEncomendaTransportar(Encomenda e){
-        this.encomendaTransportar = e.clone();
+        this.encomendaTransportar = new Encomenda(e.clone());
     }
 
     /**
@@ -330,8 +331,8 @@ public class Voluntario{
     public Encomenda entregaEncomenda(){
         Encomenda ret;
         this.encomendaTransportar.setQPedidoEntregue(this.recolha.plusMinutes(this.encomendaTransportar.getTempoEntrega()));
-        ret = new Encomenda(this.encomendaTransportar.clone());
-        this.historico.add(this.encomendaTransportar.clone());
+        ret = new Encomenda(this.encomendaTransportar);
+        this.historico.add(this.encomendaTransportar);
         this.encomendaTransportar = new Encomenda();
         this.livre = true;
         if(aceitoTransporteMedicamentos()) this.aceitaMedicamentos(true);

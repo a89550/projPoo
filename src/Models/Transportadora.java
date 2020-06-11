@@ -1,9 +1,10 @@
 package Models;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-public class Transportadora{
+public class Transportadora implements Serializable {
     private String id;
     private String nome;
     private String email;

@@ -1,6 +1,8 @@
 package Models;
 
-public class LinhaEncomenda {
+import java.io.Serializable;
+
+public class LinhaEncomenda implements Serializable {
     private String p;
     private String nome;
     private double q;

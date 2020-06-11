@@ -1,6 +1,8 @@
 package Models;
 
-public class AceitaEncomenda {
+import java.io.Serializable;
+
+public class AceitaEncomenda implements Serializable {
     private String e;
 
     /**
