@@ -215,4 +215,11 @@ public class Utilizador {
     public void addEncomenda(Encomenda e) {
         this.encomendas.add(e);
     }
+
+    public void leUtil(String cod, String[] p) {
+        this.setId(cod);
+        this.setNome(p[1]);
+        this.g.setX(Double.parseDouble(p[2]));
+        this.g.setY(Double.parseDouble(p[3]));
+    }
 }

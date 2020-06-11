@@ -30,7 +30,6 @@ public class Voluntario{
         this.raio = 0;
         this.livre = true;
         this.recolha = LocalDateTime.now();
-
         this.classif = new ArrayList<>();
     }
 
