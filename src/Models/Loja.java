@@ -195,6 +195,14 @@ public class Loja {
         return sb.toString();
     }
 
+    public String toString2(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Loja:  ").append(this.id)
+                .append("\nNome da Loja:  ").append(this.nome);
+
+        return sb.toString();
+    }
+
     /**
      * Função que faz um clone da classe Loja.
      * @return Devolve esse clone.

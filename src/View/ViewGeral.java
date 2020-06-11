@@ -1,9 +1,7 @@
 package View;
 
 import Controller.*;
-import Models.Encomenda;
-import Models.Transportadora;
-import Models.Utilizador;
+import jdk.nashorn.api.tree.SimpleTreeVisitorES5_1;
 
 import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
@@ -242,9 +240,8 @@ public class ViewGeral {
         return s;
     }
 
-    public void printEncomendas(List<Encomenda> ret){
-        for(Encomenda e : ret)
-            System.out.println(e);
+    public void printEncomendas(String e){
+        System.out.println(e);
     }
 
     public int atualizafila(){
@@ -268,5 +265,62 @@ public class ViewGeral {
             i++;
             System.out.println("i: "+ t);
         }
+    }
+
+    public int fazEncom(List<String> lojas){
+        int a = 1;
+        for(String s : lojas){
+            System.out.println(s+"(a)");
+            a++;
+        }
+        Scanner n5 = new Scanner(System.in);
+        int b = n5.nextInt();
+        return b;
+    }
+
+    public Double fazEncom1(){
+        System.out.println("Peso da encomenda:");
+        Scanner n5 = new Scanner(System.in);
+        Double b = n5.nextDouble();
+        return b;
+    }
+
+    public Boolean fazEncom2(){
+        System.out.println("É uma encomenda medica:\nSim(1)\nNao(0)");
+        Scanner n5 = new Scanner(System.in);
+        int b = n5.nextInt();
+        if (b==1) return true;
+        else return false;
+    }
+
+    public List<String> escolherProduto(){
+        List<String> ret = new ArrayList<>();
+        System.out.println("Codigo do produto:");
+        Scanner n5 = new Scanner(System.in);
+        String b = n5.nextLine();
+        ret.add(b);
+
+        System.out.println("Descriçao do produto:");
+        Scanner n6 = new Scanner(System.in);
+        b = n6.nextLine();
+        ret.add(b);
+
+        System.out.println("Quantidade do produto:");
+        Scanner n1 = new Scanner(System.in);
+        double a = n1.nextDouble();
+        ret.add(Double.toString(a));
+
+        System.out.println("Preco:");
+        Scanner n2 = new Scanner(System.in);
+        a = n1.nextDouble();
+        ret.add(Double.toString(a));
+
+        return ret;
+    }
+    public int addMaisProduto() {
+        System.out.println("Quer adicional mais produtos?\nSim(1)\nNao(0)");
+        Scanner n5 = new Scanner(System.in);
+        int b = n5.nextInt();
+        return b;
     }
 }

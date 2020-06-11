@@ -41,7 +41,6 @@ public class Controller {
                 break;
             case 2:
                 controllerSign();
-                v.signup();
                 break;
             case 0:
                 v.finish();
@@ -120,7 +119,6 @@ public class Controller {
                 s.registaUtilizador(id,ret.get(2),ret.get(0),ret.get(1),x,y);
 
                 ViewUtilizador u = new ViewUtilizador();
-                ret = u.viewUtil("u");
                 Utilizador u1 = s.loginU(ret.get(0),ret.get(1));
                 int t = u.menuU();
                 menuUtil(t,u1);
@@ -139,7 +137,6 @@ public class Controller {
                 s.registaVoluntario(id,ret.get(2),ret.get(0),ret.get(1),x,y,r,vm,tf1);
 
                 ViewVoluntario v1 = new ViewVoluntario();
-                ret = v1.viewVolun("v");
                 Voluntario v2 = s.loginV(ret.get(0),ret.get(1));
                 t = v1.menuV();
                 menuVol(t,v2);
@@ -162,7 +159,6 @@ public class Controller {
                 s.registaTransportadora(id,ret.get(2),ret.get(0),ret.get(1),x,y,nif,r,pkm,nenc,vm,tf2);
 
                 ViewTransportadora t1 = new ViewTransportadora();
-                ret = t1.viewTransp("t");
                 Transportadora t2 = s.loginE(ret.get(0),ret.get(1));
                 t = t1.menuT();
                 menuTrans(t,t2);
@@ -181,7 +177,6 @@ public class Controller {
                 } else s.registaLoja(id,ret.get(2),ret.get(0),ret.get(1),x,y,tm);
 
                 ViewLoja l1 = new ViewLoja();
-                ret = l1.viewLoja("l");
                 Loja l2 = s.loginL(ret.get(0),ret.get(1));
                 t = l1.menuL();
                 menuLoja(t,l2);
@@ -195,8 +190,20 @@ public class Controller {
                 v.finish();
                 break;
             case 1:
-
-                break;
+                List<String> ret = new ArrayList<>();
+                for(Loja l : s.getLojas()){
+                    ret.add(l.toString2());
+                }
+                int i = v.fazEncom(ret);
+                Loja sb = s.getLojas().get(i-1);
+                Encomenda e = s.fazerEncomenda(u.getId(),sb.getId(),v.fazEncom1(),v.fazEncom2());
+                ret = v.escolherProduto();
+                e.addProduto(ret.get(0),ret.get(1),Double.parseDouble(ret.get(2)),Double.parseDouble(ret.get(3)));
+                while (v.addMaisProduto()==1){
+                    ret = v.escolherProduto();
+                    e.addProduto(ret.get(0),ret.get(1),Double.parseDouble(ret.get(2)),Double.parseDouble(ret.get(3)));
+                }
+                menuUtil(t,u);
             case 2:
                 int cla = v.classificaçao();
                 int e1 = u.getEncomendas().size()-1;
@@ -204,11 +211,11 @@ public class Controller {
 
                 s.classificarTransportadora(id,cla);
                 menuUtil(t,u);
-                break;
             case 3:
-                v.printEncomendas(u.getEncomendas());
+                for(Encomenda d : u.getEncomendas()){
+                    v.printEncomendas(d.toString());
+                }
                 menuUtil(t,u);
-                break;
         }
     }
 
@@ -218,8 +225,10 @@ public class Controller {
                 v.finish();
                 break;
             case 1:
-                v.printEncomendas(vol.getHistorico());
-                break;
+                for(Encomenda e : vol.getHistorico()){
+                    v.printEncomendas(e.toString());
+                }
+                menuVol(t,vol);
         }
     }
 
@@ -231,10 +240,10 @@ public class Controller {
             case 1:
                 int f = v.atualizafila();
                 l.setFilaDeEspera(f);
-                break;
+                menuLoja(t,l);
             case 2:
                 v.showFila(l.getFilaDeEspera());
-                break;
+                menuLoja(t,l);
         }
     }
 
@@ -245,13 +254,15 @@ public class Controller {
                 break;
             case 1:
                 v.showS(s.totalFaturadoEmpresa(t.getId()));
-                break;
+                menuTrans(a,t);
             case 2:
-                v.showTop(t.top10Empresas());
-                break;
+                v.showTop(s.top10Empresas());
+                menuTrans(a,t);
             case 3:
-                v.printEncomendas(t.getEncomendasFeitas());
-                break;
+                for(Encomenda e : t.getEncomendasFeitas()){
+                    v.printEncomendas(e.toString());
+                }
+                menuTrans(a,t);
         }
     }
 }
