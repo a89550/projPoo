@@ -1,9 +1,5 @@
 package View;
 
-import Controller.*;
-import jdk.nashorn.api.tree.SimpleTreeVisitorES5_1;
-
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +10,7 @@ public class ViewGeral {
     }
 
     public int viewGeral(){
-        System.out.println("    Bem Vindo ao TrazAqui!\n\n\nLogin(1)\nSignup(2)\nSair(0)");
+        System.out.println("\nBem Vindo ao TrazAqui!\n  Login(1)\n  Signup(2)\n  Carregar ficheiro de testo(3)\n  Carregar ficheiro binario(4)\n  Sair(0)");
         Scanner n2 = new Scanner(System.in);
         n1 = n2.nextInt();
 
@@ -31,7 +27,10 @@ public class ViewGeral {
 
     public void finish(){
         System.out.println("Obrigado!");
+    }
 
+    public void limpa() {
+        for (int i = 0; i < 50; ++i) System.out.println();
     }
 
     public int signup(){
