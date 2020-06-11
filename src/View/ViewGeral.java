@@ -1,6 +1,9 @@
 package View;
 
 import Controller.*;
+import Models.Encomenda;
+import Models.Transportadora;
+import Models.Utilizador;
 
 import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
@@ -229,5 +232,41 @@ public class ViewGeral {
 
     public void erroDeIdent(){
         System.out.println("Email ou password incorretos.");
+    }
+
+    public int classificaçao(){
+        System.out.println("Classifique de 0 a 10");
+        Scanner n5 = new Scanner(System.in);
+        int s = n5.nextInt();
+        if(s<0 || s>10)  System.out.println("Classificacao nao aceite.");
+        return s;
+    }
+
+    public void printEncomendas(List<Encomenda> ret){
+        for(Encomenda e : ret)
+            System.out.println(e);
+    }
+
+    public int atualizafila(){
+        System.out.println("Fila de espera:");
+        Scanner n5 = new Scanner(System.in);
+        int s = n5.nextInt();
+        return s;
+    }
+
+    public void showFila(int a){
+        System.out.println("Fila de espera: "+a);
+    }
+
+    public void showS(int a){
+        System.out.println(a);
+    }
+
+    public void showTop(List<String> ret) {
+        int i = 0;
+        for(String t : ret){
+            i++;
+            System.out.println("i: "+ t);
+        }
     }
 }
