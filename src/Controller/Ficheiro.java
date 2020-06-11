@@ -4,7 +4,6 @@ import Models.Sistema;
 import Models.Utilizador;
 import Models.Voluntario;
 import jdk.jshell.execution.Util;
-
 import java.io.*;
 
 public class Ficheiro {
@@ -16,10 +15,10 @@ public class Ficheiro {
      * @throws IOException           Exception.
      * @throws FileNotFoundException Exception.
      */
-    public void gravaObjeto(String nomeficheiro) throws IOException, FileNotFoundException {
+    public static void gravaObjeto(String nomeficheiro,Sistema s) throws IOException, FileNotFoundException {
         FileOutputStream fos = new FileOutputStream(nomeficheiro);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(this);
+        oos.writeObject(s);
         oos.flush();
         oos.close();
     }
@@ -49,7 +48,7 @@ public class Ficheiro {
      */
     public static String[] lerLogs() throws IOException {
         String[] logs = new String[1500];
-        FileReader file = new FileReader("/home/joao/Desktop/logs.txt");
+        FileReader file = new FileReader("logs.txt");
         BufferedReader lerLogs = new BufferedReader(file);
         String linha = lerLogs.readLine();
         int i = 0;
@@ -61,8 +60,7 @@ public class Ficheiro {
         return logs;
     }
 
-
-    public void lerS(Sistema s, String[] logs) {
+    public static void lerS(Sistema s, String[] logs) {
         String[] p1;
         String[] p2;
         for (String log : logs) { //le cada linha do array de strings

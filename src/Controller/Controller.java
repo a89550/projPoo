@@ -2,11 +2,11 @@ package Controller;
 
 import Models.*;
 import View.*;
-import jdk.jshell.execution.Util;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
+import static Controller.Ficheiro.*;
 
 public class Controller {
     private Sistema s;
@@ -33,7 +33,7 @@ public class Controller {
         this.v = v;
     }
 
-    public void controllerStart(){
+    public void controllerStart() throws IOException, ClassNotFoundException {
         int n1 = v.viewGeral();
         switch(n1) {
             case 1:
@@ -42,8 +42,16 @@ public class Controller {
             case 2:
                 controllerSign();
                 break;
+            case 3:
+                lerS(this.s,lerLogs());
+                controllerStart();
+            case 4:
+                this.s = leObjeto("logs.txt");
+                v.limpa();
+                break;
             case 0:
                 v.finish();
+                gravaObjeto("teste",this.s);
                 break;
         }
     }
@@ -115,11 +123,10 @@ public class Controller {
                 double x = Double.parseDouble(ret.get(3));
                 double y = Double.parseDouble(ret.get(4));
 
-                String id = s.getNewId("u");
-                s.registaUtilizador(id,ret.get(2),ret.get(0),ret.get(1),x,y);
-
                 ViewUtilizador u = new ViewUtilizador();
-                Utilizador u1 = s.loginU(ret.get(0),ret.get(1));
+                String id = s.getNewId("u");
+                Utilizador u1 =s.registaUtilizador(id,ret.get(2),ret.get(0),ret.get(1),x,y);
+
                 int t = u.menuU();
                 menuUtil(t,u1);
                 break;
