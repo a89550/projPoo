@@ -26,12 +26,18 @@ public class Voluntario{
     public Voluntario() {
         this.id = "";
         this.nome = "";
+        this.email = "";
+        this.password = "";
         this.gps = new GPS();
         this.raio = 0;
         this.livre = true;
         this.recolha = LocalDateTime.now();
-
         this.classif = new ArrayList<>();
+        this.historico = new ArrayList<>();
+        this.encomendaTransportar = new Encomenda();
+        this.velocidadeMedia = 0;
+        this.medica = false;
+        this.livreMed = false;
     }
 
     /**
@@ -43,9 +49,12 @@ public class Voluntario{
      * @param raio Double representante do raio.
      * @oaram c Lista de Integer representante da lista de classificações.
      */
-    public Voluntario(String id, String n, GPS gps, double raio, boolean livre, List<Integer> c, List<Encomenda> historico, Encomenda enc, double vel, boolean med, boolean livreMed) {
+    public Voluntario(String id, String n, String email, String password, GPS gps, double raio, boolean livre,
+                      List<Integer> c, List<Encomenda> historico, Encomenda enc, double vel, boolean med, boolean livreMed) {
         this.id = id;
         this.nome = n;
+        this.email = email;
+        this.password = password;
         this.gps = new GPS(gps);
         this.raio = raio;
         this.livre = livre;
@@ -283,6 +292,7 @@ public class Voluntario{
         this.livre = false;
         this.recolha = LocalDateTime.now();
         setEncomendaTransportar(enc);
+        aceitaMedicamentos(false);
     }
 
 
@@ -307,31 +317,34 @@ public class Voluntario{
      * @return - Distância entre os dois pontos.
      */
     public double auxDist(GPS gps1, GPS gps2){
-        double firstLatToRad = Math.toRadians(gps1.getX());
-        double secondLatToRad = Math.toRadians(gps2.getX());
-        double deltaLongitudeInRad = Math.toRadians(gps2.getY() - gps1.getY());
-        return Math.acos(Math.cos(firstLatToRad) * Math.cos(secondLatToRad) * Math.cos(deltaLongitudeInRad) + Math.sin(firstLatToRad)
-                * Math.sin(secondLatToRad)) * 6371.01;
+        double d1 = Math.pow((gps2.getX() - gps1.getX()),2);
+        double d2 = Math.pow((gps2.getY() - gps2.getY()),2);
+        return Math.sqrt(d1+d2);
     }
 
-    /**
-     * Função que calula o preço do transporte da encomenda.
-     * @param loja - Coordenadas GPS da loja.
-     * @param utilizador - Coordenadas GPS do utilizador.
-     * @return - Preço do transporte.
-     */
-    public double precoEntrega(GPS loja, GPS utilizador) {
-        return 0;
-    }
 
     /**
      * Função que sinaliza que as encomendas foram entregues.
      * @return - Lista da encomendas entregues.
      */
-    public List<Encomenda> entregaEncomenda(){
-        return new ArrayList<>();
+    public Encomenda entregaEncomenda(){
+        Encomenda ret;
+        this.encomendaTransportar.setQPedidoEntregue(this.recolha.plusMinutes(this.encomendaTransportar.getTempoEntrega()));
+        ret = new Encomenda(this.encomendaTransportar.clone());
+        this.historico.add(this.encomendaTransportar.clone());
+        this.encomendaTransportar = new Encomenda();
+        this.livre = true;
+        if(aceitoTransporteMedicamentos()) this.aceitaMedicamentos(true);
+        return ret;
     }
 
+
+    /**
+     * Função que verifica se uma loja e um utilizador estão dentro do raio de ação do voluntário.
+     * @param loja - Coordenadas gps da loja.
+     * @param util - Coordenadas gps do utilizador.
+     * @return - True se pertencer, false caso contrário.
+     */
     public boolean dentroDoRaio(GPS loja, GPS util){
         boolean ret = false;
         if(auxDist(this.gps,loja) <= this.raio && auxDist(this.gps,util) <= this.raio) ret = true;
@@ -361,17 +374,27 @@ public class Voluntario{
         return (int)t;
     }
 
-
+    /**
+     * Função que retorna a velocidade média do voluntário.
+     * @return - Velocidade média do voluntário.
+     */
     public double getVelocidadeMedia() {
         return this.velocidadeMedia;
     }
 
-
+    /**
+     * Função que retorna a password do voluntário.
+     * @return - Password do voluntário.
+     */
     public String getPassword() {
         return this.password;
     }
 
 
+    /**
+     * Função que retorna o email do voluntário.
+     * @return - Email do voluntário.
+     */
     public String getEmail() {
         return this.email;
     }

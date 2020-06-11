@@ -43,6 +43,8 @@ public class Transportadora{
         this.velocidadeMedia = 0;
         this.recolha = LocalDateTime.now();
         this.encomendasATransportar = new ArrayList<>();
+        this.medica = false;
+        this.livreMed = false;
     }
 
     /**
@@ -360,11 +362,9 @@ public class Transportadora{
      * @return - Distância entre os dois pontos.
      */
     public double auxDist(GPS gps1, GPS gps2){
-        double firstLatToRad = Math.toRadians(gps1.getX());
-        double secondLatToRad = Math.toRadians(gps2.getX());
-        double deltaLongitudeInRad = Math.toRadians(gps2.getY() - gps1.getY());
-        return Math.acos(Math.cos(firstLatToRad) * Math.cos(secondLatToRad) * Math.cos(deltaLongitudeInRad) + Math.sin(firstLatToRad)
-                * Math.sin(secondLatToRad)) * 6371.01;
+        double d1 = Math.pow((gps2.getX() - gps1.getX()),2);
+        double d2 = Math.pow((gps2.getY() - gps2.getY()),2);
+        return Math.sqrt(d1+d2);
     }
 
     /**
@@ -384,10 +384,13 @@ public class Transportadora{
     public List<Encomenda> entregaEncomenda(){
         List<Encomenda> ret = new ArrayList<>();
         for(Encomenda e : this.encomendasATransportar) {
+            e.setQPedidoEntregue(this.recolha.plusMinutes(e.getTempoEntrega()));
             this.encomendasFeitas.add(e.clone());
             ret.add(e.clone());
         }
-        this.encomendasATransportar = new ArrayList<>();
+        this.encomendasATransportar.clear();
+        this.livre = true;
+        if(aceitoTransporteMedicamentos()) aceitaMedicamentos(true);
         return ret;
     }
 
@@ -420,8 +423,11 @@ public class Transportadora{
      */
     public void aceitaEncomenda(Encomenda e) {
         this.recolha = LocalDateTime.now();
-        this.encomendasATransportar.add(e.clone());
-        if(this.encomendasATransportar.size() >= this.numeroEnc) this.livre = false;
+        this.encomendasATransportar.add(e);
+        if(this.encomendasATransportar.size() >= this.numeroEnc) {
+            this.livre = false;
+            aceitaMedicamentos(false);
+        }
     }
 
     /**

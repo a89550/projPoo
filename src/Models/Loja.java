@@ -189,7 +189,9 @@ public class Loja {
                 .append("\nNome da Loja:  ").append(this.nome)
                 .append("\nGPS:  ").append(this.g)
                 .append("\nEmail:  ").append(this.email)
-                .append("\nPassword:  ").append(this.password);
+                .append("\nPassword:  ").append(this.password)
+                .append("\nAtendimento: ").append(this.tempoAtendimento).append(" min")
+                .append("\nFila de Espera: ").append(this.filaDeEspera).append(" pessoas");
         return sb.toString();
     }
 

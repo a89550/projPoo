@@ -1,9 +1,7 @@
 package Models;
 
-import java.awt.event.ItemEvent;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Encomenda{
@@ -12,7 +10,7 @@ public class Encomenda{
     private String loja;
     private double peso;
     private List<LinhaEncomenda> produtos;
-    private int tempoDeEntrega;
+    private int tempoDeEspera;
     private double precoEntrega;
     private LocalDateTime qPedidoEntregue;
     private boolean encomendaMedica;
@@ -25,7 +23,7 @@ public class Encomenda{
         this.user = "";
         this.loja = "";
         this.peso = 0;
-        this.tempoDeEntrega = 0;
+        this.tempoDeEspera = 0;
         this.produtos = new ArrayList<>();
         this.precoEntrega = 0;
         this.qPedidoEntregue = LocalDateTime.now();
@@ -39,11 +37,11 @@ public class Encomenda{
      * @param loja String que representa o código de uma Loja.
      * @param p Double que representa o peso.
      * @param produtos Lista das linhas de encomenda.
-     * @param qPedidoAceite LocalDateTime que representa o momento de quando o pedido foi aceite.
+     * @param qPedidoEntregue LocalDateTime que representa o momento de quando o pedido foi aceite.
      * @param encomendaMedica Boolean que verifica se uma encomenda é médica ou não.
      */
     public Encomenda(String e, String user, String loja, double p, List<LinhaEncomenda> produtos,
-                     LocalDateTime qPedidoAceite, int tempoDeEntrega, double precoEntrega,  boolean encomendaMedica){
+                     LocalDateTime qPedidoEntregue, int tempoDeEspera, double precoEntrega, boolean encomendaMedica){
         this.id = e;
         this.user = user;
         this.loja = loja;
@@ -52,8 +50,9 @@ public class Encomenda{
         for(LinhaEncomenda lenc : produtos){
             this.produtos.add(lenc.clone());
         }
-        this.tempoDeEntrega = tempoDeEntrega;
+        this.tempoDeEspera = tempoDeEspera;
         this.precoEntrega = precoEntrega;
+        this.qPedidoEntregue = qPedidoEntregue;
         this.encomendaMedica = encomendaMedica;
     }
 
@@ -68,7 +67,8 @@ public class Encomenda{
         this.peso = e.getPeso();
         this.produtos = e.getLE();
         this.precoEntrega = e.getPrecoEntrega();
-        this.tempoDeEntrega = e.getTempoEntrega();
+        this.tempoDeEspera = e.getTempoEntrega();
+        this.qPedidoEntregue = e.getQPedidoEntregue();
         this.encomendaMedica = e.getEncomendaMedica();
     }
 
@@ -76,8 +76,8 @@ public class Encomenda{
         this.precoEntrega = precoEntrega;
     }
 
-    public void setTempoDeEntrega(int t){
-        this.tempoDeEntrega = t;
+    public void setTempoDeEspera(int t){
+        this.tempoDeEspera = t;
     }
 
     public double getPrecoEntrega() {
@@ -85,8 +85,9 @@ public class Encomenda{
     }
 
     public int getTempoEntrega() {
-        return tempoDeEntrega;
+        return tempoDeEspera;
     }
+
 
     /**
      * Método que dá o código de uma Encomenda.
