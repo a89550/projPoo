@@ -13,7 +13,7 @@ public class ViewGeral {
     }
 
     public int viewGeral(){
-        System.out.println("    Bem Vindo ao TrazAqui!\n\n\nNome de utilizador(1)\nQueres aderir ao TrazAqui! ?(2)\nSair(0)");
+        System.out.println("    Bem Vindo ao TrazAqui!\n\n\nLogin(1)\nSignup(2)\nSair(0)");
         Scanner n2 = new Scanner(System.in);
         n1 = n2.nextInt();
 
@@ -55,7 +55,7 @@ public class ViewGeral {
         String p = p1.nextLine();
         ret.add(p);
 
-        System.out.println("Nome de ultilizador:");
+        System.out.println("Nome completo:");
         Scanner n6 = new Scanner(System.in);
         String n = n6.nextLine();
         ret.add(n);
@@ -86,7 +86,7 @@ public class ViewGeral {
         String p = p1.nextLine();
         ret.add(p);
 
-        System.out.println("Nome de voluntario:");
+        System.out.println("Nome completo:");
         Scanner n2 = new Scanner(System.in);
         String v = n2.nextLine();
         ret.add(v);
@@ -132,7 +132,7 @@ public class ViewGeral {
         String p = p1.nextLine();
         ret.add(p);
 
-        System.out.println("Nome de transportadora:");
+        System.out.println("Nome completo:");
         Scanner n2 = new Scanner(System.in);
         String t = n2.nextLine();
         ret.add(t);
@@ -180,7 +180,6 @@ public class ViewGeral {
         return ret;
     }
 
-
     public List<String> registaLoja() {
         List<String> ret = new ArrayList<>();
 
@@ -194,7 +193,7 @@ public class ViewGeral {
         String p = p1.nextLine();
         ret.add(p);
 
-        System.out.println("Nome da loja:");
+        System.out.println("Nome completo:");
         Scanner n6 = new Scanner(System.in);
         String n = n6.nextLine();
         ret.add(n);
@@ -209,22 +208,26 @@ public class ViewGeral {
         double y = n4.nextDouble();
         ret.add(Double.toString(y));
 
-        System.out.println("Tempo médio:");
+        System.out.println("Tempo médio de atendimento:");
         Scanner n12 = new Scanner(System.in);
-        double tp = n12.nextDouble();
-        ret.add(Double.toString(tp));
+        int tp = n12.nextInt();
+        ret.add(Integer.toString(tp));
 
         System.out.println("Tem informaçao sobre a fila de espera?\nSIM(1)\nNAO(2)");
         Scanner n5 = new Scanner(System.in);
         int s = n5.nextInt();
         ret.add(Integer.toString(s));
         if(s==1){
-            System.out.println("Media de fila de espera:");
+            System.out.println("Fila de espera:");
             Scanner n8 = new Scanner(System.in);
-            double esp = n8.nextDouble();
-            ret.add(Double.toString(esp));
+            int esp = n8.nextInt();
+            ret.add(Integer.toString(esp));
         }
 
         return ret;
+    }
+
+    public void erroDeIdent(){
+        System.out.println("Email ou password incorretos.");
     }
 }

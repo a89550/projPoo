@@ -1,8 +1,8 @@
 package Controller;
 
-import Models.Sistema;
-import Models.Transportadora;
+import Models.*;
 import View.*;
+import jdk.jshell.execution.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,22 +51,43 @@ public class Controller {
 
     public void controllerLog() {
         int n1 = v.login();
+        List<String> ret = new ArrayList<>();
         switch (n1) {
             case 1:
                 ViewUtilizador u = new ViewUtilizador();
-                u.viewUtil("u");
+                ret = u.viewUtil("u");
+                Utilizador u1 = s.loginU(ret.get(0),ret.get(1));
+                if(u1==null) {
+                    v.erroDeIdent();
+                    controllerLog();
+                }
                 break;
             case 2:
                 ViewVoluntario vol = new ViewVoluntario();
-                vol.viewVolun("v");
+                ret = vol.viewVolun("v");
+                Voluntario volu = s.loginV(ret.get(0),ret.get(1));
+                if(volu==null) {
+                    v.erroDeIdent();
+                    controllerLog();
+                }
                 break;
             case 3:
                 ViewTransportadora t = new ViewTransportadora();
-                t.viewTransp("t");
+                ret = t.viewTransp("t");
+                Transportadora t1 = s.loginE(ret.get(0),ret.get(1));
+                if(t1==null) {
+                    v.erroDeIdent();
+                    controllerLog();
+                }
                 break;
             case 4:
                 ViewLoja l = new ViewLoja();
-                l.viewLoja("l");
+                ret = l.viewLoja("l");
+                Loja l1 = s.loginL(ret.get(0),ret.get(1));
+                if(l1==null) {
+                    v.erroDeIdent();
+                    controllerLog();
+                }
                 break;
             case 0:
                 v.finish();
@@ -92,12 +113,9 @@ public class Controller {
                 y = Double.parseDouble(ret.get(4));
                 double r = Double.parseDouble(ret.get(5));
                 double vm = Double.parseDouble(ret.get(6));
-                double tf = Double.parseDouble(ret.get(7));
-                boolean tf1;
-                if(tf==1)
+                boolean tf1 = false;
+                if(ret.get(7).equals("1"))
                     tf1 = true;
-                else (tf==0)//aqui tem de haver exeption
-                    tf1 = false;
 
                 id = s.getNewId("t");
                 s.registaVoluntario(id,ret.get(2),ret.get(0),ret.get(1),x,y,r,vm,tf1);
@@ -107,30 +125,28 @@ public class Controller {
                 x = Double.parseDouble(ret.get(3));
                 y = Double.parseDouble(ret.get(4));
                 r = Double.parseDouble(ret.get(5));
-                double nif = Double.parseDouble(ret.get(6));
+                int nif = Integer.parseInt(ret.get(6));
                 double pkm = Double.parseDouble(ret.get(7));
-                double nenc = Double.parseDouble(ret.get(8));
+                int nenc = Integer.parseInt(ret.get(8));
                 vm = Double.parseDouble(ret.get(9));
-                tf = Double.parseDouble(ret.get(10));
-                boolean tf2;
-                if(tf==1)
-                    tf2 = true;
-                else if(tf==0)
-                    tf2 = false;
+                double tf = Double.parseDouble(ret.get(10));
+                boolean tf2 = false;
+                if(tf==1) tf2 = true;
+                else tf2 = false;
 
                 id = s.getNewId("t");
-                s.registaTransportadora(id,ret.get(2),ret.get(0),ret.get(1),x,y,r,nif,pkm,nenc,vm,tf2);
+                s.registaTransportadora(id,ret.get(2),ret.get(0),ret.get(1),x,y,nif,r,pkm,nenc,vm,tf2);
                 break;
             case 4:
                 ret = v.registaLoja();
                 x = Double.parseDouble(ret.get(3));
                 y = Double.parseDouble(ret.get(4));
-                double tm = Double.parseDouble(ret.get(5));
-                double tf = Double.parseDouble(ret.get(6));
+                int tm = Integer.parseInt(ret.get(5));
+                tf = Double.parseDouble(ret.get(6));
 
                 id = s.getNewId("l");
                 if(tf==1) {
-                    double f = Double.parseDouble(ret.get(7));
+                    int f = Integer.parseInt(ret.get(7));
                     s.registaLoja(id,ret.get(2),ret.get(0),ret.get(1),x,y,tm,f);
                 } else s.registaLoja(id,ret.get(2),ret.get(0),ret.get(1),x,y,tm);
                 break;
