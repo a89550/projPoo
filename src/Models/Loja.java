@@ -213,4 +213,7 @@ public class Loja {
         return ret;
     }
 
+    public void setFilaDeEspera(int g){
+        this.filaDeEspera = g;
+    }
 }
