@@ -740,6 +740,9 @@ public class Sistema {
         }
         return ret;
     }
+    public int zero(){
+        return 0;
+    }
 }
 
 
