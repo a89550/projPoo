@@ -140,14 +140,37 @@ public class Sistema {
      * Função que traduz a classe Sistema.
      * @return Devolve uma String com a respetiva tradução.
      */
-
+    @Override
+    public String toString() {
+        return "Sistema{" +
+                "utilizadores=" + utilizadores +
+                ", empresas=" + empresas +
+                ", voluntarios=" + voluntarios +
+                ", lojas=" + lojas +
+                ", historicoEncomendas=" + historicoEncomendas +
+                ", encomendasPorEnviar=" + encomendasPorEnviar +
+                ", encomendasAceites=" + encomendasAceites +
+                '}';
+    }
 
     /**
      * Função que verifica se um objeto recebido é idêntico ao da classe Sistema.
      * @param o Recebe um objeto.
      * @return Devolve um boolean com a respetiva verificação.
      */
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Sistema sistema = (Sistema) o;
+        return Objects.equals(utilizadores, sistema.utilizadores) &&
+                Objects.equals(empresas, sistema.empresas) &&
+                Objects.equals(voluntarios, sistema.voluntarios) &&
+                Objects.equals(lojas, sistema.lojas) &&
+                Objects.equals(historicoEncomendas, sistema.historicoEncomendas) &&
+                Objects.equals(encomendasPorEnviar, sistema.encomendasPorEnviar) &&
+                Objects.equals(encomendasAceites, sistema.encomendasAceites);
+    }
 
 
     /**
@@ -203,12 +226,28 @@ public class Sistema {
      * @param password - Password do utilizador.
      * @param x - Latitude do utilizador.
      * @param y - Longitude do utilizador.
+     * @return - Utilizador criado.
      */
     public Utilizador registaUtilizador(String id, String nome, String email, String password, double x, double y){
         List<Encomenda> vazia = new ArrayList<>();
         GPS gps = new GPS(x,y);
         Utilizador user = new Utilizador(id,nome,gps,vazia,email,password);
         this.utilizadores.add(user);
+        return user;
+    }
+
+    /**
+     * Função que regista um utilizador no sistema.
+     * @param id - Username do utilizador.
+     * @param nome - Nome do utilizador.
+     * @param x - Latitude do utilizador.
+     * @param y - Longitude do utilizador.
+     * @return - Utilizador criado.
+     */
+    public Utilizador registaUtilizador(String id, String nome, double x, double y){
+        StringBuilder sb1 = new StringBuilder();
+        sb1.append(id).append("@gmail.com");
+        Utilizador user = new Utilizador(registaUtilizador(id,nome,sb1.toString(),id,x,y));
         return user;
     }
 
@@ -313,6 +352,7 @@ public class Sistema {
         for(Voluntario v : this.voluntarios){
             if(v.isLivre()) ret.add(v.clone());
         }
+        if(ret.size() < 1) ret = null;
         return ret;
     }
 
@@ -343,32 +383,6 @@ public class Sistema {
         return ret;
     }
 
-    /**
-     * Função que atribui encomendas a voluntários.
-     */
-    public void aceitaEncomendas(){
-        int i = 0;
-        List<Voluntario> livres = getVoluntariosLivres();
-        for(Voluntario v : livres){
-            for(Encomenda e : this.encomendasPorEnviar){
-                if (v.dentroDoRaio(getLoja(e.getLoja()).getGps(),getUtilizador(e.getUser()).getGps())){
-                    AceitaEncomenda a = new AceitaEncomenda(e.getId());
-                    v.aceitaEncomenda(e.clone());
-                    this.encomendasAceites.add(a);
-                    this.encomendasPorEnviar.remove(e);
-                }
-            }
-
-        }
-    }
-
-    /**
-     * Função que adiciona uma encomenda à lista de encomendas por enviar.
-     * @param e - Encomenda a enviar.
-     */
-    public void realizaPedido(Encomenda e){
-        this.encomendasPorEnviar.add(e.clone());
-    }
 
     /**
      * Função que faz login de um utilizador.
@@ -472,7 +486,260 @@ public class Sistema {
         return ret;
     }
 
+    /**
+     * Função que cria uma encomenda para mais tarde ser adiciona ao sistema.
+     * @param util - Utilizador que quer fazer encomenda.
+     * @param loja - Loja da encomenda.
+     * @param peso - Peso da encomenda.
+     * @param med - Boolean que diz se é uma encomenda médica ou não.
+     * @return - Encomenda criada.
+     */
+    public Encomenda fazerEncomenda(String util, String loja,double peso, boolean med){
+        Encomenda ret = new Encomenda();
+        ret.setId(getNewId("e"));
+        ret.setUser(util);
+        ret.setLoja(loja);
+        ret.setPeso(peso);
+        ret.setEncomendaMedica(med);
+        return ret.clone();
+    }
 
+    /**
+     * Função que adiciona uma encomenda ao sistema, torando a numa encomenda por enviar.
+     * @param e - Encomenda a adicionar.
+     */
+    public void finalizarEncomenda(Encomenda e){
+        this.encomendasPorEnviar.add(e);
+    }
+
+    /**
+     * Função que retorna a lista de voluntários livres e que têm certificado médico.
+     * @return - Lista de voluntários livres e que têm certificado médico.
+     */
+    public List<Voluntario> getVoluntariosLivresMed(){
+        List<Voluntario> ret = new ArrayList<>();
+        for(Voluntario v : this.voluntarios){
+            if(v.getLivreMed() && v.aceitoTransporteMedicamentos() && v.isLivre()) ret.add(v.clone());
+        }
+        if(ret.size() < 1) ret = null;
+        return ret;
+    }
+
+    /**
+     * Função que retorna a lista de empresas transportadoras livres.
+     * @return - Lista de empresas transportadoras livres.
+     */
+    public List<Transportadora> getTransportadorasLivres(){
+        List<Transportadora> ret = new ArrayList<>();
+        for(Transportadora t : this.empresas){
+            if(t.isLivre()) ret.add(t.clone());
+        }
+        if(ret.size() < 1) ret = null;
+        return ret;
+    }
+
+    /**
+     * Função que retorna a lista de empresas transportadoras livres e que têm certificado médico.
+     * @return - Lista de empresas transportadoras livres e que têm certificado médico.
+     */
+    public List<Transportadora> getTransportadorasLivresMed(){
+        List<Transportadora> ret = new ArrayList<>();
+        for(Transportadora t : this.empresas){
+            if(t.getLivreMed() && t.aceitoTransporteMedicamentos() && t.isLivre()) ret.add(t.clone());
+        }
+        if(ret.size() < 1) ret = null;
+        return ret;
+    }
+
+    /**
+     * Função que retorna o índice de uma encomenda a partir do seu id.
+     * @param id - Id da encomenda.
+     * @return - Índice da encomenda.
+     */
+    public int getIndiceEncomenda(String id){
+        int ret = 0;
+        for(Encomenda e : this.encomendasPorEnviar){
+            if(e.getId().equals(id)) break;
+            else ret++;
+        }
+        return ret;
+    }
+
+    /**
+     * Função que retorna a encomenda por enviar através do seu id.
+     * @param id - Id da encomenda.
+     * @return - Encomenda por enviar.
+     */
+    public Encomenda getEncomendaPorEnviar(String id){
+        Encomenda e = null;
+        for(Encomenda enc : this.encomendasPorEnviar){
+            if(enc.getId().equals(id)){
+                e = new Encomenda(enc.clone());
+                break;
+            }
+        }
+        return e;
+    }
+
+    /**
+     * Função que distribui uma encomenda a enviar a um voluntário.
+     * @param idE - Id da encomenda.
+     * @return - Voluntário que entrega a encomenda.
+     */
+    public Voluntario aceitaEncomendaV(String idE){
+        Encomenda e = getEncomendaPorEnviar(idE);
+        GPS gpsLoja = getLoja(e.getLoja()).getGps();
+        GPS gpsUt = getUtilizador(e.getUser()).getGps();
+        int info = getLoja(e.getLoja()).tempoDoPedido();
+        int i = getIndiceEncomenda(idE);
+        int ret = 0;
+        Voluntario fn = null;
+        if(e.getEncomendaMedica()) {
+            if (getVoluntariosLivresMed() != null) {
+                for (Voluntario v : getVoluntariosLivresMed()) {
+                    if (v.dentroDoRaio(gpsLoja, gpsUt)) {
+                        if (info > v.tempoDeIda(gpsLoja)) ret = info + v.tempoDeVolta(gpsLoja, gpsUt);
+                        else ret = v.tempoDeIda(gpsLoja) + v.tempoDeVolta(gpsLoja, gpsUt);
+                        e.setPrecoEntrega(0);
+                        e.setTempoDeEspera(ret);
+                        v.aceitaEncomenda(e.clone());
+                        fn = new Voluntario(v.clone());
+                        this.encomendasAceites.add(new AceitaEncomenda(idE));
+                        this.encomendasPorEnviar.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+        else{
+            if(getVoluntariosLivres() != null){
+                for(Voluntario vt : getVoluntariosLivres()){
+                    if(vt.dentroDoRaio(gpsLoja,gpsUt)){
+                        if(info > vt.tempoDeIda(gpsLoja)) ret = info + vt.tempoDeVolta(gpsLoja,gpsUt);
+                        else ret = vt.tempoDeIda(gpsLoja) + vt.tempoDeVolta(gpsLoja,gpsUt);
+                        e.setPrecoEntrega(0);
+                        e.setTempoDeEspera(ret);
+                        vt.aceitaEncomenda(e.clone());
+                        fn = new Voluntario(vt.clone());
+                        this.encomendasAceites.add(new AceitaEncomenda(idE));
+                        this.encomendasPorEnviar.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+        return fn;
+    }
+
+    /**
+     * Função que distribui uma encomenda a enviar a uma empresa.
+     * @param idE - Id da encomenda.
+     * @return - Empresa que entrega a encomenda..
+     */
+    public Transportadora aceitaEncomendaT(String idE){
+        Encomenda e = getEncomendaPorEnviar(idE);
+        GPS gpsLoja = getLoja(e.getLoja()).getGps();
+        GPS gpsUt = getUtilizador(e.getUser()).getGps();
+        int info = getLoja(e.getLoja()).tempoDoPedido();
+        int i = getIndiceEncomenda(idE);
+        int ret = 0;
+        Transportadora fn = null;
+        if(e.getEncomendaMedica()){
+            if(getTransportadorasLivresMed() != null){
+                for(Transportadora t : getTransportadorasLivresMed()){
+                    if(t.dentroDoRaio(gpsLoja,gpsUt)) {
+                        if(info > t.tempoDeIda(gpsLoja)) ret = info + t.tempoDeVolta(gpsLoja,gpsUt);
+                        else ret = t.tempoDeIda(gpsLoja) + t.tempoDeVolta(gpsLoja,gpsUt);
+                        e.setPrecoEntrega(t.precoEntrega(gpsLoja,gpsUt));
+                        e.setTempoDeEspera(ret);
+                        t.aceitaEncomenda(e.clone());
+                        fn = new Transportadora( t.clone());
+                        this.encomendasAceites.add(new AceitaEncomenda(idE));
+                        this.encomendasPorEnviar.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+        else{
+            if(getTransportadorasLivres() != null){
+                for(Transportadora tp : getTransportadorasLivres()){
+                    if(tp.dentroDoRaio(gpsLoja,gpsUt)){
+                        if(info > tp.tempoDeIda(gpsLoja)) ret = info + tp.tempoDeVolta(gpsLoja,gpsUt);
+                        else ret = tp.tempoDeIda(gpsLoja) + tp.tempoDeVolta(gpsLoja,gpsUt);
+                        e.setPrecoEntrega(tp.precoEntrega(gpsLoja,gpsUt));
+                        e.setTempoDeEspera(ret);
+                        tp.aceitaEncomenda(e.clone());
+                        fn = new Transportadora(tp.clone());
+                        this.encomendasAceites.add(new AceitaEncomenda(idE));
+                        this.encomendasPorEnviar.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+        return fn;
+    }
+
+
+    /**
+     * Função que entrega uma encomenda.
+     * @param v - Voluntário que entrega a encomenda.
+     */
+    public void entregaEncomenda(Voluntario v){
+        this.historicoEncomendas.add(v.entregaEncomenda());
+        this.utilizadores.get(indiceUtil(v.entregaEncomenda().getUser())).addEncomenda(v.entregaEncomenda().clone());
+    }
+
+    public int indiceUtil(String id){
+        int i = 0;
+        for(Utilizador u : this.utilizadores){
+            if(u.getId().equals(id)) break;
+            i++;
+        }
+        return i;
+    }
+
+    /**
+     * Função que entrega uma encomenda.
+     * @param t - Transportadora que entraga a encomenda.
+     */
+    public void entregaEncomenda(Transportadora t){
+        for(Encomenda e : t.entregaEncomenda()) {
+            this.historicoEncomendas.add(e);
+            this.utilizadores.get(indiceUtil(e.getUser())).addEncomenda(e.clone());
+        }
+    }
+
+    /**
+     * Função que dá uma empresa transportadora a partir do seu id.
+     * @param id - Id da empresa.
+     * @return - Empresa.
+     */
+    public Transportadora getEmpresa(String id){
+        Transportadora ret = new Transportadora();
+        for(Transportadora t : this.empresas){
+            if(t.getId().equals(id)){
+                ret = new Transportadora(t.clone());
+                break;
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * Função que calcula o total faturado por uma empresa transportador.
+     * @param id - Id da empresa.
+     * @return - Total faturado.
+     */
+    public int totalFaturadoEmpresa(String id){
+        int ret = 0;
+        Transportadora t = getEmpresa(id);
+        for(Encomenda e : t.getEncomendasFeitas()){
+            ret += e.getPrecoEntrega();
+        }
+        return ret;
+    }
 }
 
 

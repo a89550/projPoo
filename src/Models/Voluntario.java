@@ -292,6 +292,7 @@ public class Voluntario{
         this.livre = false;
         this.recolha = LocalDateTime.now();
         setEncomendaTransportar(enc);
+        aceitaMedicamentos(false);
     }
 
 
@@ -316,31 +317,34 @@ public class Voluntario{
      * @return - Distância entre os dois pontos.
      */
     public double auxDist(GPS gps1, GPS gps2){
-        double firstLatToRad = Math.toRadians(gps1.getX());
-        double secondLatToRad = Math.toRadians(gps2.getX());
-        double deltaLongitudeInRad = Math.toRadians(gps2.getY() - gps1.getY());
-        return Math.acos(Math.cos(firstLatToRad) * Math.cos(secondLatToRad) * Math.cos(deltaLongitudeInRad) + Math.sin(firstLatToRad)
-                * Math.sin(secondLatToRad)) * 6371.01;
+        double d1 = Math.pow((gps2.getX() - gps1.getX()),2);
+        double d2 = Math.pow((gps2.getY() - gps2.getY()),2);
+        return Math.sqrt(d1+d2);
     }
 
-    /**
-     * Função que calula o preço do transporte da encomenda.
-     * @param loja - Coordenadas GPS da loja.
-     * @param utilizador - Coordenadas GPS do utilizador.
-     * @return - Preço do transporte.
-     */
-    public double precoEntrega(GPS loja, GPS utilizador) {
-        return 0;
-    }
 
     /**
      * Função que sinaliza que as encomendas foram entregues.
      * @return - Lista da encomendas entregues.
      */
-    public List<Encomenda> entregaEncomenda(){
-        return new ArrayList<>();
+    public Encomenda entregaEncomenda(){
+        Encomenda ret;
+        this.encomendaTransportar.setQPedidoEntregue(this.recolha.plusMinutes(this.encomendaTransportar.getTempoEntrega()));
+        ret = new Encomenda(this.encomendaTransportar.clone());
+        this.historico.add(this.encomendaTransportar.clone());
+        this.encomendaTransportar = new Encomenda();
+        this.livre = true;
+        if(aceitoTransporteMedicamentos()) this.aceitaMedicamentos(true);
+        return ret;
     }
 
+
+    /**
+     * Função que verifica se uma loja e um utilizador estão dentro do raio de ação do voluntário.
+     * @param loja - Coordenadas gps da loja.
+     * @param util - Coordenadas gps do utilizador.
+     * @return - True se pertencer, false caso contrário.
+     */
     public boolean dentroDoRaio(GPS loja, GPS util){
         boolean ret = false;
         if(auxDist(this.gps,loja) <= this.raio && auxDist(this.gps,util) <= this.raio) ret = true;
