@@ -1,5 +1,6 @@
 package Models;
 
+import javax.swing.tree.TreeNode;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -285,6 +286,12 @@ public class Sistema {
         this.lojas.add(l);
         return l.clone();
     }
+    public Loja registaLoja(String id, String nome, double x, double y){
+        StringBuilder sb1 = new StringBuilder();
+        sb1.append(id).append("@gmail.com");
+        Loja loja = new Loja(registaLoja(id,nome,sb1.toString(),id,x,y,3));
+        return loja;
+    }
 
     /**
      * Função que regista uma empresa transportadora no sistema.
@@ -313,7 +320,13 @@ public class Sistema {
         Transportadora t = new Transportadora(id,nome,email,password,gps,nif,raio,true,taxa,numEnc,classif,hist,0,velMedia, LocalDateTime.now(),transp,med,bol);
         this.empresas.add(t);
         return t.clone();
+    }
 
+    public Transportadora registaTransportadora(String id, String nome, double x, double y, int nif, double raio, double precoKm){
+        StringBuilder sb1 = new StringBuilder();
+        sb1.append(id).append("@gmail.com");
+        Transportadora trans = new Transportadora(registaTransportadora(id,nome,sb1.toString(),id,x,y,nif,raio,precoKm,1, 40,false));
+        return trans;
     }
 
     /**
@@ -341,6 +354,13 @@ public class Sistema {
         this.voluntarios.add(v);
         return v;
 
+    }
+
+    public Voluntario registaVoluntario(String id, String nome, double x, double y, double raio){
+        StringBuilder sb1 = new StringBuilder();
+        sb1.append(id).append("@gmail.com");
+        Voluntario vol = new Voluntario(registaVoluntario(id,nome,sb1.toString(),id,x,y,raio,40,false));
+        return vol;
     }
 
     /**
