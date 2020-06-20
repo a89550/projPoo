@@ -14,9 +14,7 @@ public class Voluntario implements Serializable {
     private double raio;
     private boolean livre;
     private List<Integer> classif;
-    private LocalDateTime recolha;
     private List<Encomenda> historico;
-    private Encomenda encomendaTransportar;
     private double velocidadeMedia;
     private boolean medica;
     private boolean livreMed;
@@ -32,10 +30,8 @@ public class Voluntario implements Serializable {
         this.gps = new GPS();
         this.raio = 0;
         this.livre = true;
-        this.recolha = LocalDateTime.now();
         this.classif = new ArrayList<>();
         this.historico = new ArrayList<>();
-        this.encomendaTransportar = new Encomenda();
         this.velocidadeMedia = 0;
         this.medica = false;
         this.livreMed = false;
@@ -64,7 +60,6 @@ public class Voluntario implements Serializable {
         this.classif = new ArrayList<>();
         for (Integer i : c)
             this.classif.add(i);
-        this.encomendaTransportar = new Encomenda(enc.clone());
         this.velocidadeMedia = vel;
         this.medica = med;
         this.livreMed = livreMed;
@@ -85,19 +80,11 @@ public class Voluntario implements Serializable {
         for(Encomenda e : v.getHistorico()) this.historico.add(e.clone());
         this.classif = new ArrayList<>();
         for(Integer i : v.getClassif()) this.classif.add(i);
-        this.encomendaTransportar = new Encomenda(v.getEncomendaTransportar());
         this.velocidadeMedia = v.getVelocidadeMedia();
         this.medica = v.aceitoTransporteMedicamentos();
         this.livreMed = v.getLivreMed();
     }
 
-    /**
-     * Função que dá a encomenda a transportar do voluntário.
-     * @return - Encomenda a transportar.
-     */
-    public Encomenda getEncomendaTransportar(){
-        return this.encomendaTransportar.clone();
-    }
 
     /**
      * Função que verifica se o voluntário está livre para transportar encomendas médicas.
@@ -223,22 +210,21 @@ public class Voluntario implements Serializable {
      * @return Devolve uma String que corresponde à tradução.
      */
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Código do Voluntário:  ").append(this.id)
                 .append("\nNome do Voluntário:  ").append(this.nome)
+                .append("\nEmail: ").append(this.email)
+                .append("\nPassword: ").append(this.password)
                 .append("\nGPS:  ").append(this.gps)
                 .append("\nRaio:  ").append(this.raio)
+                .append("\nEstá livre: ").append(this.livre)
+                .append("\nTransporta remédios: ").append(this.livreMed)
+                .append("\nVelocidade média: ").append(this.velocidadeMedia)
+                .append("\nHistórico: ").append(this.historico)
                 .append("\nLista de Classificações:  ").append(this.classif);
         return sb.toString();
-    }
 
-    /**
-     * Função que calcula o tempo demorado a fazer a entrega.
-     * @return - Tempo calculado.
-     */
-    public long tempoDeEntrega(){
-        return this.recolha.until(LocalDateTime.now(), ChronoUnit.MINUTES);
     }
 
     /**
@@ -277,13 +263,7 @@ public class Voluntario implements Serializable {
         for(Encomenda e : enc) this.historico.add(e.clone());
     }
 
-    /**
-     * Função que define a encomenda a ser transportada pelo voluntário.
-     * @param e - Encomenda a transportar.
-     */
-    public void setEncomendaTransportar(Encomenda e){
-        this.encomendaTransportar = new Encomenda(e.clone());
-    }
+
 
     /**
      * Função que aceita uma encomenda.
@@ -291,9 +271,8 @@ public class Voluntario implements Serializable {
      */
     public void aceitaEncomenda(Encomenda enc){
         this.livre = false;
-        this.recolha = LocalDateTime.now();
-        setEncomendaTransportar(enc);
         aceitaMedicamentos(false);
+        this.historico.add(enc);
     }
 
 
@@ -328,16 +307,17 @@ public class Voluntario implements Serializable {
      * Função que sinaliza que as encomendas foram entregues.
      * @return - Lista da encomendas entregues.
      */
+    /*
     public Encomenda entregaEncomenda(){
-        Encomenda ret;
-        this.encomendaTransportar.setQPedidoEntregue(this.recolha.plusMinutes(this.encomendaTransportar.getTempoEntrega()));
+        Encomenda ret = new Encomenda(this.encomendaTransportar);
+        ret.setQPedidoEntregue(calculaHoraDeEntrega());
         ret = new Encomenda(this.encomendaTransportar);
         this.historico.add(this.encomendaTransportar);
         this.encomendaTransportar = new Encomenda();
         this.livre = true;
         if(aceitoTransporteMedicamentos()) this.aceitaMedicamentos(true);
         return ret;
-    }
+    }*/
 
 
     /**

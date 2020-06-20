@@ -15,7 +15,7 @@ public class Ficheiro implements Serializable{
      * @throws IOException Exception.
      */
     public static String[] lerLogs() throws IOException {
-        String[] logs = new String[1500];
+        String[] logs = new String[100000];
         FileReader file = new FileReader("logs.txt");
         BufferedReader lerLogs = new BufferedReader(file);
         String linha = lerLogs.readLine();
@@ -25,6 +25,7 @@ public class Ficheiro implements Serializable{
             i++;
             linha = lerLogs.readLine();
         }
+        file.close();
         return logs;
     }
 
@@ -50,7 +51,7 @@ public class Ficheiro implements Serializable{
                     break;
 
                 case "Transportadora":
-                    s.registaTransportadora(p2[0],p2[1],Double.parseDouble(p2[2]),Double.parseDouble(p2[3]),Integer.parseInt(p2[4]),Double.parseDouble(p2[5]),Double.parseDouble(p2[6]));
+                    System.out.println(s.registaTransportadora(p2[0],p2[1],Double.parseDouble(p2[2]),Double.parseDouble(p2[3]),Integer.parseInt(p2[4]),Double.parseDouble(p2[5]),Double.parseDouble(p2[6])));
                     break;
 
                 case "Loja":
@@ -64,16 +65,14 @@ public class Ficheiro implements Serializable{
                         e.addProduto(p2[i],p2[i+1],Double.parseDouble(p2[i+2]),Double.parseDouble(p2[i+3]));
                     }
                     s.finalizarEncomenda(e);
+                    break;
 
                 case "Aceite":
                     Voluntario v = s.aceitaEncomendaV(p2[0]);
-                    if (v != null) {
-                        s.entregaEncomenda(v);
-                    }
-                    else {
+                    if (v == null) {
                         Transportadora t = s.aceitaEncomendaT(p2[0]);
-                        s.entregaEncomenda(t);
                     }
+                    break;
             }
         }
     }

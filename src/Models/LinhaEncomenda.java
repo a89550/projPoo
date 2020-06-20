@@ -130,10 +130,10 @@ public class LinhaEncomenda implements Serializable {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Código do produto").append(this.p)
-                .append("\nDescrição").append(this.nome)
-                .append("\nQuantidade").append(this.q)
-                .append("\nValor Unitário").append(this.u);
+        sb.append("Código do produto ").append(this.p)
+                .append("\nDescrição ").append(this.nome)
+                .append("\nQuantidade ").append(this.q)
+                .append("\nValor Unitário ").append(this.u);
         return sb.toString();
     }
 

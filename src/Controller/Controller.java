@@ -44,8 +44,9 @@ public class Controller {
                 break;
             case 3:
                 lerS(this.s,lerLogs());
-                System.out.println(s);
+                //System.out.println(s);
                 controllerStart();
+
                 break;
             case 4:
                 this.s = Sistema.carrega("teste");
@@ -90,6 +91,7 @@ public class Controller {
             case 3:
                 ViewTransportadora trans = new ViewTransportadora();
                 ret = trans.viewTransp("t");
+                System.out.println(ret);
                 Transportadora t1 = s.loginE(ret.get(0),ret.get(1));
                 if(t1==null) {
                     v.erroDeIdent();
@@ -196,6 +198,7 @@ public class Controller {
     }
 
     public void menuUtil(int t, Utilizador u) throws IOException, ClassNotFoundException {
+        //System.out.println(u);
         switch (t) {
             case 0:
                 v.finish();

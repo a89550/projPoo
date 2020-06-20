@@ -19,8 +19,6 @@ public class Transportadora implements Serializable {
     private List<Encomenda> encomendasFeitas;
     private double kmPercorridos;
     private double velocidadeMedia;
-    private LocalDateTime recolha;
-    private List<Encomenda> encomendasATransportar;
     private boolean medica;
     private boolean livreMed;
 
@@ -42,8 +40,6 @@ public class Transportadora implements Serializable {
         this.encomendasFeitas = new ArrayList<>();
         this.kmPercorridos = 0;
         this.velocidadeMedia = 0;
-        this.recolha = LocalDateTime.now();
-        this.encomendasATransportar = new ArrayList<>();
         this.medica = false;
         this.livreMed = false;
     }
@@ -76,9 +72,6 @@ public class Transportadora implements Serializable {
         for(Encomenda e : encomendasFeitas) this.encomendasFeitas.add(e.clone());
         this.kmPercorridos = km;
         this.velocidadeMedia = vel;
-        this.recolha = recolha;
-        this.encomendasATransportar = new ArrayList<>();
-        for(Encomenda e : encomendasATransportar) this.encomendasATransportar.add(e.clone());
         this.medica = medica;
         this.livreMed = livreMed;
     }
@@ -102,8 +95,6 @@ public class Transportadora implements Serializable {
         this.encomendasFeitas = t.getEncomendasFeitas();
         this.kmPercorridos = t.getKmPercorridos();
         this.velocidadeMedia = t.getVelocidadeMedia();
-        this.recolha = t.getRecolha();
-        this.encomendasATransportar = t.entregaEncomenda();
         this.medica = t.aceitoTransporteMedicamentos();
         this.livreMed = t.getLivreMed();
     }
@@ -120,13 +111,6 @@ public class Transportadora implements Serializable {
         return this.velocidadeMedia;
     }
 
-    /**
-     * Função que retorna a data e hora da recolha da encomenda.
-     * @return - A data e hora da recolha da encomenda.
-     */
-    public LocalDateTime getRecolha(){
-        return this.recolha;
-    }
 
     /**
      * Método que retorna o email da transportadora.
@@ -315,14 +299,22 @@ public class Transportadora implements Serializable {
      * @return Devolve uma String com a respetiva tradução.
      */
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Código da Empresa: ").append(this.id)
                 .append("\nNome da Empresa: ").append(this.nome)
+                .append("\nEmail: ").append(this.email)
+                .append("\nPassword: ").append(this.password)
                 .append("\nGPS: ").append(this.gps)
                 .append("\nNIF: ").append(this.nif)
                 .append("\nRaio: ").append(this.raio)
                 .append("\nPreço por Km: ").append(this.taxaKm)
+                .append("\nNúmero de encomendas: ").append(this.numeroEnc)
+                .append("\nEstá livre: ").append(this.livre)
+                .append("\nTransporta remédios: ").append(this.livreMed)
+                .append("\nVelocidade média: ").append(this.velocidadeMedia)
+                .append("\nNúmero de Kms percorridos: ").append(this.kmPercorridos)
+                .append("\nHistórico: ").append(this.encomendasFeitas)
                 .append("\nLista de Classificações:  ").append(this.classif);
         return sb.toString();
     }
@@ -382,7 +374,7 @@ public class Transportadora implements Serializable {
      * Função que sinaliza que as encomendas foram entregues.
      * @return - Lista da encomendas entregues.
      */
-    public List<Encomenda> entregaEncomenda(){
+    /*public List<Encomenda> entregaEncomenda(){
         List<Encomenda> ret = new ArrayList<>();
         for(Encomenda e : this.encomendasATransportar) {
             e.setQPedidoEntregue(this.recolha.plusMinutes(e.getTempoEntrega()));
@@ -393,7 +385,7 @@ public class Transportadora implements Serializable {
         this.livre = true;
         if(aceitoTransporteMedicamentos()) aceitaMedicamentos(true);
         return ret;
-    }
+    }*/
 
     /**
      * Função que calcula o tempo que se demora a ir do local da transportadora até à loja.
@@ -422,13 +414,14 @@ public class Transportadora implements Serializable {
      * Função que aceita uma encomenda.
      * @param e - Encomenda a aceitar.
      */
-    public void aceitaEncomenda(Encomenda e) {
-        this.recolha = LocalDateTime.now();
-        this.encomendasATransportar.add(e);
-        if(this.encomendasATransportar.size() >= this.numeroEnc) {
+    public void aceitaEncomenda(Encomenda e,GPS loja, GPS util) {
+        this.encomendasFeitas.add(e);
+        if((this.encomendasFeitas.size()% this.numeroEnc) == 0) {
             this.livre = false;
             aceitaMedicamentos(false);
         }
+        this.kmPercorridos += distEntrega(loja,util);
+
     }
 
     /**

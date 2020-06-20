@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Encomenda implements Serializable {
     private String id;
@@ -239,13 +240,41 @@ public class Encomenda implements Serializable {
      * @param o Recebe um objeto.
      * @return Devolve um boolean com a respetiva verificação.
      */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Encomenda encomenda = (Encomenda) o;
+        return Double.compare(encomenda.peso, peso) == 0 &&
+                tempoDeEspera == encomenda.tempoDeEspera &&
+                Double.compare(encomenda.precoEntrega, precoEntrega) == 0 &&
+                encomendaMedica == encomenda.encomendaMedica &&
+                Objects.equals(id, encomenda.id) &&
+                Objects.equals(user, encomenda.user) &&
+                Objects.equals(loja, encomenda.loja) &&
+                Objects.equals(produtos, encomenda.produtos) &&
+                Objects.equals(qPedidoEntregue, encomenda.qPedidoEntregue);
+    }
 
 
     /**
      * Função que traduz a classe Encomenda.
      * @return Devolve uma String com a respetiva tradução.
      */
-
+    @Override
+    public String toString() {
+        return "Encomenda{" +
+                "id= '" + id + '\'' +
+                ", user= '" + user + '\'' +
+                ", loja= '" + loja + '\'' +
+                ", peso= " + peso +
+                ", produtos= " + produtos +
+                ", tempoDeEspera=" + tempoDeEspera +
+                ", precoEntrega=" + precoEntrega +
+                ", qPedidoEntregue=" + qPedidoEntregue +
+                ", encomendaMedica=" + encomendaMedica +
+                '}';
+    }
 
     /**
      * Função que faz clone da classe Encomenda.

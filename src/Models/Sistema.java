@@ -535,13 +535,9 @@ public class Sistema implements Serializable {
      * @return - Encomenda criada.
      */
     public Encomenda fazerEncomenda2(String id,String util, String loja,double peso, boolean med){
-        Encomenda ret = new Encomenda();
-        ret.setId(id);
-        ret.setUser(util);
-        ret.setLoja(loja);
-        ret.setPeso(peso);
-        ret.setEncomendaMedica(med);
-        return ret.clone();
+        List<LinhaEncomenda> ln = new ArrayList<>();
+        Encomenda ret = new Encomenda(id,util,loja,peso,ln,LocalDateTime.now(),0,0,med);
+        return ret;
     }
 
     /**
@@ -631,7 +627,7 @@ public class Sistema implements Serializable {
         GPS gpsLoja = getLoja(e.getLoja()).getGps();
         GPS gpsUt = getUtilizador(e.getUser()).getGps();
         int info = getLoja(e.getLoja()).tempoDoPedido();
-        int i = getIndiceEncomenda(idE);
+        int i = getIndiceEncomenda(idE),j = indiceUtil(e.getUser());
         int ret = 0;
         Voluntario fn = null;
         if(e.getEncomendaMedica()) {
@@ -642,10 +638,13 @@ public class Sistema implements Serializable {
                         else ret = v.tempoDeIda(gpsLoja) + v.tempoDeVolta(gpsLoja, gpsUt);
                         e.setPrecoEntrega(0);
                         e.setTempoDeEspera(ret);
-                        v.aceitaEncomenda(e.clone());
+                        e.setQPedidoEntregue(LocalDateTime.now().plusMinutes(ret));
+                        this.voluntarios.get(indiceVol(v.getId())).aceitaEncomenda(e.clone());
                         fn = new Voluntario(v.clone());
+                        this.utilizadores.get(j).addEncomenda(e.clone());
                         this.encomendasAceites.add(new AceitaEncomenda(idE));
                         this.encomendasPorEnviar.remove(i);
+                        this.historicoEncomendas.add(e.clone());
                         break;
                     }
                 }
@@ -659,10 +658,13 @@ public class Sistema implements Serializable {
                         else ret = vt.tempoDeIda(gpsLoja) + vt.tempoDeVolta(gpsLoja,gpsUt);
                         e.setPrecoEntrega(0);
                         e.setTempoDeEspera(ret);
-                        vt.aceitaEncomenda(e.clone());
+                        e.setQPedidoEntregue(LocalDateTime.now().plusMinutes(ret));
+                        this.voluntarios.get(indiceVol(vt.getId())).aceitaEncomenda(e.clone());
                         fn = new Voluntario(vt.clone());
+                        this.utilizadores.get(j).addEncomenda(e.clone());
                         this.encomendasAceites.add(new AceitaEncomenda(idE));
                         this.encomendasPorEnviar.remove(i);
+                        this.historicoEncomendas.add(e.clone());
                         break;
                     }
                 }
@@ -681,7 +683,7 @@ public class Sistema implements Serializable {
         GPS gpsLoja = getLoja(e.getLoja()).getGps();
         GPS gpsUt = getUtilizador(e.getUser()).getGps();
         int info = getLoja(e.getLoja()).tempoDoPedido();
-        int i = getIndiceEncomenda(idE);
+        int i = getIndiceEncomenda(idE), j = indiceUtil(e.getUser());;
         int ret = 0;
         Transportadora fn = null;
         if(e.getEncomendaMedica()){
@@ -692,10 +694,13 @@ public class Sistema implements Serializable {
                         else ret = t.tempoDeIda(gpsLoja) + t.tempoDeVolta(gpsLoja,gpsUt);
                         e.setPrecoEntrega(t.precoEntrega(gpsLoja,gpsUt));
                         e.setTempoDeEspera(ret);
-                        t.aceitaEncomenda(e.clone());
-                        fn = new Transportadora( t.clone());
+                        e.setQPedidoEntregue(LocalDateTime.now().plusMinutes(ret));
+                        this.empresas.get(indiceEmp(t.getId())).aceitaEncomenda(e.clone(),gpsLoja,gpsUt);
+                        fn = new Transportadora(t.clone());
+                        this.utilizadores.get(j).addEncomenda(e.clone());
                         this.encomendasAceites.add(new AceitaEncomenda(idE));
                         this.encomendasPorEnviar.remove(i);
+                        this.historicoEncomendas.add(e.clone());
                         break;
                     }
                 }
@@ -709,10 +714,13 @@ public class Sistema implements Serializable {
                         else ret = tp.tempoDeIda(gpsLoja) + tp.tempoDeVolta(gpsLoja,gpsUt);
                         e.setPrecoEntrega(tp.precoEntrega(gpsLoja,gpsUt));
                         e.setTempoDeEspera(ret);
-                        tp.aceitaEncomenda(e.clone());
+                        e.setQPedidoEntregue(LocalDateTime.now().plusMinutes(ret));
+                        this.empresas.get(indiceEmp(tp.getId())).aceitaEncomenda(e.clone(),gpsLoja,gpsUt);
                         fn = new Transportadora(tp.clone());
+                        this.utilizadores.get(j).addEncomenda(e.clone());
                         this.encomendasAceites.add(new AceitaEncomenda(idE));
                         this.encomendasPorEnviar.remove(i);
+                        this.historicoEncomendas.add(e.clone());
                         break;
                     }
                 }
@@ -726,9 +734,28 @@ public class Sistema implements Serializable {
      * Função que entrega uma encomenda.
      * @param v - Voluntário que entrega a encomenda.
      */
-    public void entregaEncomenda(Voluntario v){
+    /*public void entregaEncomenda(Voluntario v){
         this.historicoEncomendas.add(v.entregaEncomenda());
-        this.utilizadores.get(indiceUtil(v.entregaEncomenda().getUser())).addEncomenda(v.entregaEncomenda().clone());
+        //System.out.println(v.entregaEncomenda());
+        this.utilizadores.get(indiceUtil(v.entregaEncomenda().getUser())-1).addEncomenda(v.entregaEncomenda().clone());
+    }*/
+
+    public int indiceEmp(String id){
+        int i = 0;
+        for(Transportadora t : this.empresas){
+            if(t.getId().equals(id)) break;
+            i++;
+        }
+        return i;
+    }
+
+    public int indiceVol(String id){
+        int i = 0;
+        for(Voluntario v : this.voluntarios){
+            if(v.getId().equals(id)) break;
+            i++;
+        }
+        return i;
     }
 
     public int indiceUtil(String id){
@@ -744,12 +771,12 @@ public class Sistema implements Serializable {
      * Função que entrega uma encomenda.
      * @param t - Transportadora que entraga a encomenda.
      */
-    public void entregaEncomenda(Transportadora t){
+    /*public void entregaEncomenda(Transportadora t){
         for(Encomenda e : t.entregaEncomenda()) {
             this.historicoEncomendas.add(e);
             this.utilizadores.get(indiceUtil(e.getUser())).addEncomenda(e.clone());
         }
-    }
+    }*/
 
     /**
      * Função que dá uma empresa transportadora a partir do seu id.

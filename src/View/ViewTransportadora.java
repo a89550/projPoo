@@ -13,7 +13,7 @@ public class ViewTransportadora {
     public List<String> viewTransp(String t){
         List<String> ret = new ArrayList<>();
 
-        System.out.println("Menu de Utlizador");
+        System.out.println("Menu de Empresa Transportadora");
         System.out.println("Email:");
         Scanner n2 = new Scanner(System.in);
         String n1 = n2.nextLine();
