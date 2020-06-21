@@ -72,6 +72,7 @@ public class Controller {
                     v.erroDeIdent();
                     controllerLog();
                 } else {
+                    System.out.println(u1);
                     int t = u.menuU();
                     menuUtil(t,u1);
                 }

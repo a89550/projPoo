@@ -32,29 +32,6 @@ public class Sistema implements Serializable {
     }
 
     /**
-     * Construtor parametrizado.
-     */
-    public Sistema(List<Utilizador> utilizadores, List<Transportadora> empresas, List<Voluntario> voluntarios, List<Loja> loja,
-                   List<Encomenda> historicoEncomendas, List<Encomenda> encomendasPorEnviar, List<AceitaEncomenda> encomendasAceites) {
-
-        this.utilizadores = new ArrayList<>();
-        for(Utilizador u : utilizadores) this.utilizadores.add(u.clone());
-        this.empresas = new ArrayList<>();
-        for(Transportadora t : empresas) this.empresas.add(t.clone());
-        this.voluntarios = new ArrayList<>();
-        for(Voluntario v : voluntarios) this.voluntarios.add(v.clone());
-        this.lojas = new ArrayList<>();
-        for(Loja l : loja) this.lojas.add(l.clone());
-        this.historicoEncomendas = new ArrayList<>();
-        for(Encomenda e : historicoEncomendas) this.historicoEncomendas.add(e.clone());
-        this.encomendasPorEnviar = new ArrayList<>();
-        for(Encomenda en : encomendasPorEnviar) this.encomendasPorEnviar.add(en.clone());
-        this.encomendasAceites = new ArrayList<>();
-        for(AceitaEncomenda enc : encomendasAceites) this.encomendasAceites.add(enc.clone());
-
-    }
-
-    /**
      * Construtor por cópia.
      * @param - Sistema a copiar.
      */
@@ -733,8 +710,11 @@ public class Sistema implements Serializable {
     }
 
 
-
-
+    /**
+     * Função que retorna o índice de uma empresa.
+     * @param id - Id da empresa.
+     * @return - Índice da empresa.
+     */
     public int indiceEmp(String id){
         int i = 0;
         for(Transportadora t : this.empresas){
@@ -744,6 +724,11 @@ public class Sistema implements Serializable {
         return i;
     }
 
+    /**
+     * Função que retorna o índice de um voluntário.
+     * @param id - Id do voluntário.
+     * @return - Índice do voluntário.
+     */
     public int indiceVol(String id){
         int i = 0;
         for(Voluntario v : this.voluntarios){
@@ -753,6 +738,11 @@ public class Sistema implements Serializable {
         return i;
     }
 
+    /**
+     * Função que retorna o índice de um utilizador.
+     * @param id - Id do utilizador.
+     * @return - Índice do utilizador.
+     */
     public int indiceUtil(String id){
         int i = 0;
         for(Utilizador u : this.utilizadores){
@@ -826,6 +816,9 @@ public class Sistema implements Serializable {
         return g;
     }
 
+    /**
+     * Função que torna todos os voluntários e empresas transportadoras livres para transportar encomendas.
+     */
     public void freeAll(){
         for(Transportadora t : this.empresas){
             t.tornaLivre();
