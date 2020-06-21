@@ -452,5 +452,9 @@ public class Transportadora implements Serializable {
         this.livreMed = state;
     }
 
+    public void tornaLivre(){
+        this.livre = true;
+        if(this.medica) this.livreMed = true;
+    }
 
 }

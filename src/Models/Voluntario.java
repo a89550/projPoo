@@ -395,4 +395,9 @@ public class Voluntario implements Serializable {
     public void aceitaMedicamentos(boolean state){
         this.livreMed = state;
     }
+
+    public void tornaLivre(){
+        this.livre = true;
+        if(this.medica) this.livreMed = true;
+    }
 }

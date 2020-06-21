@@ -120,7 +120,7 @@ public class Utilizador implements Serializable {
      */
     public List<Encomenda> getEncomendas() {
         List<Encomenda> ret = new ArrayList<>();
-        for(Encomenda e : ret)
+        for(Encomenda e : this.encomendas)
             ret.add(e);
         return ret;
     }

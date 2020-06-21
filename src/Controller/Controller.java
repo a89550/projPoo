@@ -44,7 +44,7 @@ public class Controller {
                 break;
             case 3:
                 lerS(this.s,lerLogs());
-                //System.out.println(s);
+                this.s.freeAll();
                 controllerStart();
 
                 break;
@@ -201,6 +201,7 @@ public class Controller {
         switch (t) {
             case 0:
                 v.finish();
+                this.s.freeAll();
                 s.grava("teste");
                 break;
             case 1:
@@ -226,12 +227,15 @@ public class Controller {
                 String id = u.getEncomendas().get(e1).getId();
 
                 s.classificarTransportadora(id,cla);
-                menuUtil(t,u);
+                break;
             case 3:
                 for(Encomenda d : u.getEncomendas()){
                     v.printEncomendas(d.toString());
                 }
-                menuUtil(t,u);
+                break;
+            case 4:
+                v.showTop(s.top10Utilizador());
+                break;
         }
     }
 
@@ -239,13 +243,14 @@ public class Controller {
         switch (t) {
             case 0:
                 v.finish();
+                this.s.freeAll();
                 s.grava("teste");
                 break;
             case 1:
                 for(Encomenda e : vol.getHistorico()){
                     v.printEncomendas(e.toString());
                 }
-                menuVol(t,vol);
+                break;
         }
     }
 
@@ -253,15 +258,16 @@ public class Controller {
         switch (t) {
             case 0:
                 v.finish();
+                this.s.freeAll();
                 s.grava("teste");
                 break;
             case 1:
                 int f = v.atualizafila();
                 l.setFilaDeEspera(f);
-                menuLoja(t,l);
+                break;
             case 2:
                 v.showFila(l.getFilaDeEspera());
-                menuLoja(t,l);
+                break;
         }
     }
 
@@ -269,6 +275,7 @@ public class Controller {
         switch (a) {
             case 0:
                 v.finish();
+                this.s.freeAll();
                 s.grava("teste");
                 break;
             case 1:
@@ -281,7 +288,7 @@ public class Controller {
                 for(Encomenda e : t.getEncomendasFeitas()){
                     v.printEncomendas(e.toString());
                 }
-                menuTrans(a,t);
+                break;
         }
     }
 }

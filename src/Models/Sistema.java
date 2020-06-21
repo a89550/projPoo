@@ -826,6 +826,14 @@ public class Sistema implements Serializable {
         return g;
     }
 
+    public void freeAll(){
+        for(Transportadora t : this.empresas){
+            t.tornaLivre();
+        }
+        for(Voluntario v : this.voluntarios){
+            v.tornaLivre();
+        }
+    }
 
 
 }

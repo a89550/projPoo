@@ -28,7 +28,7 @@ public class ViewUtilizador {
 
     public int menuU(){
         for (int i = 0; i < 50; ++i) System.out.println();
-        System.out.println("Menu de Utlizador:\n\nFazer encomenda(1)\nClassificar entrega(2)\nVer historio de encomendas(3)\nSair(0)");
+        System.out.println("Menu de Utlizador:\n\nFazer encomenda(1)\nClassificar entrega(2)\nVer historio de encomendas(3)\nVer top 10 utilizadores(4)\nSair(0)");
         Scanner p1 = new Scanner(System.in);
         int p = p1.nextInt();
         return p;
