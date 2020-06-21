@@ -219,8 +219,8 @@ public class Controller {
                     e.addProduto(ret.get(0),ret.get(1),Double.parseDouble(ret.get(2)),Double.parseDouble(ret.get(3)));
                 }
                 s.finalizarEncomenda(e);
-
-                menuUtil(t,u);
+                if(s.aceitaEncomendaV(e.getId()) == null) s.aceitaEncomendaT(e.getId());
+                break;
             case 2:
                 int cla = v.classificaçao();
                 int e1 = u.getEncomendas().size()-1;

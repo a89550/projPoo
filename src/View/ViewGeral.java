@@ -268,7 +268,7 @@ public class ViewGeral {
     public int fazEncom(List<String> lojas){
         int a = 1;
         for(String s : lojas){
-            System.out.println(s+"(a)");
+            System.out.println(s+"("+a+")");
             a++;
         }
         Scanner n5 = new Scanner(System.in);
