@@ -72,7 +72,6 @@ public class Controller {
                     v.erroDeIdent();
                     controllerLog();
                 } else {
-                    System.out.println(u1);
                     int t = u.menuU();
                     menuUtil(t,u1);
                 }
@@ -92,7 +91,6 @@ public class Controller {
             case 3:
                 ViewTransportadora trans = new ViewTransportadora();
                 ret = trans.viewTransp("t");
-                System.out.println(ret);
                 Transportadora t1 = s.loginE(ret.get(0),ret.get(1));
                 if(t1==null) {
                     v.erroDeIdent();
