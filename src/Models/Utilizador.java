@@ -194,6 +194,8 @@ public class Utilizador implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("Código de utilizador:  ").append(this.id)
                 .append("\nNome do utlizador:  ").append(this.nome)
+                .append("\nEmail: ").append(this.email)
+                .append("\nPassword: ").append(this.password)
                 .append("\nGPS:  ").append(this.g)
                 .append("\nLista de Encomendas:  ").append(this.encomendas);
         return sb.toString();

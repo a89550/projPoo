@@ -47,7 +47,7 @@ public class Voluntario implements Serializable {
      * @oaram c Lista de Integer representante da lista de classificações.
      */
     public Voluntario(String id, String n, String email, String password, GPS gps, double raio, boolean livre,
-                      List<Integer> c, List<Encomenda> historico, Encomenda enc, double vel, boolean med, boolean livreMed) {
+                      List<Integer> c, List<Encomenda> historico, double vel, boolean med, boolean livreMed) {
         this.id = id;
         this.nome = n;
         this.email = email;

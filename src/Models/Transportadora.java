@@ -55,7 +55,7 @@ public class Transportadora implements Serializable {
      */
     public Transportadora(String t, String n, String email, String password, GPS gps, int nif, double raio,
                           boolean livre, double taxaKm, int numeroEnc, List<Integer> classif, List<Encomenda> encomendasFeitas, double km,
-                          double vel, LocalDateTime recolha, List<Encomenda> encomendasATransportar, boolean medica, boolean livreMed){
+                          double vel, boolean medica, boolean livreMed){
         this.id = t;
         this.nome = n;
         this.email = email;
@@ -125,7 +125,7 @@ public class Transportadora implements Serializable {
      * @return Password da transportadora.
      */
     public String getPassword(){
-        return this.email;
+        return this.password;
     }
 
     /**

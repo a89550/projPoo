@@ -16,7 +16,7 @@ public class Ficheiro implements Serializable{
      */
     public static String[] lerLogs() throws IOException {
         String[] logs = new String[100000];
-        FileReader file = new FileReader("logs.txt");
+        FileReader file = new FileReader("logs_apresentacao.txt");
         BufferedReader lerLogs = new BufferedReader(file);
         String linha = lerLogs.readLine();
         int i = 0;
@@ -51,7 +51,7 @@ public class Ficheiro implements Serializable{
                     break;
 
                 case "Transportadora":
-                    System.out.println(s.registaTransportadora(p2[0],p2[1],Double.parseDouble(p2[2]),Double.parseDouble(p2[3]),Integer.parseInt(p2[4]),Double.parseDouble(p2[5]),Double.parseDouble(p2[6])));
+                    s.registaTransportadora(p2[0],p2[1],Double.parseDouble(p2[2]),Double.parseDouble(p2[3]),Integer.parseInt(p2[4]),Double.parseDouble(p2[5]),Double.parseDouble(p2[6]));
                     break;
 
                 case "Loja":

@@ -259,10 +259,9 @@ public class ViewGeral {
     }
 
     public void showTop(List<String> ret) {
-        int i = 0;
-        for(String t : ret){
-            i++;
-            System.out.println("i: "+ t);
+        int i;
+        for(i = 0; i < 10; i++){
+            System.out.println((i+1) + ": "+ ret.get(i));
         }
     }
 

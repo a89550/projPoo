@@ -315,10 +315,9 @@ public class Sistema implements Serializable {
         GPS gps = new GPS(x,y);
         List<Integer> classif = new ArrayList<>();
         List<Encomenda> hist = new ArrayList<>();
-        List<Encomenda> transp = new ArrayList<>();
         boolean bol = false;
         if(med){ bol = true;}
-        Transportadora t = new Transportadora(id,nome,email,password,gps,nif,raio,true,taxa,numEnc,classif,hist,0,velMedia, LocalDateTime.now(),transp,med,bol);
+        Transportadora t = new Transportadora(id,nome,email,password,gps,nif,raio,true,taxa,numEnc,classif,hist,0,velMedia,med,bol);
         this.empresas.add(t);
         return t.clone();
     }
@@ -350,8 +349,7 @@ public class Sistema implements Serializable {
         GPS gps = new GPS(x,y);
         List<Integer> classif = new ArrayList<>();
         List<Encomenda> hist = new ArrayList<>();
-        Encomenda enc = new Encomenda();
-        Voluntario v = new Voluntario(id,nome,email,password,gps,raio,true,classif,hist,enc,velocidadeMedia,medica,bol);
+        Voluntario v = new Voluntario(id,nome,email,password,gps,raio,true,classif,hist,velocidadeMedia,medica,bol);
         this.voluntarios.add(v);
         return v;
 
@@ -495,14 +493,19 @@ public class Sistema implements Serializable {
      */
     public List<String> top10Empresas(){
         List<String> ret = new ArrayList<>();
-        this.empresas.sort(new Comparator<Transportadora>() {
+        List<Transportadora> aux = new ArrayList<>();
+        int i;
+        for(Transportadora t : this.empresas){
+            aux.add(t.clone());
+        }
+        aux.sort(new Comparator<Transportadora>() {
             @Override
             public int compare(Transportadora transportadora, Transportadora t1) {
                 return (int) (t1.getKmPercorridos() - transportadora.getKmPercorridos());
             }
         });
-        for(int i = 0; i < 10; i++){
-            ret.add(this.empresas.get(i).getNome());
+        for( i = 0; i < 10; i++){
+            ret.add(aux.get(i).getNome());
         }
         return ret;
     }
@@ -730,15 +733,7 @@ public class Sistema implements Serializable {
     }
 
 
-    /**
-     * Função que entrega uma encomenda.
-     * @param v - Voluntário que entrega a encomenda.
-     */
-    /*public void entregaEncomenda(Voluntario v){
-        this.historicoEncomendas.add(v.entregaEncomenda());
-        //System.out.println(v.entregaEncomenda());
-        this.utilizadores.get(indiceUtil(v.entregaEncomenda().getUser())-1).addEncomenda(v.entregaEncomenda().clone());
-    }*/
+
 
     public int indiceEmp(String id){
         int i = 0;
@@ -767,16 +762,7 @@ public class Sistema implements Serializable {
         return i;
     }
 
-    /**
-     * Função que entrega uma encomenda.
-     * @param t - Transportadora que entraga a encomenda.
-     */
-    /*public void entregaEncomenda(Transportadora t){
-        for(Encomenda e : t.entregaEncomenda()) {
-            this.historicoEncomendas.add(e);
-            this.utilizadores.get(indiceUtil(e.getUser())).addEncomenda(e.clone());
-        }
-    }*/
+
 
     /**
      * Função que dá uma empresa transportadora a partir do seu id.
