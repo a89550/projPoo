@@ -220,6 +220,10 @@ public class Controller {
                 }
                 s.finalizarEncomenda(e);
                 if(s.aceitaEncomendaV(e.getId()) == null) s.aceitaEncomendaT(e.getId());
+
+                ViewUtilizador u1 = new ViewUtilizador();
+                int t1 = u1.menuU();
+                menuUtil(t1,u);
                 break;
             case 2:
                 int cla = v.classificaçao();
@@ -227,14 +231,25 @@ public class Controller {
                 String id = u.getEncomendas().get(e1).getId();
 
                 s.classificarTransportadora(id,cla);
+
+                u1 = new ViewUtilizador();
+                t1 = u1.menuU();
+                menuUtil(t1,u);
                 break;
             case 3:
                 for(Encomenda d : u.getEncomendas()){
                     v.printEncomendas(d.toString());
                 }
+
+                u1 = new ViewUtilizador();
+                t1 = u1.menuU();
+                menuUtil(t1,u);
                 break;
             case 4:
                 v.showTop(s.top10Utilizador());
+                u1 = new ViewUtilizador();
+                t1 = u1.menuU();
+                menuUtil(t1,u);
                 break;
         }
     }
@@ -245,11 +260,15 @@ public class Controller {
                 v.finish();
                 this.s.freeAll();
                 s.grava("teste");
+
                 break;
             case 1:
                 for(Encomenda e : vol.getHistorico()){
                     v.printEncomendas(e.toString());
                 }
+                ViewVoluntario v1 = new ViewVoluntario();
+                int t1 = v1.menuV();
+                menuVol(t1,vol);
                 break;
         }
     }
@@ -264,9 +283,17 @@ public class Controller {
             case 1:
                 int f = v.atualizafila();
                 l.setFilaDeEspera(f);
+
+                ViewLoja l1 = new ViewLoja();
+                int t1 = l1.menuL();
+                menuLoja(t1,l);
                 break;
             case 2:
                 v.showFila(l.getFilaDeEspera());
+
+                l1 = new ViewLoja();
+                t1 = l1.menuL();
+                menuLoja(t1,l);
                 break;
         }
     }
@@ -280,14 +307,26 @@ public class Controller {
                 break;
             case 1:
                 v.showS(s.totalFaturadoEmpresa(t.getId()));
+
+                ViewTransportadora t1 = new ViewTransportadora();
+                int t12 = t1.menuT();
+                menuTrans(t12,t);
                 break;
             case 2:
                 v.showTop(s.top10Empresas());
+
+                t1 = new ViewTransportadora();
+                t12 = t1.menuT();
+                menuTrans(t12,t);
                 break;
             case 3:
                 for(Encomenda e : t.getEncomendasFeitas()){
                     v.printEncomendas(e.toString());
                 }
+
+                t1 = new ViewTransportadora();
+                t12 = t1.menuT();
+                menuTrans(t12,t);
                 break;
         }
     }
