@@ -198,7 +198,6 @@ public class Controller {
     }
 
     public void menuUtil(int t, Utilizador u) throws IOException, ClassNotFoundException {
-        //System.out.println(u);
         switch (t) {
             case 0:
                 v.finish();
@@ -218,6 +217,8 @@ public class Controller {
                     ret = v.escolherProduto();
                     e.addProduto(ret.get(0),ret.get(1),Double.parseDouble(ret.get(2)),Double.parseDouble(ret.get(3)));
                 }
+                s.finalizarEncomenda(e);
+
                 menuUtil(t,u);
             case 2:
                 int cla = v.classificaçao();
@@ -272,10 +273,10 @@ public class Controller {
                 break;
             case 1:
                 v.showS(s.totalFaturadoEmpresa(t.getId()));
-                menuTrans(a,t);
+                break;
             case 2:
                 v.showTop(s.top10Empresas());
-                menuTrans(a,t);
+                break;
             case 3:
                 for(Encomenda e : t.getEncomendasFeitas()){
                     v.printEncomendas(e.toString());
