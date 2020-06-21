@@ -1,7 +1,5 @@
 package Models;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,14 +101,6 @@ public class Voluntario implements Serializable {
         return this.id;
     }
 
-    /**
-     * Método que define o código de um Voluntário.
-     *
-     * @param id String que representa o código.
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * Método que dá o nome de um Voluntário.
@@ -120,13 +110,6 @@ public class Voluntario implements Serializable {
         return this.nome;
     }
 
-    /**
-     * Método que define o nome de um Voluntário.
-     * @param n String que representa o nome.
-     */
-    public void setNome(String n) {
-        this.nome = n;
-    }
 
     /**
      * Método que dá a as coordenadas de um Voluntário.
@@ -136,13 +119,6 @@ public class Voluntario implements Serializable {
         return this.gps;
     }
 
-    /**
-     * Método que define as coordenadas de um Voluntário.
-     * @param g Devolve essas coordenadas.
-     */
-    public void setGps(GPS g) {
-        this.gps = g;
-    }
 
     /**
      * Método que dá o raio de um Voluntário.
@@ -152,13 +128,6 @@ public class Voluntario implements Serializable {
         return this.raio;
     }
 
-    /**
-     * Método que define o raio de um Voluntário.
-     * @param raio Devolve o double com o valor do raio.
-     */
-    public void setRaio(double raio) {
-        this.raio = raio;
-    }
 
     /**
      * Método que dá a lista das classificações.
@@ -169,14 +138,6 @@ public class Voluntario implements Serializable {
         for (Integer i : ret)
             ret.add(i);
         return ret;
-    }
-
-    /**
-     * Método aue define uma lista de classificações.
-     * @param classif Recebe uma lista de Integer representante da lista de classificações.
-     */
-    public void setClassif(List<Integer> classif) {
-        this.classif = classif;
     }
 
     /**
@@ -254,15 +215,6 @@ public class Voluntario implements Serializable {
         return ret;
     }
 
-    /**
-     * Função que define a encomenda da classe, simboliza a encomenda que o voluntário está a transportar.
-     * @param enc - Encomenda a transportar.
-     */
-    public void setHistorico(List<Encomenda> enc){
-        this.historico = new ArrayList<>();
-        for(Encomenda e : enc) this.historico.add(e.clone());
-    }
-
 
 
     /**
@@ -277,19 +229,6 @@ public class Voluntario implements Serializable {
 
 
 
-
-    /**
-     * Função que calcula a distância percorrida da transportadora à loja e da loja à casa do utilizador.
-     * @param loja - Loja onde a encomenda está.
-     * @param utilizador - Casa do utilizador que fez a encomenda.
-     * @return - Distância percorrida.
-     */
-    public double distEntrega(GPS loja, GPS utilizador) {
-        double dist1 = auxDist(this.gps,loja);
-        double dist2 = auxDist(loja,utilizador);
-        return dist1 + dist2;
-    }
-
     /**
      * Função auxiliar que calcula a distância entre duas coordenadas GPS.
      * @param gps1 - Primeira coordenada.
@@ -301,23 +240,6 @@ public class Voluntario implements Serializable {
         double d2 = Math.pow((gps2.getY() - gps2.getY()),2);
         return Math.sqrt(d1+d2);
     }
-
-
-    /**
-     * Função que sinaliza que as encomendas foram entregues.
-     * @return - Lista da encomendas entregues.
-     */
-    /*
-    public Encomenda entregaEncomenda(){
-        Encomenda ret = new Encomenda(this.encomendaTransportar);
-        ret.setQPedidoEntregue(calculaHoraDeEntrega());
-        ret = new Encomenda(this.encomendaTransportar);
-        this.historico.add(this.encomendaTransportar);
-        this.encomendaTransportar = new Encomenda();
-        this.livre = true;
-        if(aceitoTransporteMedicamentos()) this.aceitaMedicamentos(true);
-        return ret;
-    }*/
 
 
     /**
@@ -396,6 +318,9 @@ public class Voluntario implements Serializable {
         this.livreMed = state;
     }
 
+    /**
+     * Função que torna um voluntário livre para transportar encomendas.
+     */
     public void tornaLivre(){
         this.livre = true;
         if(this.medica) this.livreMed = true;

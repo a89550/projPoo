@@ -51,13 +51,6 @@ public class LinhaEncomenda implements Serializable {
         return this.p;
     }
 
-    /**
-     * Método que define o código de um produto.
-     * @param p Devolve a String do código.
-     */
-    public void setP(String p){
-        this.p = p;
-    }
 
     /**
      * Método que dá o descrição.
@@ -68,14 +61,6 @@ public class LinhaEncomenda implements Serializable {
     }
 
     /**
-     * Método que define o descrição.
-     * @return Devolve a String da descrição.
-     */
-    public void setNome(String n){
-        this.nome = n;
-    }
-
-    /**
      * Método que dá o o valor quantidade.
      * @return Devolve um double que representa o valor da quantidade.
      */
@@ -83,13 +68,6 @@ public class LinhaEncomenda implements Serializable {
         return this.q;
     }
 
-    /**
-     * Método que define o o valor quantidade.
-     * @return Devolve um double que representa o valor da quantidade.
-     */
-    public void setQ(double q){
-        this.q = q;
-    }
 
     /**
      * Método que dá o o valor quantidade.
@@ -99,13 +77,6 @@ public class LinhaEncomenda implements Serializable {
         return this.u;
     }
 
-    /**
-     * Método que define o o valor unitário.
-     * @return Devolve um double que representa o valor unitário.
-     */
-    public void setU(double u){
-        this.u = u;
-    }
 
     /**
      * Função que verifica se o objeto recebido é idêntico ao da classe LinhaEncomenda.

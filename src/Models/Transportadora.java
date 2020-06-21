@@ -1,7 +1,5 @@
 package Models;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class Transportadora implements Serializable {
@@ -168,13 +166,6 @@ public class Transportadora implements Serializable {
      */
     public boolean isLivre(){return this.livre;}
 
-    /**
-     * Método que define o código de uma empresa.
-     * @param id String que representa esse código.
-     */
-    public void setId(String id){
-        this.id = id;
-    }
 
     /**
      * Método que dá o nome de uma empresa.
@@ -185,14 +176,6 @@ public class Transportadora implements Serializable {
     }
 
     /**
-     * Método que define o nome de uma empresa.
-     * @param n Recebe uma String que corresponde ao nome.
-     */
-    public void setNome(String n){
-        this.nome = n;
-    }
-
-    /**
      * Método que dá as coordenadas de uma Transportadora.
      * @return Devolve as coordenadas.
      */
@@ -200,13 +183,6 @@ public class Transportadora implements Serializable {
         return this.gps;
     }
 
-    /**
-     * Método que define as coordenadas de uma Transportadora.
-     * @param g Recebe um objeto da classe GPS
-     */
-    public void setGps(GPS g){
-        this.gps = g;
-    }
 
     /**
      * Método que dá o número de identificação fiscal.
@@ -216,13 +192,6 @@ public class Transportadora implements Serializable {
         return this.nif;
     }
 
-    /**
-     * Método que define o número de identificação fiscal.
-     * @param nif Devolve o nif.
-     */
-    public void setNif(int nif){
-        this.nif = nif;
-    }
 
     /**
      * Método que dá o raio de uma Transportadora.
@@ -232,13 +201,6 @@ public class Transportadora implements Serializable {
         return this.raio;
     }
 
-    /**
-     * Método que define o raio de uma Transportadora.
-     * @param raio Double representante do raio.
-     */
-    public void setRaio(double raio){
-        this.raio = raio;
-    }
 
     /**
      * Método que dá o preço por km de uma Transportadora.
@@ -248,13 +210,6 @@ public class Transportadora implements Serializable {
         return this.taxaKm;
     }
 
-    /**
-     * Método que define o preço por km de uma Transportadora.
-     * @param taxaKm Devolve esse preço.
-     */
-    public void setTaxaKm(double taxaKm){
-        this.taxaKm = taxaKm;
-    }
 
     /**
      * Método que dá a lista de classificações.
@@ -265,14 +220,6 @@ public class Transportadora implements Serializable {
         for(Integer i : ret)
             ret.add(i);
         return ret;
-    }
-
-    /**
-     * Método que define a lista de classificações.
-     * @param classif Recebe uma lista de Integers
-     */
-    public void setClassif(List<Integer> classif) {
-        this.classif = classif;
     }
 
     /**
@@ -370,22 +317,6 @@ public class Transportadora implements Serializable {
         return this.taxaKm * distEntrega(loja,utilizador);
     }
 
-    /**
-     * Função que sinaliza que as encomendas foram entregues.
-     * @return - Lista da encomendas entregues.
-     */
-    /*public List<Encomenda> entregaEncomenda(){
-        List<Encomenda> ret = new ArrayList<>();
-        for(Encomenda e : this.encomendasATransportar) {
-            e.setQPedidoEntregue(this.recolha.plusMinutes(e.getTempoEntrega()));
-            this.encomendasFeitas.add(e.clone());
-            ret.add(e.clone());
-        }
-        this.encomendasATransportar.clear();
-        this.livre = true;
-        if(aceitoTransporteMedicamentos()) aceitaMedicamentos(true);
-        return ret;
-    }*/
 
     /**
      * Função que calcula o tempo que se demora a ir do local da transportadora até à loja.
@@ -452,6 +383,9 @@ public class Transportadora implements Serializable {
         this.livreMed = state;
     }
 
+    /**
+     * Função que torna um voluntário livre para transportar encomendas.
+     */
     public void tornaLivre(){
         this.livre = true;
         if(this.medica) this.livreMed = true;

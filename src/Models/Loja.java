@@ -90,13 +90,6 @@ public class Loja implements Serializable {
         return this.id;
     }
 
-    /**
-     * Método que define o código de uma Loja.
-     * @param id Recebe uma String do código.
-     */
-    public void setL(String id){
-        this.id = id;
-    }
 
     /**
      * Método que dá o nome de uma Loja.
@@ -106,13 +99,6 @@ public class Loja implements Serializable {
         return this.nome;
     }
 
-    /**
-     * Método que define o nome de uma Loja
-     * @param n Recebe uma String do nome.
-     */
-    public void setNome(String n){
-        this.nome = n;
-    }
 
     /**
      * Método que dá o GPS.
@@ -122,13 +108,6 @@ public class Loja implements Serializable {
         return this.g;
     }
 
-    /**
-     * Método que define um GPS.
-     * @param g Recebe um objeto da classe GPS.
-     */
-    public void setGps(GPS g){
-        this.g = g;
-    }
 
     /**
      * Método que dá o email.
@@ -138,13 +117,6 @@ public class Loja implements Serializable {
         return this.email;
     }
 
-    /**
-     * Método que define um email.
-     * @param email Recebe um email.
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     /**
      * Método que dá uma password.
@@ -154,13 +126,6 @@ public class Loja implements Serializable {
         return this.password;
     }
 
-    /**
-     * Método que define uma password.
-     * @param password Recebe uma password.
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     /**
      * Função que verifica se o objeto recebido é idêntico ao da classe Loja.

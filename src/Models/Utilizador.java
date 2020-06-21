@@ -105,14 +105,6 @@ public class Utilizador implements Serializable {
         return this.g;
     }
 
-    /**
-     * Método que define as coordenadas de um Utilizador.
-     *
-     * @param g Recebe um objeto da classe GPS.
-     */
-    public void setGps(GPS g) {
-        this.g = g;
-    }
 
     /**
      * Método que dá a lista de Encomendas.
@@ -141,29 +133,6 @@ public class Utilizador implements Serializable {
         return this.password;
     }
 
-    /**
-     * Método que define o email.
-     * @param email Recebe um email.
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * Método que define uma password.
-     * @param password Recebe uma password.
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * Método que define a lista de Encomendas.
-     * @param encomendas Recebe a lista.
-     */
-    public void setEncomendas(List<Encomenda> encomendas) {
-        this.encomendas = encomendas;
-    }
 
     /**
      * Função que verifica se o objeto recebido é idêntico ao da classe Utilizador.
@@ -219,10 +188,4 @@ public class Utilizador implements Serializable {
         this.encomendas.add(e);
     }
 
-    public void leUtil(String cod, String[] p) {
-        this.setId(cod);
-        this.setNome(p[1]);
-        this.g.setX(Double.parseDouble(p[2]));
-        this.g.setY(Double.parseDouble(p[3]));
-    }
 }
