@@ -10,7 +10,7 @@ public class ViewGeral {
     }
 
     public int viewGeral(){
-        System.out.println("\nBem Vindo ao TrazAqui!\n  Login(1)\n  Signup(2)\n  Carregar ficheiro de testo(3)\n  Carregar ficheiro binario(4)\n  Sair(0)");
+        System.out.println("\nBem Vindo ao TrazAqui!\n  Login(1)\n  Signup(2)\n  Carregar ficheiro de texto(3)\n  Carregar ficheiro binario(4)\n  Sair(0)");
         Scanner n2 = new Scanner(System.in);
         n1 = n2.nextInt();
 
